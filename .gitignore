@@ -1,0 +1,33 @@
+.pytest_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.env
+node_modules/
+state/
+provider_traces/
+vendor/liveopt-core/build/
+
+# Manuscripts, presentation sources, and generated publication bundles.
+/paper/
+/paper_outputs/
+/release_artifacts/
+/docs/maple*/
+/docs/iclr*/
+*.tex
+*.bib
+*.sty
+*.bst
+*.ppt
+*.pptx
+*.pdf
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Anonymous submission metadata.
+CITATION.cff

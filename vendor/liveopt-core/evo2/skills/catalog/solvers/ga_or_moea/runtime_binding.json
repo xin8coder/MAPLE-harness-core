@@ -1,0 +1,9 @@
+{
+  "schema_version": "liveopt_skill_runtime_binding_v1",
+  "skill_id": "ga_or_moea",
+  "skill_type": "solver",
+  "runtime": {
+    "kind": "executor_builtin",
+    "entrypoint": "LiveOptWorkbench.solve_with_evolutionary_search"
+  }
+}

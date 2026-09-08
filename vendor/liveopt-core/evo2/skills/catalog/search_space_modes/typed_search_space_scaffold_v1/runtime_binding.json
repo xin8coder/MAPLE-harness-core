@@ -1,0 +1,58 @@
+{
+  "schema_version": "liveopt_skill_runtime_binding_v1",
+  "skill_id": "typed_search_space_scaffold_v1",
+  "skill_type": "search_space",
+  "search_space": {
+    "task_type": "typed_search_space_scaffold_v1",
+    "description": "Public Workbench search-space scaffolding for compositional dynamic optimization; executable semantics are generated in Workbench slots.",
+    "encoding_skill_id": "typed_compositional_encoding_v1",
+    "operator_skill_id": "ea_encoding_composite_v1",
+    "required_table_roles": [],
+    "required_canonical_column_roles": [],
+    "prompt_column_roles": [
+      "decision_id",
+      "resource_id",
+      "period_id",
+      "order_id",
+      "capacity",
+      "demand",
+      "cost",
+      "value",
+      "duration",
+      "deadline",
+      "availability",
+      "lower_bound",
+      "upper_bound"
+    ],
+    "allowed_solver_modes": [
+      "linear_mip",
+      "scalar_ga",
+      "moea"
+    ],
+    "allowed_segment_kinds": [
+      "binary_vector",
+      "choice_vector",
+      "assignment",
+      "optional_assignment",
+      "permutation",
+      "real_vector",
+      "int_vector"
+    ],
+    "allowed_objective_names": [
+      "cost",
+      "profit",
+      "time",
+      "latency",
+      "emissions",
+      "risk",
+      "coverage",
+      "quality",
+      "resource_usage",
+      "makespan",
+      "tardiness",
+      "load_imbalance",
+      "distance",
+      "public_score"
+    ]
+  }
+}

@@ -1,0 +1,774 @@
+{
+  "schema_version": 1,
+  "source_revision": "anonymous-review",
+  "file_count": 153,
+  "files": [
+    {
+      "path": ".github/workflows/source.yml",
+      "sha256": "5496aebab51a0161f47555fd69d68f9ea650035eee46c1d914430cfc3d1e0b9b",
+      "bytes": 309
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "89d77befcfc3778eae662ed851169a02d9502b2339e12b5fb20155e649d8419e",
+      "bytes": 401
+    },
+    {
+      "path": ".liveopt-generated-release",
+      "sha256": "48bd0883e54351c83d6736946739c299296296ef457814655bacc7d93b07b108",
+      "bytes": 46
+    },
+    {
+      "path": "Dockerfile",
+      "sha256": "cdef5f92bab973fa3685cfe61a58ac9b16d7e9d1cbdd4381a369cf840b789ac6",
+      "bytes": 1283
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "b322426ae4997e2766155681b8accb5e796f08b1775f1f93e2cce37464536b0d",
+      "bytes": 748
+    },
+    {
+      "path": "README.md",
+      "sha256": "dbda3d2b3687296cb7e2f735680192c1f924066b59c0a76571b04d6b793a7848",
+      "bytes": 6395
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "c6294a2c0182c86009e9fd0675f9de24a55fac390ffcc39e783000d10ebd4c76",
+      "bytes": 621
+    },
+    {
+      "path": "docker-compose.yml",
+      "sha256": "785a43fb25621f1653a3c6cbcb2575b90c4a81eee1fc06f5a3ddd003c76cb450",
+      "bytes": 644
+    },
+    {
+      "path": "docs/operations.md",
+      "sha256": "991edb20c06bd87aa1d688ff33686a3a3d747945e9e4f4053e36aee0c6903b05",
+      "bytes": 17843
+    },
+    {
+      "path": "dsh-bundle/client.js",
+      "sha256": "78c0557a33310ecd77ab6a550b8018b1d28973ad4344d02f2e5d957c2dfee020",
+      "bytes": 67962
+    },
+    {
+      "path": "dsh-bundle/cordis.patch.yml",
+      "sha256": "b43174eaee72fafb639397912d06621c5936d43fb308148a43a91ba104959fe9",
+      "bytes": 3109
+    },
+    {
+      "path": "dsh-bundle/index.js",
+      "sha256": "4b940e90a1c26753bdaf2e8281bfbe10d410c8d00d78f0c43b0d3b7d89f8c811",
+      "bytes": 1755
+    },
+    {
+      "path": "dsh-bundle/package.json",
+      "sha256": "34e09ded9fe5cbcafc345bf9293187f5b5cbe74bdf1eae12820361f0891fea8f",
+      "bytes": 921
+    },
+    {
+      "path": "dsh-bundle/skills/liveopt-data/SKILL.md",
+      "sha256": "6cac9f4cf58481fe593716e56d4b4f4a0f3c47238241fbb1395cbb691a998fd2",
+      "bytes": 2459
+    },
+    {
+      "path": "dsh-bundle/skills/liveopt-results/SKILL.md",
+      "sha256": "2ce9676cb0dfbfa529515ce6271d702179930109c4d0b26312f4277cf6689cf6",
+      "bytes": 971
+    },
+    {
+      "path": "dsh-bundle/skills/liveopt/SKILL.md",
+      "sha256": "62336f934625ef586f0b9c6164afd571d346d51233aec19fd0f0b01f7e0ef3d2",
+      "bytes": 4441
+    },
+    {
+      "path": "intranet/Caddyfile",
+      "sha256": "24dccd8c46b03f4004a5ec0b5d31f4d755b20e1d4ed2408d093b5f0cb1536e63",
+      "bytes": 512
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "8fe2cabb457710ae49f79da7efa63557a59043bbc661efe9b5ebf15e68393d67",
+      "bytes": 959
+    },
+    {
+      "path": "scripts/bootstrap_intranet.sh",
+      "sha256": "69f179c9c3877d67b5aa23d40d722111754fca252a3cd99eb629e55d3cc1e648",
+      "bytes": 1156
+    },
+    {
+      "path": "scripts/bootstrap_local.sh",
+      "sha256": "8f8a2f2d0b21c2b1e5c05a261e63e779c3468d847b8da998603270732c2d9773",
+      "bytes": 2608
+    },
+    {
+      "path": "scripts/check_release_contents.py",
+      "sha256": "831751bfa354174897b892c72d2044455fda851331b2edecf0542d7c2f49c5ad",
+      "bytes": 2481
+    },
+    {
+      "path": "scripts/install.sh",
+      "sha256": "3acc8b8fa578b8bbfca9689c18ea0d77ee63c9c30579712f30b725a91d085ef9",
+      "bytes": 5132
+    },
+    {
+      "path": "scripts/install_systemd_user.sh",
+      "sha256": "b2cbb6a23eb6569ad72392e65032c249b8187b7242178259ad520e15309f8eda",
+      "bytes": 1724
+    },
+    {
+      "path": "scripts/smoke_dsh.sh",
+      "sha256": "ca4d39a093bb1d92c678a2efaf8f1fadaaf8a32a3db25e4f1f1e972111899307",
+      "bytes": 1774
+    },
+    {
+      "path": "scripts/start_intranet.sh",
+      "sha256": "02af0f7eddd179d10fbbab42363c3de5338abd7036d8ec1392bb14973b4ee083",
+      "bytes": 2684
+    },
+    {
+      "path": "scripts/start_local.sh",
+      "sha256": "4d4e3a3125c25e8ed80a97e4cbecfcc5995e66e6f1d573d49481fb0f047ba24e",
+      "bytes": 1838
+    },
+    {
+      "path": "src/liveopt_dsh/__init__.py",
+      "sha256": "fce730639bbc5dbe5582734d9cc4ec1b5eb7ee55d587238deb0c0cea86777cc8",
+      "bytes": 219
+    },
+    {
+      "path": "src/liveopt_dsh/app_settings.py",
+      "sha256": "ae562031e46af7f9dcf74641853899242f543b1dae5a533f7565ce372ab160ef",
+      "bytes": 5445
+    },
+    {
+      "path": "src/liveopt_dsh/assets/liveopt-mark-256.png",
+      "sha256": "10ab34873a2c050b17a3bea310e64f713f61b43569ea64cf7499df907eaa141e",
+      "bytes": 42159
+    },
+    {
+      "path": "src/liveopt_dsh/assets/liveopt-mark-512.png",
+      "sha256": "103392e1cbab450b8c8fbfe49a253c3fa3af62be44bc178079ffb0691a370fc5",
+      "bytes": 127793
+    },
+    {
+      "path": "src/liveopt_dsh/assets/liveopt-mark-64.png",
+      "sha256": "46eec801d2c1c8e1047fe7b0cf34d7ec33bd5ee9baafd58c6e9c8e946c0be5a8",
+      "bytes": 5675
+    },
+    {
+      "path": "src/liveopt_dsh/assets/maple-logo.png",
+      "sha256": "71114cb4a3fe2df55d9e4c5a6c1cda577229c6004aabd6fd940cdd199796e294",
+      "bytes": 1068855
+    },
+    {
+      "path": "src/liveopt_dsh/compat.py",
+      "sha256": "44e329ab1984b987e4868d2eaf77be1be763c0e9f44ddc4b43f94288b089773a",
+      "bytes": 20309
+    },
+    {
+      "path": "src/liveopt_dsh/config.py",
+      "sha256": "bc654ff069ca3c089e1ecf259eea1794fd52bff787870b4814d42c7a52537abc",
+      "bytes": 4590
+    },
+    {
+      "path": "src/liveopt_dsh/data_adapter.py",
+      "sha256": "d5c15b14a18bcc9c740dfc1d4b89b4785e0197e68c5556427c7564648b1667b4",
+      "bytes": 16638
+    },
+    {
+      "path": "src/liveopt_dsh/documents.py",
+      "sha256": "56f9ec15ef38dfa1bbb9896aefd3a8c1ba4ea6abb4f1b15343ebaa6f37bda27f",
+      "bytes": 9457
+    },
+    {
+      "path": "src/liveopt_dsh/exports.py",
+      "sha256": "b7e25266ff05d25c3d431a1af8d4827435f5fe41863af2d5e3a8e20ad2fc78f7",
+      "bytes": 11676
+    },
+    {
+      "path": "src/liveopt_dsh/jobs.py",
+      "sha256": "4c019742327f8694329bfad18d837d07b9e6872ab07aca9be4e98e98629ec680",
+      "bytes": 6089
+    },
+    {
+      "path": "src/liveopt_dsh/mcp_server.py",
+      "sha256": "2e85b9e6dd2ea792dde2327ad8a3d19231561b9ab64c04616695294893945ae0",
+      "bytes": 5285
+    },
+    {
+      "path": "src/liveopt_dsh/serialization.py",
+      "sha256": "f06f7797b0122c1709a9dfe07fe5eb8d54b7b17d3f0c1cf6e8954ef3037cc175",
+      "bytes": 4242
+    },
+    {
+      "path": "src/liveopt_dsh/service.py",
+      "sha256": "16ae7532f04249722211604855c7740c9a095ad12d5201ef462ced5bd74cb714",
+      "bytes": 38281
+    },
+    {
+      "path": "src/liveopt_dsh/solutions.py",
+      "sha256": "efa4e5f9135cfa1885797c56fd953f2183358af6a354901355780e9f0cfc91a6",
+      "bytes": 13398
+    },
+    {
+      "path": "src/liveopt_dsh/store.py",
+      "sha256": "d0c6947d59b1bc435077d723ec34aa52b367f7ce5d60c99b7f321cbcbfd0e980",
+      "bytes": 10066
+    },
+    {
+      "path": "src/liveopt_dsh/web_api.py",
+      "sha256": "9000a2d01d71c0ce8ea8ea70f764b2920820ddd44a683cdfabe4a9846269ef85",
+      "bytes": 12365
+    },
+    {
+      "path": "systemd/liveopt-intranet.service",
+      "sha256": "33066e8571cad22af12cafe2de40dc7382371474384f84304f8f551702ee07c3",
+      "bytes": 516
+    },
+    {
+      "path": "tests/mock_dsh_llm.py",
+      "sha256": "0a2dacbe4724280f391da240e7f45511d6c17f36b9c4a842b923ff32fee03dcb",
+      "bytes": 3845
+    },
+    {
+      "path": "tests/simulated_deepseek.py",
+      "sha256": "815849bbe0db721b67661b8f444bb2a81501836754863458159b36274e868889",
+      "bytes": 14123
+    },
+    {
+      "path": "tests/test_app_settings.py",
+      "sha256": "ab2f3000fd10d0793ed89ae2b290e19abf968ef603bec7f75b0af97a871d3339",
+      "bytes": 2932
+    },
+    {
+      "path": "tests/test_bundle.py",
+      "sha256": "ed2193be4184d9653f653c9c06a2e2345bc232ef999dd0b6f5ecf03c94df4ebc",
+      "bytes": 5722
+    },
+    {
+      "path": "tests/test_compat.py",
+      "sha256": "bcd7dbc8b5c10d9fd8e765d85a244aed8352727779cccd02ef72a8347093ee75",
+      "bytes": 3582
+    },
+    {
+      "path": "tests/test_data_results.py",
+      "sha256": "54337772546b75aea63b13f80942732e49113d13c64750679120caa625558fec",
+      "bytes": 19542
+    },
+    {
+      "path": "tests/test_isolation.py",
+      "sha256": "fd129993ac01e4b8f65abf6bb16951f5d441acef8f93465fed103211bab7eb5a",
+      "bytes": 3564
+    },
+    {
+      "path": "tests/test_mcp_stdio.py",
+      "sha256": "ce97c14a069dae806a4357a78504ce0acabc602582635d61be1f0f1c5e346282",
+      "bytes": 2848
+    },
+    {
+      "path": "tests/test_offline_requirement_matrix.py",
+      "sha256": "60187d2821d13b0923b408d9e49f284ee5e9a248ffa6fbee2974dcbf7ccb2464",
+      "bytes": 12264
+    },
+    {
+      "path": "tests/test_serialization.py",
+      "sha256": "30a1bc790534fbf25431dfaded4774c9eb3ab2d5335d4ff2f406347ecbff028b",
+      "bytes": 1108
+    },
+    {
+      "path": "tests/test_service.py",
+      "sha256": "72c159f1b359f8ba536fd941a4e505fcfbea02e603b9654123f567d92401b7e0",
+      "bytes": 14479
+    },
+    {
+      "path": "vendor/liveopt-core/MANIFEST.in",
+      "sha256": "141118ada19a88a610306524f6a9d90824c70d360f1159c6423d61d83cdb48ff",
+      "bytes": 161
+    },
+    {
+      "path": "vendor/liveopt-core/SOURCE_REVISION",
+      "sha256": "b97c00864069184190c5625e29c2bfd07b19883fe75b35c959c33ad77432e04a",
+      "bytes": 104
+    },
+    {
+      "path": "vendor/liveopt-core/demo/Dockerfile",
+      "sha256": "79a4e8c15ea38f54e14807694747a05d885cc90523afd8fdeacd9bdd15e8e30b",
+      "bytes": 487
+    },
+    {
+      "path": "vendor/liveopt-core/demo/__init__.py",
+      "sha256": "56fa30c249bc25a2fc3a6327b79fbb490702aa78b4b58f56bbdeca72367d513d",
+      "bytes": 459
+    },
+    {
+      "path": "vendor/liveopt-core/demo/chat.py",
+      "sha256": "cdfe3ef2e48fe7e127afbe160b8db171194b8d2530eb50a18b4993ec0c68bb8c",
+      "bytes": 29031
+    },
+    {
+      "path": "vendor/liveopt-core/demo/episode_upload.py",
+      "sha256": "47fa5885aa287bae874bd607dc042f8bda03fb7e4685bb395c7d41b865fddf07",
+      "bytes": 7622
+    },
+    {
+      "path": "vendor/liveopt-core/demo/fake_client.py",
+      "sha256": "b65bcb4c985e1b69801c24c99f649e30a4c3e70030b7773d646e402887c1866d",
+      "bytes": 8630
+    },
+    {
+      "path": "vendor/liveopt-core/demo/ingest.py",
+      "sha256": "a18d36e8f2921cd5ac739cfe1bd3c37258a25631ce907ca808094f5f4ae2c8d0",
+      "bytes": 17910
+    },
+    {
+      "path": "vendor/liveopt-core/demo/server.py",
+      "sha256": "8814e6836a8badcb2350c7e1345e2bec55dd25f8e2765c55c434ba025aba5425",
+      "bytes": 8079
+    },
+    {
+      "path": "vendor/liveopt-core/demo/session.py",
+      "sha256": "199b392fb9348c635f1cf1bac371dc002584875b4e48f8864c0412507e3ef828",
+      "bytes": 14125
+    },
+    {
+      "path": "vendor/liveopt-core/demo/static/app.js",
+      "sha256": "4da986db98f337c4f2aeda387f202fc0a0e8081bd53e95a04c056b5384b61b3f",
+      "bytes": 26152
+    },
+    {
+      "path": "vendor/liveopt-core/demo/static/index.html",
+      "sha256": "9be36833aa746fafcf66e489070b6ddb8c904c83edb007cdc04a752a5c5e1c5d",
+      "bytes": 5057
+    },
+    {
+      "path": "vendor/liveopt-core/demo/static/style.css",
+      "sha256": "464ea54e15718d3f53e90f506fda013b5775efd16e3054e6ed04b06d30160727",
+      "bytes": 11110
+    },
+    {
+      "path": "vendor/liveopt-core/demo/viz.py",
+      "sha256": "2e3380e9cca8a93d4c3b96f1d44cb941e7e25d11e6a798d3d020073370459f3d",
+      "bytes": 5647
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/code_slots.py",
+      "sha256": "368921a2d1932db5555372f70a4384ea985da8eaeda8e4ee4e12740b8d9af5c2",
+      "bytes": 3910
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/deepseek_client.py",
+      "sha256": "d64d4456d6f8e6afc9f93330905aee570451701fb929f4010c518b9c61586ab8",
+      "bytes": 20386
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/generic_workbench_impl.py",
+      "sha256": "81d31ccaf246b4c6742c5c28830d15c448bf568777a80b1cf8332c5319c12bac",
+      "bytes": 30113
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/kimi_client.py",
+      "sha256": "28df395b67d9d014f1363574bff2ffa5ff21fb4fa98a8cdd16e4422058639086",
+      "bytes": 46030
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/liveopt_dynamic_impl.py",
+      "sha256": "09049bf362d060b54f8bcebfeb27d4c4d5e282cd538d9e43c2adb8a2fbd6554c",
+      "bytes": 118338
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/liveopt_dynamic_runner.py",
+      "sha256": "71cbee9e15de6fc404f589e704cea8ba1d508346d91cf03620b74c338d1b9979",
+      "bytes": 684
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/liveopt_state_binding.py",
+      "sha256": "16b9c628708d6a9bd2cdd5252ea8a5c2ff976a19493e154c3ecf9439a1cddfd5",
+      "bytes": 13734
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/liveopt_workbench_generator.py",
+      "sha256": "cd1c9fc01bb96abd294bc83fb286938267d5da13dbfef9cbe8859e71441dc9f7",
+      "bytes": 516
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/liveopt_workbench_impl.py",
+      "sha256": "7deb3d8d69dbc49b49e48b0ceeb0b4f5370ef256914d2305c6c07bc77f7589c5",
+      "bytes": 40564
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/liveopt_workbench_protocol.py",
+      "sha256": "ff208f07b8c4c2d7158f3eabb9c8bd3f98276f871540da56e5ce680250c41e8f",
+      "bytes": 27135
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/llm_client.py",
+      "sha256": "ecdc9b309416d4172472515f1b5ca07dbdd4bdb47ad8005597955fec7034db1f",
+      "bytes": 4237
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/react_optimai_planner.py",
+      "sha256": "3ae0a4b436ce2fa3e5a4ef1608f2bc542e473fb1345d6dd634f2ffa4a0115dd0",
+      "bytes": 36057
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/restart_selector.py",
+      "sha256": "cf6f15cdb7e46fde323e998fd8b00660a8d546045085e380897857d43f29e0ec",
+      "bytes": 1978
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/agents/semantic_restart_gate.py",
+      "sha256": "d135b2d0c286d7572fea300f8a0f1040e6b479c8b2fb66375171988327967447",
+      "bytes": 31425
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/backends/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/backends/linear_programming_backend.py",
+      "sha256": "5ed1bc38cec713ccf838a74ff71491e254e4342864bc2cbf05694401d8416c0a",
+      "bytes": 6047
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/benchmarks/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/benchmarks/episode_schema.py",
+      "sha256": "3df91be242641fe2759bea587de09042251236e6e6b595d33c4ae44179a78758",
+      "bytes": 2976
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/benchmarks/optimization_contracts.py",
+      "sha256": "19b0c3a66f9730f84b1bcb129daa60ff6214541896cc1039f9b7fe77ad7cad97",
+      "bytes": 39992
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/benchmarks/prompt_contracts.py",
+      "sha256": "b6a4f913669c626bf87bc93d04f648b794381778047f209665c5d83a9191531b",
+      "bytes": 34794
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/core/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/core/artifact_sandbox.py",
+      "sha256": "0c37f5c087821b3ae5de0bbd8287172187e8226a3eec20434926793aaaf58a28",
+      "bytes": 60837
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/core/artifacts.py",
+      "sha256": "f9b1adf91c520ceeee25e2ddeb9db07372140d4368faf74e1e7af6ad1df4822c",
+      "bytes": 47227
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/core/fitness.py",
+      "sha256": "4123ed023bc96ee42444ecddbffd770719febddf5e0cbea9ad25e28fd95d66c8",
+      "bytes": 2390
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/core/metrics.py",
+      "sha256": "ee97e59aa523b74e6d0b0d29d4348282e51568eae65179a8f4e19248f48b1708",
+      "bytes": 528
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/core/patches.py",
+      "sha256": "59fe7639698df3ed234f4a1df40099984e97d7525d68a7c0b11d992207abf70e",
+      "bytes": 339
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/core/population.py",
+      "sha256": "d0d4b1aba6c5f5047fd41e34f7fd1fe859d7833af04c1cb53a5aab7c58f9df75",
+      "bytes": 1330
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/core/solution.py",
+      "sha256": "2733568e75cbd81b9152bda520121e0abaefa478796aa2d149ba8586ada7a566",
+      "bytes": 376
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/core/template_optimizer.py",
+      "sha256": "cda36802cd80cf69e8d093114907eee1912757996088602f0c2a5e99994fb67a",
+      "bytes": 80769
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/core/universal_codec.py",
+      "sha256": "6a52317052f3a6527f1596611b50a696af1489dfe83021386cce4f39a6cf5cb9",
+      "bytes": 13022
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/core/verifier.py",
+      "sha256": "de1a7ffaf46692a7893c0b0e6a044a063ae5863fe53e84f8b05d532b11f70468",
+      "bytes": 227
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/evaluation/__init__.py",
+      "sha256": "23ecc06fea6cdd51e99d572a438bdd6ad3486e5e604c44d2c3c92a3c2b4be5bd",
+      "bytes": 54
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/evaluation/moea_metrics.py",
+      "sha256": "e14d43746ddd2a91841fe7df0bd0798d1abee7e2c7be17cd0bace94e27dffb56",
+      "bytes": 10182
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/evaluation/reference_solvers/__init__.py",
+      "sha256": "94ba546f699cd8a0abb04c022181a00293beccfba46a304a1cc4539455e481a2",
+      "bytes": 177
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/evaluation/reference_solvers/moea_reference.py",
+      "sha256": "51f543801666144a01a2f0a2ba6b22752ca35960f214970504c6596115308cac",
+      "bytes": 41264
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/memory/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/memory/retrieval.py",
+      "sha256": "e4c8a931d4bc21803a810ec9fd0b1da1e0f58b7ff86d822bb918efebe6e7e355",
+      "bytes": 263
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/memory/schemas.py",
+      "sha256": "8111b938266fbbd3e824d604c602a0fe27a873a4eacac555a75f3670009bba54",
+      "bytes": 1055
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/memory/store.py",
+      "sha256": "f1021212a86a56f88fe387ed02ffcd9cb2674b67b681ae11145cf1c65626e725",
+      "bytes": 4220
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/base.py",
+      "sha256": "9d421e7daca61ad6ea37bf27d03ee429166b2d2a9c5f90c2ea9d07e886df5181",
+      "bytes": 1487
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/README.md",
+      "sha256": "28ff43ab49b644d5c38015f4e6882a7e148ad4db546058c569b279a827bbbc08",
+      "bytes": 4766
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/encoding_primitives/optional_selection_assignment_encoding_v1/SKILL.md",
+      "sha256": "830d090fc4ad864523d3696c3e248086e779b5b1e8302df387872614ae01efb2",
+      "bytes": 4743
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/encoding_primitives/typed_compositional_encoding_v1/SKILL.md",
+      "sha256": "9b036636881e1bf99799593d611bb3277a6334abd53a1a2fad9843d8bf2946b6",
+      "bytes": 6859
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/diversity_restart_v1/SKILL.md",
+      "sha256": "c004ace9922152de24167dcb28b4290fd5235bbb067903ecc3f893ee5a0ca508",
+      "bytes": 3470
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/diversity_restart_v1/runtime_binding.json",
+      "sha256": "fe19152ebe03f5bf64cea01d5d2321f39ece3c5de58222d39e565ac5889ed221",
+      "bytes": 252
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/elite_immigrant_restart_v1/SKILL.md",
+      "sha256": "4a28ec5d195a3435e4ac6cbcbdf87ec8c1e41e3688ace4cbb155d0595c1dd169",
+      "bytes": 2066
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/elite_immigrant_restart_v1/runtime_binding.json",
+      "sha256": "038a4ccac27b3e07584a91cd2ee050934ccfc5b9b9c65843f0df4bd38f7b4161",
+      "bytes": 269
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/feasibility_preserving_restart_v1/SKILL.md",
+      "sha256": "0e525c68aa961867978fcc6a4b06e54b458deefe093cada5ce871a03dc405ccd",
+      "bytes": 2192
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/feasibility_preserving_restart_v1/runtime_binding.json",
+      "sha256": "292a5ab4198fe72a943ec6892a6add9f90fb2b92a0da3e89bd7eafc4672fead5",
+      "bytes": 290
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/full_restart_v1/SKILL.md",
+      "sha256": "12209ee5323d181ef22084e7c0f476dc0d3e919ef5e09d33080486269fc71f29",
+      "bytes": 5222
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/full_restart_v1/runtime_binding.json",
+      "sha256": "cf56788b236bc15687e0274f55b7b46730487ef75974c0eedcf3586f1aed2306",
+      "bytes": 237
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/population_transfer_v1/SKILL.md",
+      "sha256": "c69fcc4bcb4c9dc590eb6de9418b08b2b808978580d842cfb2021ed833bd279d",
+      "bytes": 4990
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/population_transfer_v1/runtime_binding.json",
+      "sha256": "b3aecb4e7647408ad3e94df04a6b6b39305fcc0ae4bc70282e67cacebb753fcf",
+      "bytes": 258
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/warm_restart_v1/SKILL.md",
+      "sha256": "6c19ab27260a973fe069bc5eb1cffe58db2ceb3cd8e819fec79d222a235cade4",
+      "bytes": 4370
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/warm_restart_v1/runtime_binding.json",
+      "sha256": "3db2235c503df3cbad4be401fcd2ecb1daf98fe074e5e25362fdade447f8504b",
+      "bytes": 237
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/search_space_modes/typed_search_space_scaffold_v1/SKILL.md",
+      "sha256": "515cf540143a11a0b4256ba6bb6bf8f641c7490ebaf5ab1a56eb282d1ecf8554",
+      "bytes": 4682
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/search_space_modes/typed_search_space_scaffold_v1/runtime_binding.json",
+      "sha256": "068216ab369533c5593fec97d1fe607c174a8d4a45903e5b84e3c8af2251f1fa",
+      "bytes": 1414
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/solvers/artifact_repair/SKILL.md",
+      "sha256": "cd47b2ca30cf9f87ee537d4f45585a0a82b6d7816dbb8c3ac518e2e26bd08612",
+      "bytes": 2633
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/solvers/artifact_repair/runtime_binding.json",
+      "sha256": "9d6d3a93bc02a6debadd812d129b9a31e15665c139a82dcbcdb14624b32407ff",
+      "bytes": 206
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/solvers/ga_or_moea/SKILL.md",
+      "sha256": "9e634212dcf9858219567042925e4bb56f01b39dc03e2793d8f44defc85bb5ff",
+      "bytes": 3667
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/solvers/ga_or_moea/runtime_binding.json",
+      "sha256": "9b6b433098ebbd67aa61cedb0b7b37aeac54ad0b7fee6a18191b47d36ab7529c",
+      "bytes": 233
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/solvers/linear_program_solver_v1/SKILL.md",
+      "sha256": "eb000078789f86ffb1b5a9459cf56cfd5ab6c90f930335427b6c9cecc8d8637d",
+      "bytes": 3076
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/catalog/solvers/linear_program_solver_v1/runtime_binding.json",
+      "sha256": "7308c67f09ac4d6c8b995cf3b016e3ec3efdb860d793a216d6305ea8dabe7f7d",
+      "bytes": 269
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/registry.py",
+      "sha256": "a4070989db9a523c6493bd2ed2cfefcb5d88d468fcc68f20f5b435172d6eac67",
+      "bytes": 957
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/restart/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/restart/_utils.py",
+      "sha256": "d9bae3cb9115b02c2b0a8bec4cacddef36f84c910b454fef2d18ed041954fc1b",
+      "bytes": 1710
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/restart/diversity_restart.py",
+      "sha256": "d7b59cad08e826edbebc04c850c6d5a8f34b8d50887ffb18b45799812d91214e",
+      "bytes": 1566
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/restart/elite_immigrant_restart.py",
+      "sha256": "2bcea2892214007f87b540978283dc432f42541203e36e484cc0bfad31b40da2",
+      "bytes": 2837
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/restart/feasibility_preserving_restart.py",
+      "sha256": "7eee0c14f31f55a1ae8ad2eabef860f7d00f7f352e96426bdaee00484a1855c6",
+      "bytes": 2456
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/restart/full_restart.py",
+      "sha256": "acdc8732abdecdde1beb983015a209cc43e0a2ce0643dbf17f32249c1a64dd04",
+      "bytes": 1184
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/restart/llm_generated_restart.py",
+      "sha256": "c55b50b63f37b2d29f736d44156c288e5fa468821e164ab47a1020447e7fc32f",
+      "bytes": 9991
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/restart/memory_matched_restart.py",
+      "sha256": "1ab4fedb56b57ebea41d90500f4741ca1da9ba8ffc65a3b0f2b3b011d0883bfb",
+      "bytes": 1469
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/restart/population_transfer.py",
+      "sha256": "6e37ad176ca070f688c30e5fdbf342e0b5b39ada280c7073fedb0bb0091ee370",
+      "bytes": 1135
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/restart/warm_restart.py",
+      "sha256": "7d549524fedef373a5b2a514947519e27069a6b9736cf4fc5db166df6d30946b",
+      "bytes": 1643
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/skill_catalog.py",
+      "sha256": "66257a7197ea53bcad7dc9314924da8180dc7282f2ecd6dc36cf71e8c93e87fe",
+      "bytes": 11436
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/solver/__init__.py",
+      "sha256": "6a54a1f39462a98153e254a6f2c83d5d699df7df45e917f91b895ee255af8483",
+      "bytes": 130
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/skills/solver/linear_programming_solver.py",
+      "sha256": "89724762420dc596780373aa73243ac2fd4df64c2ef0e51941115b7d67c799d0",
+      "bytes": 15643
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/templates/__init__.py",
+      "sha256": "99130f63e538253a3019d8acc76d205c9ce7b180f1ed9f8974151c3796d1d167",
+      "bytes": 186
+    },
+    {
+      "path": "vendor/liveopt-core/evo2/templates/fitness_template.py",
+      "sha256": "f0f9910c47f891260463a4eab499f6b15315d226cc5eee6dde0206417cecc545",
+      "bytes": 1437
+    },
+    {
+      "path": "vendor/liveopt-core/pyproject.toml",
+      "sha256": "eb2f64156d58fec2e4f7c8c53c881a9e25d67d5f963703e489d829424ad0ffe5",
+      "bytes": 606
+    }
+  ],
+  "revision_note": "MAPLE complete-tree PNG emblem with pale Pareto-front candidates, one dark selected candidate, and neutral off-front candidates. Updated logo assets and derived manuscript PDFs; original data, prompts, numerical labels and runtime identifiers retained.",
+  "release_scope": "code, tests, benchmark inputs, runtime assets, installation documentation"
+}

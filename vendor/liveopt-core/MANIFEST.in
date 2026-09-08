@@ -1,0 +1,5 @@
+include pyproject.toml
+recursive-include evo2 *.py *.md *.json
+recursive-include demo *.py *.html *.css *.js
+global-exclude __pycache__
+global-exclude *.py[cod]

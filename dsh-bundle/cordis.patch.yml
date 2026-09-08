@@ -1,0 +1,76 @@
+# This bundle bridges public-data preparation, asynchronous solving, silent
+# waiting, inspection, and result export without modifying paper entrypoints.
+# The Python command is installed separately so paper experiment entrypoints stay untouched.
+- id: agent-default-model
+  config:
+    provider: deepseek-official
+    model: deepseek-v4-flash
+
+- id: ui-model-selection
+  disabled: true
+
+- id: ui-settings-models
+  disabled: true
+
+# LiveOpt exposes one application mode. Solver choice remains an explicit
+# LiveOpt request field rather than a host-agent mode selector.
+- id: ui-agent-preset
+  disabled: true
+
+- id: ui-permission
+  disabled: true
+
+- id: ui-plan
+  disabled: true
+
+# Keep the settings shell (it is packaged with the General section), while
+# replacing host plugin inventory pages with the focused LiveOpt section.
+- id: ui-settings-plugin-inventory
+  disabled: true
+
+- id: ui-settings-plugins
+  disabled: true
+
+# LiveOpt owns the application identity. DeepSeek Harness attribution remains
+# available from the About dialog instead of occupying the primary brand slots.
+- id: ui-brand-official
+  disabled: true
+
+- insert:
+    - id: liveopt-mcp
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: liveopt
+        transport: stdio
+        command: !!js process.env.LIVEOPT_MCP_COMMAND ?? `${process.env.HOME}/.local/bin/liveopt-mcp`
+        args: ['--transport', 'stdio']
+        cwd: !!js process.env.LIVEOPT_MCP_WORKSPACE_ROOT ?? process.cwd()
+        env:
+          PYTHONUNBUFFERED: '1'
+          DEEPSEEK_API_KEY: !!js process.env.DEEPSEEK_API_KEY ?? ''
+          DEEPSEEK_MODEL: 'deepseek-v4-flash'
+          DEEPSEEK_BASE_URL: !!js process.env.DEEPSEEK_BASE_URL ?? 'https://api.deepseek.com/v1'
+          KIMI_API_KEY: !!js process.env.KIMI_API_KEY ?? ''
+          KIMI_MODEL: !!js process.env.KIMI_MODEL ?? 'k3[1m]'
+          KIMI_BASE_URL: !!js process.env.KIMI_BASE_URL ?? 'https://api.kimi.com/coding/v1'
+          LLM_PROVIDER: !!js process.env.LLM_PROVIDER ?? 'deepseek'
+          LIVEOPT_MCP_STATE_DIR: !!js process.env.LIVEOPT_MCP_STATE_DIR ?? `${process.env.HOME}/.local/share/liveopt-dsh/state`
+          LIVEOPT_MCP_WORKSPACE_ROOT: !!js process.env.LIVEOPT_MCP_WORKSPACE_ROOT ?? process.cwd()
+          LIVEOPT_MCP_CACHE_MODE: !!js process.env.LIVEOPT_MCP_CACHE_MODE ?? 'read_write'
+          LIVEOPT_MCP_NETWORK_MODE: !!js process.env.LIVEOPT_MCP_NETWORK_MODE ?? 'auto'
+          LIVEOPT_MCP_MAX_WORKERS: !!js process.env.LIVEOPT_MCP_MAX_WORKERS ?? '2'
+          LIVEOPT_MCP_DEFAULT_MODEL: 'deepseek-v4-flash'
+          LIVEOPT_MCP_SOLVER_TIME_LIMIT_SECONDS: !!js process.env.LIVEOPT_MCP_SOLVER_TIME_LIMIT_SECONDS ?? '30'
+        # liveopt_wait intentionally holds one tool call while the browser card
+        # reads progress from the local sidecar API. The model remains silent.
+        toolCallTimeoutMs: 3600000
+        failOnStartupError: true
+        reconnect:
+          enabled: true
+          initialDelayMs: 500
+          maxDelayMs: 30000
+          maxAttempts: 10
+
+    - id: liveopt-skill
+      name: liveopt-dsh-bundle
+      inject: [skills]

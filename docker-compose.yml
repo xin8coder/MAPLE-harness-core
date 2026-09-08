@@ -1,0 +1,21 @@
+services:
+  liveopt-dsh:
+    build:
+      context: ../..
+      dockerfile: integrations/deepseek-harness-liveopt/Dockerfile
+    environment:
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_MODEL: deepseek-v4-flash
+      LIVEOPT_MCP_DEFAULT_MODEL: deepseek-v4-flash
+      KIMI_API_KEY: ${KIMI_API_KEY:-}
+      KIMI_MODEL: ${KIMI_MODEL:-k3}
+      LLM_PROVIDER: ${LLM_PROVIDER:-deepseek}
+      LIVEOPT_MCP_CACHE_MODE: ${LIVEOPT_MCP_CACHE_MODE:-read_write}
+    ports:
+      - "${LIVEOPT_DSH_PORT:-3000}:3000"
+    volumes:
+      - liveopt-state:/data/liveopt
+      - ${LIVEOPT_WORKSPACE:-../..}:/workspace:ro
+
+volumes:
+  liveopt-state:

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LiveOpt</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <aside id="sidebar">
+    <div class="brand">
+      <span class="brand-mark">◆</span> LiveOpt
+      <span class="brand-sub">dynamic optimization agent</span>
+    </div>
+    <button id="new_chat_btn" class="new-chat">＋ New chat</button>
+    <div id="chat_list"></div>
+    <div class="sidebar-footer">
+      <button id="settings_btn" class="ghost-btn">⚙ Settings</button>
+      <div id="fake_badge" class="fake-badge hidden">offline fake client</div>
+    </div>
+  </aside>
+
+  <main id="main">
+    <header id="chat_header">
+      <span id="chat_title">LiveOpt</span>
+      <span id="model_badge" class="model-badge"></span>
+      <span class="header-spacer"></span>
+      <div id="view_toggle" class="view-toggle">
+        <button id="view_normal" class="view-btn active">Normal view</button>
+        <button id="view_pro" class="view-btn">Professional</button>
+      </div>
+    </header>
+
+    <div id="reinit_banner" class="banner hidden">
+      <span>This chat's optimization session was restored from disk and needs re-initialization.</span>
+      <button id="reinit_btn">Re-initialize</button>
+    </div>
+
+    <div id="messages"></div>
+
+    <div id="composer">
+      <button id="plus_btn" title="Start optimization">＋</button>
+      <textarea id="input" rows="1" placeholder="Message LiveOpt… (Enter to send, Shift+Enter for newline)"></textarea>
+      <button id="send_btn" title="Send">➤</button>
+    </div>
+  </main>
+
+  <!-- Settings modal -->
+  <div id="settings_modal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Settings</h2>
+      <p class="muted">Applied to the current chat and used as defaults for new chats. The API key is kept in memory only.</p>
+      <label>Provider
+        <select id="set_provider">
+          <option value="kimi">kimi</option>
+          <option value="deepseek">deepseek</option>
+        </select>
+      </label>
+      <label>Model <input id="set_model" placeholder="k3" /></label>
+      <label>API key <input id="set_api_key" type="password" autocomplete="off" placeholder="sk-…" /></label>
+      <label>Base URL <input id="set_base_url" placeholder="(provider default)" /></label>
+      <div class="row">
+        <label>Population <input id="set_population" type="number" value="50" min="4" max="500" /></label>
+        <label>Generations <input id="set_generations" type="number" value="50" min="1" max="500" /></label>
+      </div>
+      <div class="modal-actions">
+        <button id="settings_cancel" class="ghost-btn">Cancel</button>
+        <button id="settings_save" class="primary-btn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start optimization modal -->
+  <div id="opt_modal" class="modal hidden">
+    <div class="modal-card wide">
+      <h2>Start optimization</h2>
+      <div class="opt-tabs">
+        <button class="opt-tab active" data-mode="builtin">Builtin episode</button>
+        <button class="opt-tab" data-mode="upload">Upload episode</button>
+        <button class="opt-tab" data-mode="freeform">Freeform</button>
+        <button class="opt-tab" data-mode="import">Import data</button>
+      </div>
+      <div id="opt_builtin" class="opt-pane">
+        <label>NLDO episode <select id="opt_episode_id"></select></label>
+      </div>
+      <div id="opt_upload" class="opt-pane hidden">
+        <label>Episode JSON <input id="opt_json_file" type="file" accept=".json,.jsonl" /></label>
+        <label>CSV files <input id="opt_csv_files" type="file" accept=".csv" multiple /></label>
+      </div>
+      <div id="opt_freeform" class="opt-pane hidden">
+        <label>Problem text
+          <textarea id="opt_problem" rows="4" placeholder="Describe the optimization problem…"></textarea>
+        </label>
+        <div id="opt_tables"></div>
+        <button id="opt_add_table" class="ghost-btn" type="button">＋ Add CSV table</button>
+      </div>
+      <div id="opt_import" class="opt-pane hidden">
+        <p class="muted">Drop any mix of CSV / TSV / JSON / markdown-table files (xlsx only if openpyxl is installed) or paste a table, then describe your goal. An LLM tool converts it into a LiveOpt episode you can confirm.</p>
+        <label>Data files <input id="import_files" type="file" multiple /></label>
+        <label>Pasted table (optional)
+          <textarea id="import_pasted" rows="3" placeholder="id,value,weight&#10;I1,10,4&#10;I2,8,5"></textarea>
+        </label>
+        <label>Optimization goal
+          <textarea id="import_goal" rows="2" placeholder="e.g. maximize total value under the capacity limit"></textarea>
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button id="opt_cancel" class="ghost-btn">Cancel</button>
+        <button id="opt_start" class="primary-btn">Start</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

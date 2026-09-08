@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "liveopt"
+version = "0.1.0"
+description = "LiveOpt: memory-grounded agents for dynamic natural-language optimization"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+demo = ["fastapi", "uvicorn", "numpy", "scipy"]
+
+[project.scripts]
+liveopt-demo = "demo.server:main"
+
+[tool.setuptools.packages.find]
+include = ["evo2*", "demo*"]
+
+[tool.setuptools.package-data]
+evo2 = ["skills/catalog/**/*.md", "skills/catalog/**/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "liveopt-dsh-sidecar"
+version = "0.1.0"
+description = "Isolated MCP sidecar for the MAPLE Harness application"
+requires-python = ">=3.10"
+dependencies = [
+  "liveopt==0.1.0",
+  "mcp>=2.0.0,<3",
+  "numpy",
+  "openpyxl>=3.1,<4",
+  "pypdf>=5,<7",
+  "python-docx>=1.1,<2",
+  "PyYAML>=6,<7",
+  "scipy",
+]
+
+[project.urls]
+Repository = "https://anonymous.4open.science/r/MAPLE-harness-core"
+Homepage = "https://anonymous.4open.science/w/MAPLE-demo-review-F98B/"
+
+[project.scripts]
+liveopt-mcp = "liveopt_dsh.mcp_server:main"
+liveopt-web-api = "liveopt_dsh.web_api:main"
+liveopt-configure = "liveopt_dsh.app_settings:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["liveopt_dsh*"]
+
+[tool.setuptools.package-data]
+liveopt_dsh = ["assets/*.png"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "vendor/liveopt-core", "../.."]

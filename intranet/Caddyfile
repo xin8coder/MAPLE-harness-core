@@ -1,0 +1,24 @@
+{
+	auto_https disable_redirects
+}
+
+https://{$LIVEOPT_INTRANET_BIND}:{$LIVEOPT_INTRANET_PORT} {
+	bind {$LIVEOPT_INTRANET_BIND}
+	tls internal
+
+	handle /favicon.svg {
+		rewrite * /brand/liveopt-mark-64.png
+		reverse_proxy 127.0.0.1:{$LIVEOPT_WEB_API_PORT}
+	}
+
+	handle /favicon.ico {
+		rewrite * /brand/liveopt-mark-64.png
+		reverse_proxy 127.0.0.1:{$LIVEOPT_WEB_API_PORT}
+	}
+
+	handle_path /liveopt-api/* {
+		reverse_proxy 127.0.0.1:{$LIVEOPT_WEB_API_PORT}
+	}
+
+	reverse_proxy 127.0.0.1:{$LIVEOPT_DSH_BACKEND_PORT}
+}
