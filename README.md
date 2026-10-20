@@ -31,18 +31,22 @@ MAPLE Harness connects a conversational application to the MAPLE optimization ru
 
 ## Quick start
 
-The application requires **Python 3.10+** and a **DeepSeek API key**. The launcher installs Node.js, the package manager, **DeepSeek Harness 0.2.1-rc.2**, and the MAPLE sidecar under your user account on Linux or macOS. The complete DSH dependency graph is locked, rather than resolved again on each installation.
+Download and extract the source release. **Python and Node.js do not need to be preinstalled.** The native launchers install private, verified runtimes and **DeepSeek Harness 0.2.1-rc.2** under your user account. A DeepSeek API key is required for real solves.
 
 Download this anonymous repository as a source archive and extract it into a directory named `MAPLE-harness-core`.
 
 ```bash
 cd MAPLE-harness-core
-./maple
+./start.sh
 ```
 
-Open the **launch link printed in your terminal**, enter your key in **MAPLE Settings**, and start a conversation. The default port is **3000**. There is no account/password prompt: the official DSH launch link pairs your browser with this installation. Keep that link private. The application uses Flash models only, with **100** evolutionary iterations by default. To explore without a key, open the [recorded demo](https://anonymous.4open.science/w/MAPLE-demo-review-F98B/).
+On **Windows 10/11 x64**, extract the ZIP and double-click **`start.cmd`**. On **Linux x64/arm64**, run **`./start.sh`**. Both install the backend and open its webpage, not an Electron remote client. Keep the terminal open while using the application. Press Ctrl+C to stop. The first installation needs Internet access and can take several minutes; later launches reuse the installation.
 
-The new installation defaults to `~/.local/share/maple-harness`. It does not overwrite an existing `~/.local/share/liveopt-dsh` deployment. Use `MAPLE_HOME=/path/to/installation ./maple` for a separate installation, or `MAPLE_PORT=3002 ./maple` for a second local instance. Existing sessions are not migrated automatically.
+The browser opens the paired launch link automatically. On a headless Linux server, use the link printed in the terminal through an appropriate tunnel. Enter your key in **MAPLE Settings**. The preferred port is **3000**; if busy, a free port is selected. There is no account/password prompt. Keep the private launch link confidential. The application uses Flash models only, with **100** evolutionary iterations by default. To explore without a key, open the [recorded demo](https://anonymous.4open.science/w/MAPLE-demo-review-F98B/).
+
+The new installation uses `~/.local/share/maple-harness` on Linux or `%LOCALAPPDATA%\MAPLEHarness` on Windows. It does not overwrite an existing `~/.local/share/liveopt-dsh` deployment. Set `MAPLE_HOME` for a separate installation or `MAPLE_PORT` for a preferred port. Existing sessions are not migrated automatically. Python is not registered globally and the system PATH is not changed.
+
+For unattended setup use `./start.sh --install-only` or `start.cmd -InstallOnly`. Use `--no-browser` on Linux or `-NoBrowser` on Windows to suppress browser opening. macOS retains the manual `./maple` installation path described in the operations guide.
 
 ### Desktop client
 

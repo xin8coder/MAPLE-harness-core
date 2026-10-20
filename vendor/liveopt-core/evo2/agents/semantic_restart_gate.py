@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import copy
-import fcntl
+from filelock import FileLock
 import hashlib
 import json
 import os
@@ -249,8 +249,7 @@ class LiveOptSemanticRestartGate:
         try:
             if _semantic_choice_cache_enabled():
                 lock_path.parent.mkdir(parents=True, exist_ok=True)
-                with lock_path.open("a+", encoding="utf-8") as lock_handle:
-                    fcntl.flock(lock_handle.fileno(), fcntl.LOCK_EX)
+                with FileLock(str(lock_path)):
                     if cache_path.exists():
                         cached = json.loads(cache_path.read_text(encoding="utf-8"))
                         decision = replace(SemanticRestartDecision.from_record(cached["decision"]), cache_hit=True)

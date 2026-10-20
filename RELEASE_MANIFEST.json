@@ -6,8 +6,8 @@
     "version": "0.2.1-rc.2",
     "commit": "687f282e8625c6b8d11ff58211a90524be2e4317"
   },
-  "core_sha256": "90390fc58fca3cb61eb1c54d1651801ddd2a5791f0860f3805e8f612018e4fb5",
-  "file_count": 215,
+  "core_sha256": "57aa6171c52bc6f9d76d368c435294ea44282740563f5005a780191f055dcf78",
+  "file_count": 222,
   "files": [
     {
       "path": ".github/workflows/desktop.yml",
@@ -16,8 +16,8 @@
     },
     {
       "path": ".github/workflows/source.yml",
-      "sha256": "d750f345077430641510a13fc6e744debd6b483e4337edb21d985c67c0f82bcd",
-      "bytes": 1087
+      "sha256": "838f02002dbd8d490da46cf77dd73f98318c89423573dd479b14402644d0c6e0",
+      "bytes": 1756
     },
     {
       "path": ".gitignore",
@@ -41,8 +41,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "0a3e35e0be4c045038509d4754014977cf6a5336bb86547d9c4c1747145a77f8",
-      "bytes": 7240
+      "sha256": "d733f5432d18cc49f796828474fb1a86a8d534a55f6d9817a7b91dda835ac36e",
+      "bytes": 7957
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -131,8 +131,8 @@
     },
     {
       "path": "docs/operations.md",
-      "sha256": "a3cdf4cf53a4dd98f213c7baca7d8b578fa8398fe54c42ccd4949f7969fe3325",
-      "bytes": 9901
+      "sha256": "19ed248d855581767477024a07f9935c1e0454008f7bce0d42527c2ab8c8d48f",
+      "bytes": 10362
     },
     {
       "path": "docs/recording-garment-demo.md",
@@ -280,6 +280,11 @@
       "bytes": 971
     },
     {
+      "path": "runtime/bootstrap.json",
+      "sha256": "717237770ee0685848759e30df913ab571bcef7eea01242f7f7490610c4a76c3",
+      "bytes": 465
+    },
+    {
       "path": "runtime/package.json",
       "sha256": "d7e901cf7f5e482b0aa6b3aae7a3709e825409280ed0dd90358769dcf34d5fc7",
       "bytes": 220
@@ -306,8 +311,8 @@
     },
     {
       "path": "scripts/build_release.py",
-      "sha256": "a4d806c07e8104cd5be9124ed481722bb674e082b0eb7790434fa079c7fb4f6b",
-      "bytes": 2979
+      "sha256": "be7afcb51e8e44f7c4ed07a883f3526c279486f908764b405e26f8929999f7df",
+      "bytes": 3344
     },
     {
       "path": "scripts/check_release_contents.py",
@@ -330,14 +335,24 @@
       "bytes": 1996
     },
     {
+      "path": "scripts/launcher.py",
+      "sha256": "167a74dc50a4468256de5931769338c504a13e78d26667f49e509bb89fcc209c",
+      "bytes": 10542
+    },
+    {
       "path": "scripts/smoke_dsh.sh",
       "sha256": "ca4d39a093bb1d92c678a2efaf8f1fadaaf8a32a3db25e4f1f1e972111899307",
       "bytes": 1774
     },
     {
+      "path": "scripts/smoke_mcp_host.py",
+      "sha256": "1d30aab6e7e8fd80aecc624a1ce329272ac10a3ae38496c75d1cc866099fd090",
+      "bytes": 2715
+    },
+    {
       "path": "scripts/smoke_web.py",
-      "sha256": "f1f25c735a0247e82e33a6c5affde02ff50c75d3ec0c3f1f9ad812dafa4ef92d",
-      "bytes": 4107
+      "sha256": "edfffef86a1873761ae1b0e7d8654df520c2097eff2a4a91458e8771fb70c9a0",
+      "bytes": 4091
     },
     {
       "path": "scripts/start_intranet.sh",
@@ -350,14 +365,19 @@
       "bytes": 1865
     },
     {
+      "path": "scripts/start_windows.ps1",
+      "sha256": "0da91db6f140f9ccaba4b7713faa42ffd9977ac183907b9926593c30c0cfe57e",
+      "bytes": 2217
+    },
+    {
       "path": "src/liveopt_dsh/__init__.py",
       "sha256": "6066e666ee37380f6e68cd8444e53e977b1633f0ed94f265cbf09717733175d6",
       "bytes": 219
     },
     {
       "path": "src/liveopt_dsh/app_settings.py",
-      "sha256": "b56fd33d8057221578167eb588a9294429cf2c7cff05061bbcd4173d0999881d",
-      "bytes": 6221
+      "sha256": "3667a9c56d8f90630146d7d05308f6d9880925f499343d5d4acd7570494b226f",
+      "bytes": 6259
     },
     {
       "path": "src/liveopt_dsh/assets/explorer/ECHARTS-LICENSE",
@@ -505,6 +525,16 @@
       "bytes": 19416
     },
     {
+      "path": "start.cmd",
+      "sha256": "3c6a64511c9caf68de6cc92045cf2c7c9b0d673880098423303fb1ed8933830e",
+      "bytes": 239
+    },
+    {
+      "path": "start.sh",
+      "sha256": "fec44ff4d8b28e03f417a3c9ca6b75918ae03defdb7b49f74fc02c37e843466c",
+      "bytes": 1427
+    },
+    {
       "path": "systemd/maple-intranet.service",
       "sha256": "fc0fbc83a92fdecc9c860725b89358c10cbae6097fe7c8266b8745a07bf84281",
       "bytes": 528
@@ -536,8 +566,8 @@
     },
     {
       "path": "tests/test_app_settings.py",
-      "sha256": "776add93317feacc2e20205973e892395a1ca91723520272dd4ad9b7102fc4ea",
-      "bytes": 4545
+      "sha256": "4e7deb3afc1398a5e93723b888b48ad5f2f692d359a3c976fad601ed25e6523b",
+      "bytes": 4611
     },
     {
       "path": "tests/test_bundle.py",
@@ -568,6 +598,11 @@
       "path": "tests/test_isolation.py",
       "sha256": "5639ee3f6aa8923ae7cc71f969c70622337f803102e592498524eebf21910894",
       "bytes": 3793
+    },
+    {
+      "path": "tests/test_launcher.py",
+      "sha256": "0989f5559b41d04c6e715db81948462e7cc2d199a460081ab7b4c79688a07d5d",
+      "bytes": 2080
     },
     {
       "path": "tests/test_localization.py",
@@ -606,7 +641,7 @@
     },
     {
       "path": "vendor/liveopt-core/SOURCE_REVISION",
-      "sha256": "67fcf234cfc2660beaa038b9e9b22f637b073c02b5e55b0ad881ed1ddac93dca",
+      "sha256": "b3c1e45c8aae3cec7c1f57750f6888aa0ff27959565fc8fdc9e3940b691bf464",
       "bytes": 106
     },
     {
@@ -686,8 +721,8 @@
     },
     {
       "path": "vendor/liveopt-core/evo2/agents/deepseek_client.py",
-      "sha256": "d64d4456d6f8e6afc9f93330905aee570451701fb929f4010c518b9c61586ab8",
-      "bytes": 20386
+      "sha256": "f223e79d3c0aa6dddac12a8b1726065dff901410e0da029ceee4fb56b10c9547",
+      "bytes": 20449
     },
     {
       "path": "vendor/liveopt-core/evo2/agents/generic_workbench_impl.py",
@@ -746,8 +781,8 @@
     },
     {
       "path": "vendor/liveopt-core/evo2/agents/semantic_restart_gate.py",
-      "sha256": "d135b2d0c286d7572fea300f8a0f1040e6b479c8b2fb66375171988327967447",
-      "bytes": 31425
+      "sha256": "92b0129e2c9d4e8a13941a18a6f80ab23924cfb31b20d9acf9435b00b38f4e36",
+      "bytes": 31344
     },
     {
       "path": "vendor/liveopt-core/evo2/backends/__init__.py",
@@ -1081,8 +1116,8 @@
     },
     {
       "path": "vendor/liveopt-core/pyproject.toml",
-      "sha256": "eb2f64156d58fec2e4f7c8c53c881a9e25d67d5f963703e489d829424ad0ffe5",
-      "bytes": 606
+      "sha256": "298907765ff5c3efa77dd7e10634d250aae06c4dda160e07d1b124570cdfd7d0",
+      "bytes": 643
     }
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "uv_version": "0.13.3",
+  "python_version": "3.13.15",
+  "node_version": "24.19.0",
+  "pnpm_version": "11.28.5",
+  "uv_sha256": {
+    "uv-x86_64-pc-windows-msvc.zip": "bb701bd35b586c45966654ea2703c9bd116a6a4fc0a8ca755bd644c2c41c5ebe",
+    "uv-x86_64-unknown-linux-gnu.tar.gz": "e4f169ec380f1793b898a6f1fcbacd22db25cf7ca0349a6e96ffb85b69998d04",
+    "uv-aarch64-unknown-linux-gnu.tar.gz": "611ff684f193a84d2fdad29c5f12505d02ece94984c7c982cdde950eba5c95b9"
+  }
+}

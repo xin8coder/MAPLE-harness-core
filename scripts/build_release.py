@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import subprocess
 import tarfile
+import zipfile
 
 from check_release_contents import check_files
 
@@ -55,8 +56,12 @@ def main():
         with tarfile.open(archive, 'w:gz') as target:
             for name in paths + ['RELEASE_MANIFEST.json']:
                 target.add(root / name, arcname=f'MAPLE-harness-core/{name}', recursive=False)
-        (args.output / 'SHA256SUMS').write_text(f'{digest(archive)}  {archive.name}\n')
-        print(f'Built {archive.name}: {len(paths) + 1} files, SHA-256 recorded in SHA256SUMS.')
+        zip_archive = args.output / f'MAPLE-Harness-{version}-source.zip'
+        with zipfile.ZipFile(zip_archive, 'w', compression=zipfile.ZIP_DEFLATED) as target:
+            for name in paths + ['RELEASE_MANIFEST.json']:
+                target.write(root / name, arcname=f'MAPLE-harness-core/{name}')
+        (args.output / 'SHA256SUMS').write_text(''.join(f'{digest(path)}  {path.name}\n' for path in [archive, zip_archive]))
+        print(f'Built source ZIP and tar.gz: {len(paths) + 1} files, SHA-256 recorded in SHA256SUMS.')
     else:
         print(f'Verified {len(paths)} source files and the vendored core snapshot.')
 

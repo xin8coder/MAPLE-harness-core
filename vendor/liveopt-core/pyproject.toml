@@ -7,6 +7,7 @@ name = "liveopt"
 version = "0.1.0"
 description = "LiveOpt: memory-grounded agents for dynamic natural-language optimization"
 requires-python = ">=3.10"
+dependencies = ["filelock>=3.16,<4"]
 
 [project.optional-dependencies]
 demo = ["fastapi", "uvicorn", "numpy", "scipy"]

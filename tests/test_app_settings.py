@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import stat
+import os
 import yaml
 import pytest
 from pathlib import Path
@@ -38,7 +39,8 @@ def test_application_settings_default_to_ten_and_store_owner_only(tmp_path: Path
     saved = save_application_settings(state, generations=7)
     assert saved["generations"] == 7
     path = state / "application_settings.json"
-    assert stat.S_IMODE(path.stat().st_mode) == 0o600
+    if os.name != "nt":
+        assert stat.S_IMODE(path.stat().st_mode) == 0o600
     assert load_application_settings(state)["generations"] == 7
 
 
@@ -53,7 +55,8 @@ def test_deepseek_key_uses_harness_credential_document(tmp_path: Path, monkeypat
         "masked": "sk-l...1234",
         "credential_ref": "DEEPSEEK_API_KEY",
     }
-    assert stat.S_IMODE(credential_file.stat().st_mode) == 0o600
+    if os.name != "nt":
+        assert stat.S_IMODE(credential_file.stat().st_mode) == 0o600
 
 
 def test_omitted_generations_use_application_setting(tmp_path: Path):

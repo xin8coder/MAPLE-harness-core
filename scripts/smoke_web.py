@@ -8,15 +8,19 @@ import re
 import signal
 import socket
 import subprocess
+import sys
 import tempfile
 import time
 from urllib.error import HTTPError
 from urllib.request import build_opener, HTTPCookieProcessor, ProxyHandler, Request
+from launcher import application_home, node_paths, terminate
 
 
 def main():
     root = Path(__file__).resolve().parents[1]
-    home = Path(os.getenv('MAPLE_HOME', '~/.local/share/maple-harness')).expanduser().resolve()
+    home = application_home()
+    _, node, _ = node_paths(home)
+    dsh = [str(node), str(home / 'dsh-runtime/node_modules/@deepseek-ai/dsh/lib/bin.js')]
     with tempfile.TemporaryDirectory(prefix='maple-web-smoke-') as temp:
         temp = Path(temp)
         env = os.environ.copy()
@@ -29,12 +33,13 @@ def main():
             sock.bind(('127.0.0.1', 0))
             port = sock.getsockname()[1]
         env['MAPLE_PORT'] = str(port)
-        subprocess.run([str(home / 'bin/dsh'), 'plugin', '--profile', 'web', 'add', str(root / 'dsh-bundle')],
+        subprocess.run([*dsh, 'plugin', '--profile', 'web', 'add', str(root / 'dsh-bundle')],
                        env=env, cwd=temp / 'workspace', check=True, stdout=subprocess.DEVNULL)
         log_path = temp / 'startup.log'
         with log_path.open('w') as log:
-            process = subprocess.Popen([str(root / 'maple')], env=env, cwd=root, stdout=log,
-                                       stderr=subprocess.STDOUT, start_new_session=True)
+            options = {'creationflags': subprocess.CREATE_NEW_PROCESS_GROUP} if os.name == 'nt' else {'start_new_session': True}
+            process = subprocess.Popen([sys.executable, str(root / 'scripts/launcher.py'), '--no-browser'], env=env, cwd=root, stdout=log,
+                                       stderr=subprocess.STDOUT, **options)
         try:
             launch = None
             for _ in range(1800):
@@ -70,15 +75,7 @@ def main():
             assert data['upload_id']
             print('Fresh web profile: pairing, origin checks, settings, upload, and installed explorer assets passed.')
         finally:
-            try:
-                os.killpg(process.pid, signal.SIGTERM)
-            except ProcessLookupError:
-                pass
-            try:
-                process.wait(timeout=15)
-            except subprocess.TimeoutExpired:
-                os.killpg(process.pid, signal.SIGKILL)
-                process.wait()
+            terminate(process)
 
 
 if __name__ == '__main__':

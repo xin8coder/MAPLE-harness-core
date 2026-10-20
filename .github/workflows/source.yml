@@ -17,17 +17,38 @@ jobs:
           name: source-release
           path: dist/*
   runtime:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     env:
       MAPLE_HOME: ${{ github.workspace }}/.test-runtime
+      PYTHONUTF8: '1'
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: ./scripts/bootstrap_local.sh
-      - run: .test-runtime/runtime/venv/bin/pip install pytest
-      - run: .test-runtime/runtime/venv/bin/python -m pytest -q
-      - run: .test-runtime/bin/node --test tests/*.test.mjs tests/*.test.cjs desktop/tests/*.test.cjs
+      - if: runner.os == 'Linux'
+        run: ./start.sh --install-only
+      - if: runner.os == 'Windows'
+        shell: powershell
+        run: ./scripts/start_windows.ps1 -InstallOnly
+      - if: runner.os == 'Linux'
+        run: |
+          .test-runtime/runtime/venv/bin/pip install pytest
+          .test-runtime/runtime/venv/bin/python -m pytest -q
+          node --test tests/*.test.mjs tests/*.test.cjs desktop/tests/*.test.cjs
+      - if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          & ./.test-runtime/runtime/venv/Scripts/python.exe -m pip install pytest
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & ./.test-runtime/runtime/venv/Scripts/python.exe -m pytest -q
+          exit $LASTEXITCODE
       - run: python scripts/smoke_web.py
-      - run: PATH="$MAPLE_HOME/bin:$PATH" ./scripts/smoke_dsh.sh
+      - run: python scripts/smoke_mcp_host.py

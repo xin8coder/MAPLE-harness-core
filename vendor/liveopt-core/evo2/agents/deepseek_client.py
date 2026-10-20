@@ -392,7 +392,7 @@ def _urlopen_no_system_proxy(req: urllib.request.Request, timeout: int):
 
 
 def _chat_payload_hard_timeout(payload: dict[str, Any], base_url: str, api_key: str, timeout: int, hard_timeout: float, cache_path: str | None) -> dict[str, Any]:
-    ctx = mp.get_context("fork")
+    ctx = mp.get_context("spawn" if os.name == "nt" else "fork")
     queue = ctx.Queue(maxsize=1)
     process = ctx.Process(target=_chat_payload_child, args=(payload, base_url, api_key, timeout, cache_path, queue))
     process.start()
@@ -442,7 +442,7 @@ class _total_timeout_guard:
         self.seconds = seconds
         self.previous_handler = None
         self.previous_timer = None
-        self.enabled = bool(seconds) and threading.current_thread() is threading.main_thread()
+        self.enabled = bool(seconds) and hasattr(signal, "SIGALRM") and threading.current_thread() is threading.main_thread()
 
     def __enter__(self):
         if not self.enabled:

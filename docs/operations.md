@@ -4,21 +4,26 @@
 
 The application uses official **DSH 0.2.1-rc.2**, Node.js **24.19.0**, and pnpm
 **11.28.5**. `runtime/pnpm-lock.yaml` locks the full host dependency graph.
-Python **3.10+**, `venv`, `curl`, and a working Internet connection are required.
-The server launcher supports Linux and macOS. On Windows use WSL for the server,
-or connect to a deployed server using the desktop client.
+The native launchers prepare private Python **3.13.15** and Node runtimes. Linux
+needs `curl`, `tar`, and CA certificates, but not a preinstalled Python. Windows
+uses its built-in PowerShell 5.1+. The full backend runs natively on both Linux
+and Windows, without WSL, Docker, or administrator privileges.
 
 From an extracted source release:
 
 ```bash
-./maple
+./start.sh
 ```
 
+On Windows 10/11 x64, extract the ZIP and double-click `start.cmd`. On Linux
+x64/arm64 run `./start.sh`. Both open the browser after starting the service.
 The first launch installs the runtime and plugin under
-`~/.local/share/maple-harness`. Later launches reuse that installation. A changed
+`~/.local/share/maple-harness` or `%LOCALAPPDATA%\MAPLEHarness`. Later launches reuse that installation. A changed
 release manifest or DSH lockfile triggers installation of the new snapshot.
 `./scripts/bootstrap_local.sh` explicitly reinstalls a development checkout.
-No administrator access is needed for a local launch.
+No administrator access is needed for a local launch. Python is installed with
+UV's `--no-bin --no-registry` options, so no global executable links or Windows
+registry entries are added. Keep the launcher terminal open while using the app.
 
 Open the launch link printed by DSH. The default address uses port **3000**.
 The link pairs the browser with this installation using official DSH browser
