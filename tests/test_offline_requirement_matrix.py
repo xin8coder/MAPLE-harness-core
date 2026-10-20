@@ -38,7 +38,7 @@ def _solve(
         problem=problem,
         prepared_data_id=prepared_data_id,
         provider="deepseek",
-        model="deepseek-v4-flash",
+        model="deepseek-flash",
         solver_preference=solver_preference,
         population_size=population_size,
         generations=generations,

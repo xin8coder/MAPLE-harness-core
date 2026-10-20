@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "liveopt-dsh-sidecar"
-version = "0.1.0"
+version = "0.2.0"
 description = "Isolated MCP sidecar for the MAPLE Harness application"
 requires-python = ">=3.10"
 dependencies = [
@@ -32,8 +32,8 @@ where = ["src"]
 include = ["liveopt_dsh*"]
 
 [tool.setuptools.package-data]
-liveopt_dsh = ["assets/*.png"]
+liveopt_dsh = ["assets/*.png", "assets/explorer/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src", "vendor/liveopt-core", "../.."]
+pythonpath = ["src", "vendor/liveopt-core"]

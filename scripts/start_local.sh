@@ -1,53 +1,41 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
-LOCAL_ROOT="${LIVEOPT_LOCAL_ROOT:-$HOME/.local/share/liveopt-dsh}"
-BIN_DIR="${LIVEOPT_DSH_BIN_DIR:-$HOME/.local/bin}"
-PROFILE="${LIVEOPT_DSH_PROFILE:-web}"
-HOST="${LIVEOPT_DSH_HOST:-127.0.0.1}"
-PORT="${LIVEOPT_DSH_PORT:-3000}"
-WEB_API_HOST="${LIVEOPT_WEB_API_HOST:-127.0.0.1}"
-WEB_API_PORT="${LIVEOPT_WEB_API_PORT:-8766}"
-
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/common.sh"
 if [[ -n "${LIVEOPT_ENV_FILE:-}" ]]; then
-    set -a
-    # shellcheck disable=SC1090
-    source "$LIVEOPT_ENV_FILE"
-    set +a
+  set -a
+  source "$LIVEOPT_ENV_FILE"
+  set +a
 fi
-
-export PATH="$BIN_DIR:$PATH"
-export LIVEOPT_MCP_STATE_DIR="${LIVEOPT_MCP_STATE_DIR:-$LOCAL_ROOT/state}"
-export LIVEOPT_MCP_WORKSPACE_ROOT="${LIVEOPT_MCP_WORKSPACE_ROOT:-$PWD}"
-export LIVEOPT_MCP_CACHE_MODE="${LIVEOPT_MCP_CACHE_MODE:-read_write}"
-export LIVEOPT_MCP_NETWORK_MODE="${LIVEOPT_MCP_NETWORK_MODE:-auto}"
-export LIVEOPT_MCP_DEFAULT_MODEL="deepseek-v4-flash"
-export DEEPSEEK_MODEL="deepseek-v4-flash"
-export LLM_PROVIDER="deepseek"
+[[ -x "$LIVEOPT_DSH_BIN_DIR/liveopt-mcp" ]] || { echo "Run ./maple to install the application first." >&2; exit 2; }
+mkdir -p "$LIVEOPT_MCP_WORKSPACE_ROOT"
+export LIVEOPT_MCP_COMMAND="$LIVEOPT_DSH_BIN_DIR/liveopt-mcp"
+export LIVEOPT_WEB_API_PORT="${LIVEOPT_WEB_API_PORT:-$(python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1",0)); print(s.getsockname()[1]); s.close()')}"
+export LIVEOPT_WEB_API_URL="http://127.0.0.1:$LIVEOPT_WEB_API_PORT"
 export NODE_USE_ENV_PROXY="${NODE_USE_ENV_PROXY:-1}"
-
 if [[ -n "${DEEPSEEK_API_KEY:-}" ]]; then
-    # Migrate the launch-time key into Harness' owner-only credential store so
-    # the LiveOpt Settings page can replace it without restarting the app.
-    liveopt-configure --state-dir "$LIVEOPT_MCP_STATE_DIR" --api-key "$DEEPSEEK_API_KEY" >/dev/null
-    unset DEEPSEEK_API_KEY
+  liveopt-configure --api-key "$DEEPSEEK_API_KEY" >/dev/null
+  unset DEEPSEEK_API_KEY
 fi
-
-dsh_args=(--profile "$PROFILE" --host "$HOST" --port "$PORT" --no-open)
-if [[ -n "${LIVEOPT_DSH_TRUSTED_HOST:-}" ]]; then
-    dsh_args+=(--trusted-host "$LIVEOPT_DSH_TRUSTED_HOST")
-fi
-
-liveopt-web-api --host "$WEB_API_HOST" --port "$WEB_API_PORT" &
-web_api_pid=$!
-dsh "${dsh_args[@]}" &
-dsh_pid=$!
+liveopt-web-api --host 127.0.0.1 --port "$LIVEOPT_WEB_API_PORT" &
+api_pid=$!
+dsh_pid=""
 cleanup() {
-    kill "$dsh_pid" 2>/dev/null || true
-    kill "$web_api_pid" 2>/dev/null || true
-    wait "$dsh_pid" 2>/dev/null || true
-    wait "$web_api_pid" 2>/dev/null || true
+  [[ -z "$dsh_pid" ]] || kill "$dsh_pid" 2>/dev/null || true
+  kill "$api_pid" 2>/dev/null || true
+  [[ -z "$dsh_pid" ]] || wait "$dsh_pid" 2>/dev/null || true
+  wait "$api_pid" 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
-
+for _ in $(seq 1 100); do
+  curl --noproxy '*' --silent --fail "$LIVEOPT_WEB_API_URL/health" >/dev/null && break
+  kill -0 "$api_pid" 2>/dev/null || { echo "MAPLE service failed to start." >&2; exit 2; }
+  sleep 0.1
+done
+curl --noproxy '*' --silent --fail "$LIVEOPT_WEB_API_URL/health" >/dev/null
+args=(--profile "$LIVEOPT_DSH_PROFILE" --host "${LIVEOPT_DSH_HOST:-127.0.0.1}" --port "${MAPLE_PORT:-${LIVEOPT_DSH_PORT:-3000}}" --no-open)
+[[ -z "${LIVEOPT_DSH_TRUSTED_HOST:-}" ]] || args+=(--trusted-host "$LIVEOPT_DSH_TRUSTED_HOST")
+[[ -z "${LIVEOPT_DSH_PUBLIC_URL:-}" ]] || args+=(--public-url "$LIVEOPT_DSH_PUBLIC_URL")
+cd "$LIVEOPT_MCP_WORKSPACE_ROOT"
+dsh "${args[@]}" &
+dsh_pid=$!
 wait "$dsh_pid"

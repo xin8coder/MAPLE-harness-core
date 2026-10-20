@@ -87,6 +87,24 @@ def liveopt_prepare_uploads(
 
 
 @server.tool()
+def liveopt_map_data(
+    prepared_data_id: str,
+    table_mappings: dict[str, dict[str, Any]],
+    language: Literal["zh", "en"] = "zh",
+    result_labels: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    """Apply LLM-inferred schema aliases without changing cells. For every prepared table,
+    supply {name: canonical_snake_case, display_name: original language, columns:
+    {normalized_source_column: canonical_column}, id_column: canonical_id_if_unique}.
+    Infer meaning from prepare's schema_preview, source headers and user request.
+    result_labels maps canonical output keys or dot paths to user-facing labels.
+    Return a new prepared_data_id to pass to liveopt_start. Never translate IDs or units.
+    """
+    return get_service().map_data(prepared_data_id, table_mappings, language=language,
+                                  result_labels=result_labels)
+
+
+@server.tool()
 def liveopt_update(
     session_id: str,
     update: str,
@@ -139,10 +157,12 @@ def liveopt_wait(
 
 
 @server.tool()
-def liveopt_export(session_id: str) -> dict[str, Any]:
-    """Export CSV iteration history, the accepted solution set, JSON, and a ZIP bundle."""
+def liveopt_export(session_id: str, result_labels: dict[str, str] | None = None) -> dict[str, Any]:
+    """Export results; optional labels map returned unmapped_result_fields to the user's language.
+    Labels affect display/downloads only, never the solution, objective values, or solver state.
+    """
 
-    exported = get_service().export_results(session_id)
+    exported = get_service().export_results(session_id, result_labels=result_labels)
     return {
         "session_id": exported["session_id"],
         "turn": exported["turn"],
@@ -150,6 +170,8 @@ def liveopt_export(session_id: str) -> dict[str, Any]:
         "solution_count": exported["solution_count"],
         "population_count": exported["population_count"],
         "downloads": exported["downloads"],
+        "unmapped_result_fields": exported.get("unmapped_result_fields", []),
+        "localization": exported.get("localization", {}),
         "result_url": (
             f"/liveopt-api/results/{session_id}?turn={int(exported['turn'])}"
         ),

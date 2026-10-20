@@ -1,12 +1,13 @@
 {
   "name": "liveopt-dsh-bundle",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MAPLE Harness application bundle",
   "type": "module",
   "main": "index.js",
   "files": [
     "index.js",
     "client.js",
+    "web-bridge.js",
     "cordis.patch.yml",
     "skills/liveopt/SKILL.md",
     "skills/liveopt-data/SKILL.md",
@@ -15,6 +16,7 @@
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
+    "./web-bridge": "./web-bridge.js",
     "./package.json": "./package.json"
   },
   "dsh": {
@@ -23,7 +25,8 @@
     },
     "client": {
       "inject": [
-        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-chat",
         "@deepseek-ai/dsh-client-ui-theme",
         "@deepseek-ai/dsh-client-ui-settings",
         "@deepseek-ai/dsh-client-ui-tool",
@@ -34,6 +37,7 @@
     }
   },
   "engines": {
+    "dsh": "0.2.1-rc.2",
     "node": "^22.19.0 || >=24.0.0"
   }
 }

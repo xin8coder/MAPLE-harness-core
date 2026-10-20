@@ -130,6 +130,7 @@ def prepare_uploaded_documents(
         )
         tables[table_name] = normalized
         dictionary[table_name] = {
+            "source_name": raw_name,
             "source": "inline_public_data",
             "row_count": len(normalized),
             **metadata,
@@ -158,9 +159,12 @@ def prepare_uploaded_documents(
         "public_context": public_context,
     }
     artifact = store.save_prepared_data(data_id, record)
+    from .localization import mapping_summary
+
     return {
         "prepared_data_id": data_id,
         "artifact": str(artifact.relative_to(store.root)),
+        **mapping_summary(public_context),
         "tables": [
             {
                 "name": name,
@@ -199,6 +203,7 @@ def _add_tables(
         )
         tables[table_name] = normalized
         dictionary[table_name] = {
+            "source_name": source_name,
             "source": source,
             "row_count": len(normalized),
             **metadata,
@@ -234,6 +239,8 @@ def _load_xlsx(path: Path, filename: str) -> dict[str, list[dict[str, Any]]]:
             if not any(names):
                 continue
             names = [name or f"column_{index + 1}" for index, name in enumerate(names)]
+            if len(set(names)) != len(names):
+                raise ValueError(f"duplicate Excel headers in sheet {worksheet.title!r}; use distinct column names")
             records = [
                 {name: value for name, value in zip(names, row)}
                 for row in rows

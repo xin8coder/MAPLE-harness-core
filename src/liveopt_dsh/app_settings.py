@@ -109,11 +109,22 @@ def save_deepseek_api_key(value: str) -> None:
     key = str(value or "").strip()
     if not key:
         raise ValueError("API key cannot be empty")
-    payload = _load_credentials()
-    payload[DEEPSEEK_CREDENTIAL_REF] = key
+    path = credentials_path()
+    document = yaml.safe_load(path.read_text(encoding="utf-8")) if path.is_file() else {}
+    if not isinstance(document, dict):
+        raise ValueError("Harness credentials must be a YAML object")
+    if document and "version" not in document:
+        document = {"version": 1, "refs": document}
+    if document.get("version", 1) != 1:
+        raise ValueError("Unsupported Harness credential document version")
+    refs = document.setdefault("refs", {})
+    if not isinstance(refs, dict):
+        raise ValueError("Harness credential refs must be a YAML object")
+    document["version"] = 1
+    refs[DEEPSEEK_CREDENTIAL_REF] = key
     _atomic_text(
         credentials_path(),
-        yaml.safe_dump(payload, allow_unicode=True, sort_keys=True),
+        yaml.safe_dump(document, allow_unicode=True, sort_keys=True),
         mode=0o600,
     )
 
@@ -128,6 +139,10 @@ def _load_credentials() -> dict[str, str]:
         return {}
     if not isinstance(candidate, dict):
         return {}
+    if "version" in candidate:
+        if candidate["version"] != 1 or not isinstance(candidate.get("refs", {}), dict):
+            return {}
+        candidate = candidate.get("refs", {})
     return {
         str(key): value
         for key, value in candidate.items()

@@ -233,7 +233,7 @@ SLOTS = {
 class SimulatedDeepSeekClient:
     """Return API-shaped responses selected from the actual prompt text."""
 
-    def __init__(self, model: str = "deepseek-v4-flash"):
+    def __init__(self, model: str = "deepseek-flash"):
         self.model = model
         self.calls: list[dict[str, Any]] = []
 
@@ -351,6 +351,6 @@ class SimulatedClientFactory:
         self.clients: list[SimulatedDeepSeekClient] = []
 
     def __call__(self, **kwargs: Any) -> SimulatedDeepSeekClient:
-        client = SimulatedDeepSeekClient(model=str(kwargs.get("model") or "deepseek-v4-flash"))
+        client = SimulatedDeepSeekClient(model=str(kwargs.get("model") or "deepseek-flash"))
         self.clients.append(client)
         return client

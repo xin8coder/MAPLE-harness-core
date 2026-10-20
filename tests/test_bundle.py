@@ -25,8 +25,8 @@ def test_bundle_manifest_and_patch_are_installable_shape():
     assert "transport: stdio" in patch
     assert "liveopt-mcp" in patch
     assert "toolCallTimeoutMs: 3600000" in patch
-    assert "DEEPSEEK_MODEL: 'deepseek-v4-flash'" in patch
-    assert "LIVEOPT_MCP_DEFAULT_MODEL: 'deepseek-v4-flash'" in patch
+    assert "DEEPSEEK_MODEL: 'deepseek-flash'" in patch
+    assert "LIVEOPT_MCP_DEFAULT_MODEL: 'deepseek-flash'" in patch
     assert "deepseek-v4-pro" not in patch
     assert "id: ui-model-selection" in patch
     assert "id: ui-settings-models" in patch
@@ -50,7 +50,7 @@ def test_skill_uses_persistent_start_update_protocol():
     assert "hidden objective" in skill
     assert "API keys" in skill
     assert "solver_preference" in skill
-    assert "deepseek-v4-flash" in skill
+    assert "deepseek-flash" in skill
     assert "Pro model" in skill
 
 
@@ -96,8 +96,12 @@ def test_bundle_registers_liveopt_progress_component():
     assert "solution-sessions" in client
     assert "liveopt:conversation-session:" in client
     assert "inferConversationLiveOptSession" in client
-    assert "snapshot.chat.legacy.nodes" in client
+    assert "snapshot.views.get('chat')" in client
     assert "This conversation has no MAPLE solution history yet." in client
+    assert "function downloadLiveOptArtifact(item)" in client
+    assert "response.blob()" in client
+    assert "URL.createObjectURL(blob)" in client
+    assert "React.createElement(DownloadLinks" in client
     assert "liveopt-session-select" not in client
     assert "ctx.get('theme')" in client
     assert "theme.setTheme('light')" in client

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/scripts/common.sh"
+if [[ ! -x "$LIVEOPT_DSH_BIN_DIR/dsh" || ! -x "$LIVEOPT_DSH_BIN_DIR/liveopt-mcp" ]] ||
+   ! cmp -s "$MAPLE_SOURCE_ROOT/RELEASE_MANIFEST.json" "$LIVEOPT_DSH_INSTALL_ROOT/installed-manifest.json" ||
+   ! cmp -s "$MAPLE_SOURCE_ROOT/runtime/pnpm-lock.yaml" "$LIVEOPT_LOCAL_ROOT/dsh-runtime/pnpm-lock.yaml"; then
+  "$MAPLE_SOURCE_ROOT/scripts/bootstrap_local.sh"
+fi
+exec "$MAPLE_SOURCE_ROOT/scripts/start_local.sh" "$@"

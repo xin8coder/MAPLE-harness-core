@@ -40,7 +40,7 @@ Planner Tags: solver, ga, moea, nsga2, evolutionary_search, public_verifier, str
 ## Prompt Guidance
 - Name the chosen search-space, solver, and restart skills in the Workbench setup or planner note.
 - Keep genome shape stable across dynamic updates unless the public task type or encoding truly changes.
-- Use population_transfer_v1 for compatible multi-objective fronts, warm_restart_v1 for local changes, and diversity/full restart for structural changes.
+- Use warm_restart_v1 by default and full_restart_v1 only when the fixed public-evidence rule verifies a severe break.
 
 ## Minimal Example
 - Example: "multi-objective green routing with distance and emissions" -> primary_solver=ga_or_moea, operator=ea_encoding_permutation_order_v1, restart=warm_restart_v1 when ids remain compatible and public repair remains useful; switch to full_restart_v1 only when the runtime landscape probe shows a regime reset.

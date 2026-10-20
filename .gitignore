@@ -4,6 +4,7 @@ __pycache__/
 *.egg-info/
 build/
 dist/
+.test-runtime/
 .venv/
 .env
 node_modules/
@@ -31,3 +32,9 @@ vendor/liveopt-core/build/
 
 # Anonymous submission metadata.
 CITATION.cff
+node_modules/
+desktop/dist/
+runtime/node_modules/
+build/
+*.egg-info/
+dist/

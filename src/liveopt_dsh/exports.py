@@ -10,9 +10,10 @@ from typing import Any
 
 from .serialization import candidate_summary, evolution_from_record, json_safe
 from .store import StateStore
+from .localization import display_label, localize_value, _label
 
 
-def export_session(store: StateStore, session_id: str) -> dict[str, Any]:
+def export_session(store: StateStore, session_id: str, result_labels: dict[str, str] | None = None) -> dict[str, Any]:
     snapshot = store.load_snapshot(session_id)
     result = evolution_from_record(snapshot["result"])
     objective_names = list((snapshot.get("problem_spec") or {}).get("objective_names") or [])
@@ -31,7 +32,42 @@ def export_session(store: StateStore, session_id: str) -> dict[str, Any]:
     population = _population_rows(result, objective_names)
     history = _history_rows(store, snapshot, objective_names)
     turn = int(snapshot.get("turn") or 0)
+    localization = (snapshot.get("public_context") or {}).get("localization") or {}
     export_root = f"exports/t{turn:03d}"
+    field_paths = set(objective_names)
+
+    def collect_fields(value, prefix=""):
+        if isinstance(value, list):
+            for item in value:
+                collect_fields(item, prefix)
+        elif isinstance(value, dict):
+            for key, item in value.items():
+                path = f"{prefix}.{key}" if prefix else key
+                field_paths.add(path)
+                collect_fields(item, path)
+
+    for candidate in [result.best, *result.archive, *result.population]:
+        collect_fields((candidate_summary(candidate) or {}).get("solution") or {})
+    try:
+        saved_labels = json.loads(store.resolve_artifact(f"sessions/{session_id}/{export_root}/display_labels.json").read_text())
+    except FileNotFoundError:
+        saved_labels = {}
+    for path, label in (result_labels or {}).items():
+        if path not in field_paths:
+            raise ValueError(f"unknown result field or objective: {path}")
+        original_label = (localization.get("labels") or {}).get(path)
+        if original_label and original_label != label:
+            raise ValueError(f"result label conflicts with original source label: {path}")
+        saved_labels[path] = _label(label)
+    if localization:
+        localization["labels"] = {**localization.get("labels", {}), **saved_labels}
+    elif saved_labels:
+        raise ValueError("prepare a language mapping before attaching result labels")
+    if result_labels:
+        store.save_session_bytes(session_id, f"{export_root}/display_labels.json", json.dumps(saved_labels, ensure_ascii=False).encode())
+    unmapped = [path for path in sorted(field_paths) if path not in (localization.get("labels") or {})
+                and path.rsplit(".", 1)[-1] not in (localization.get("labels") or {})
+                and path.rsplit(".", 1)[-1].isascii()]
 
     solutions_csv = _csv_bytes(candidates)
     population_csv = _csv_bytes(population)
@@ -49,6 +85,8 @@ def export_session(store: StateStore, session_id: str) -> dict[str, Any]:
         "solution_set": [candidate_summary(item) for item in result.archive],
         "final_population": [candidate_summary(item) for item in result.population],
         "iteration_history": history,
+        "localization": localization,
+        "unmapped_result_fields": unmapped if localization else [],
     }
     bundle_json = json.dumps(json_safe(bundle), ensure_ascii=False, indent=2).encode("utf-8")
     files = {
@@ -57,6 +95,26 @@ def export_session(store: StateStore, session_id: str) -> dict[str, Any]:
         "iteration_history.csv": history_csv,
         "result_bundle.json": bundle_json,
     }
+    if localization:
+        translated_names = [display_label(name, localization) for name in objective_names]
+        localized_rows = []
+        chinese = localization.get("language") == "zh"
+        for index, row in enumerate(candidates):
+            translated = {
+                "方案序号" if chinese else "Plan": index + 1,
+                "可行" if chinese else "Feasible": row["feasible"],
+                "帕累托方案" if chinese else "Pareto": row["is_pareto"],
+            }
+            values = [value for key, value in row.items() if key.startswith("objective_")]
+            for i, value in enumerate(values):
+                name = translated_names[i] if i < len(translated_names) else f"Objective {i + 1}"
+                translated[f"{i + 1}. {name}"] = value
+            translated["方案明细" if chinese else "Details"] = json.dumps(
+                localize_value(json.loads(row["solution_json"]), localization), ensure_ascii=False)
+            localized_rows.append(translated)
+        files["solutions_localized.csv"] = _csv_bytes(localized_rows)
+        files["solutions_localized.json"] = json.dumps(localized_rows, ensure_ascii=False, indent=2).encode()
+        files["field_mapping.json"] = json.dumps(localization, ensure_ascii=False, indent=2).encode()
     for name, content in files.items():
         store.save_session_bytes(session_id, f"{export_root}/{name}", content)
 
@@ -88,7 +146,9 @@ def export_session(store: StateStore, session_id: str) -> dict[str, Any]:
     response = {
         "session_id": session_id,
         "turn": turn,
-        "objective_names": objective_names,
+        "objective_names": [display_label(name, localization) for name in objective_names],
+        "localization": localization,
+        "unmapped_result_fields": unmapped if localization else [],
         "solution_count": len(result.archive),
         "population_count": len(result.population),
         "downloads": downloads,
@@ -104,6 +164,8 @@ def export_session(store: StateStore, session_id: str) -> dict[str, Any]:
         "objective_series": _objective_series(history, objective_names, turn),
         "history_preview": history[-240:],
     }
+    for series in response["objective_series"]:
+        series["name"] = display_label(series["name"], localization)
     store.save_session_bytes(
         session_id,
         f"{export_root}/ui_result.json",

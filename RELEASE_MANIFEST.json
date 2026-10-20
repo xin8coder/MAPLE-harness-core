@@ -1,17 +1,28 @@
 {
-  "schema_version": 1,
-  "source_revision": "anonymous-review",
-  "file_count": 153,
+  "schema_version": 2,
+  "source_revision": "maple-harness-0.2.0",
+  "upstream": {
+    "package": "@deepseek-ai/dsh",
+    "version": "0.2.1-rc.2",
+    "commit": "687f282e8625c6b8d11ff58211a90524be2e4317"
+  },
+  "core_sha256": "90390fc58fca3cb61eb1c54d1651801ddd2a5791f0860f3805e8f612018e4fb5",
+  "file_count": 215,
   "files": [
     {
+      "path": ".github/workflows/desktop.yml",
+      "sha256": "4471c12e054292bb942728723d6ab1e76a37a18f9ba717da72ebcda482d3cb1c",
+      "bytes": 990
+    },
+    {
       "path": ".github/workflows/source.yml",
-      "sha256": "5496aebab51a0161f47555fd69d68f9ea650035eee46c1d914430cfc3d1e0b9b",
-      "bytes": 309
+      "sha256": "d750f345077430641510a13fc6e744debd6b483e4337edb21d985c67c0f82bcd",
+      "bytes": 1087
     },
     {
       "path": ".gitignore",
-      "sha256": "89d77befcfc3778eae662ed851169a02d9502b2339e12b5fb20155e649d8419e",
-      "bytes": 401
+      "sha256": "1cd7ab840790fb23e4c28eacf23c90e0902051d4bf90a42d4cd342eae529b843",
+      "bytes": 491
     },
     {
       "path": ".liveopt-generated-release",
@@ -20,8 +31,8 @@
     },
     {
       "path": "Dockerfile",
-      "sha256": "cdef5f92bab973fa3685cfe61a58ac9b16d7e9d1cbdd4381a369cf840b789ac6",
-      "bytes": 1283
+      "sha256": "0953c81ed151c85772a9e3efc2e0f8170c983b5131433a5e6b2ac80d1783b289",
+      "bytes": 592
     },
     {
       "path": "LICENSE",
@@ -30,93 +41,293 @@
     },
     {
       "path": "README.md",
-      "sha256": "dbda3d2b3687296cb7e2f735680192c1f924066b59c0a76571b04d6b793a7848",
-      "bytes": 6395
+      "sha256": "0a3e35e0be4c045038509d4754014977cf6a5336bb86547d9c4c1747145a77f8",
+      "bytes": 7240
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "sha256": "c6294a2c0182c86009e9fd0675f9de24a55fac390ffcc39e783000d10ebd4c76",
-      "bytes": 621
+      "sha256": "b99c5c7016830243ec598cf649ff6ef198ec574bc77bdb0f5b642c554a73e1b4",
+      "bytes": 934
+    },
+    {
+      "path": "desktop/.gitignore",
+      "sha256": "e8bc935ce727f1809c792f4c5d26c5fc75ba2b7df7fc9390c56c8892f6a6007f",
+      "bytes": 26
+    },
+    {
+      "path": "desktop/LICENSE",
+      "sha256": "b322426ae4997e2766155681b8accb5e796f08b1775f1f93e2cce37464536b0d",
+      "bytes": 748
+    },
+    {
+      "path": "desktop/connection.css",
+      "sha256": "5163c9bb134bf20f38bbb1471a1c7ccb5e9fd3aa13209c29176ad8bb068eceb4",
+      "bytes": 1107
+    },
+    {
+      "path": "desktop/connection.html",
+      "sha256": "08a84b9ddbe4c935376b302d603adfffdd08a47d3b56ad0c9714794acf392048",
+      "bytes": 1138
+    },
+    {
+      "path": "desktop/connection.js",
+      "sha256": "cc539802af54aa6a2e61ede580158a0e19e8064fe0dd7f2e2d24ab61e04749ed",
+      "bytes": 1494
+    },
+    {
+      "path": "desktop/icon.png",
+      "sha256": "71114cb4a3fe2df55d9e4c5a6c1cda577229c6004aabd6fd940cdd199796e294",
+      "bytes": 1068855
+    },
+    {
+      "path": "desktop/main.cjs",
+      "sha256": "532a256844146e593ce06b6d9ec23f0b13fe3299928409de2e76620bb4767179",
+      "bytes": 8486
+    },
+    {
+      "path": "desktop/package-lock.json",
+      "sha256": "56d4293de9df0412d0b45f85ad7b0eddc5eab866be7188fdc75a9f50f6c4c1a2",
+      "bytes": 127196
+    },
+    {
+      "path": "desktop/package.json",
+      "sha256": "e3ff69eef5d589ae38a3d8077b9c4bce916348c4b575b987af03ea1c443f9f6c",
+      "bytes": 1153
+    },
+    {
+      "path": "desktop/policy.cjs",
+      "sha256": "0fd1aad95e7836073aaed42b5c9e0b2c090a905d5ae0c8f0b434916e4dbbe46b",
+      "bytes": 1244
+    },
+    {
+      "path": "desktop/preload.cjs",
+      "sha256": "6446bc4cbbaf6deeeeda8125421790133908fa82e4d52746da6a4141aeaf27d5",
+      "bytes": 246
+    },
+    {
+      "path": "desktop/tests/policy.test.cjs",
+      "sha256": "338299f9ed5522dcfd14971404fb1a1bae8bf462c999deec30314c2b384ce56c",
+      "bytes": 1765
     },
     {
       "path": "docker-compose.yml",
-      "sha256": "785a43fb25621f1653a3c6cbcb2575b90c4a81eee1fc06f5a3ddd003c76cb450",
-      "bytes": 644
+      "sha256": "7cc232b29b28e6045113523d11b301155c7f3754946782be5710a640fc6d1eee",
+      "bytes": 763
+    },
+    {
+      "path": "docs/desktop-and-language.md",
+      "sha256": "d965ea58a5834dce97dc43cf3a1eab677657112ac5117d2c3a45f011f3cea5a0",
+      "bytes": 3592
+    },
+    {
+      "path": "docs/dsh-upgrade.md",
+      "sha256": "91c04cc12f847c0c860c4dbc838d15976533ef7b64c9cecf154763b3a7217ed0",
+      "bytes": 3573
+    },
+    {
+      "path": "docs/native-language-data.md",
+      "sha256": "2342edb0c1a392c5e2971f3ccabd2674432f2227cef54511b41220a3f81b9c71",
+      "bytes": 3332
     },
     {
       "path": "docs/operations.md",
-      "sha256": "991edb20c06bd87aa1d688ff33686a3a3d747945e9e4f4053e36aee0c6903b05",
-      "bytes": 17843
+      "sha256": "a3cdf4cf53a4dd98f213c7baca7d8b578fa8398fe54c42ccd4949f7969fe3325",
+      "bytes": 9901
+    },
+    {
+      "path": "docs/recording-garment-demo.md",
+      "sha256": "ca66bd16569fb683e18f1563f16b0f8e94addd3664833563ab0aa7ece51f55fd",
+      "bytes": 1863
+    },
+    {
+      "path": "docs/solution-explorer.md",
+      "sha256": "32def6f005b1029d30144df921024d07996dd3ef76c0c20e1979d251d998d173",
+      "bytes": 2519
     },
     {
       "path": "dsh-bundle/client.js",
-      "sha256": "78c0557a33310ecd77ab6a550b8018b1d28973ad4344d02f2e5d957c2dfee020",
-      "bytes": 67962
+      "sha256": "ed77ff2e0ab8434458a81b1f15bcecc0a0f4404fd341d12c9d76cc4a3eae8d1c",
+      "bytes": 84787
     },
     {
       "path": "dsh-bundle/cordis.patch.yml",
-      "sha256": "b43174eaee72fafb639397912d06621c5936d43fb308148a43a91ba104959fe9",
-      "bytes": 3109
+      "sha256": "01a850e40eb3740586ca649e9c8a68d736c1e9fa5039b665c6984319783a5ca6",
+      "bytes": 3236
     },
     {
       "path": "dsh-bundle/index.js",
-      "sha256": "4b940e90a1c26753bdaf2e8281bfbe10d410c8d00d78f0c43b0d3b7d89f8c811",
-      "bytes": 1755
+      "sha256": "ee70ed3eb33f40f546a624fad35ef98c1f6df614ddb4090c617ffb6f903f357f",
+      "bytes": 3213
     },
     {
       "path": "dsh-bundle/package.json",
-      "sha256": "34e09ded9fe5cbcafc345bf9293187f5b5cbe74bdf1eae12820361f0891fea8f",
-      "bytes": 921
+      "sha256": "8f3dbaa485a752a7d909020733299c61448bfa84d61fd537b0d5168f14147fa6",
+      "bytes": 1048
     },
     {
       "path": "dsh-bundle/skills/liveopt-data/SKILL.md",
-      "sha256": "6cac9f4cf58481fe593716e56d4b4f4a0f3c47238241fbb1395cbb691a998fd2",
-      "bytes": 2459
+      "sha256": "144379206137999814d560e87c21b285e35349f7a4182bd4b93a5d0b192a25a0",
+      "bytes": 4190
     },
     {
       "path": "dsh-bundle/skills/liveopt-results/SKILL.md",
-      "sha256": "2ce9676cb0dfbfa529515ce6271d702179930109c4d0b26312f4277cf6689cf6",
-      "bytes": 971
+      "sha256": "b35a74d7e42cf369d9c50b7f387772c9ee4b08f07bcf421e5c148701a7dad1c0",
+      "bytes": 1746
     },
     {
       "path": "dsh-bundle/skills/liveopt/SKILL.md",
-      "sha256": "62336f934625ef586f0b9c6164afd571d346d51233aec19fd0f0b01f7e0ef3d2",
-      "bytes": 4441
+      "sha256": "cd89671d95d185eb03142dd3d45f4efe6d9e0c66d131efc1321738b668fe317b",
+      "bytes": 4709
+    },
+    {
+      "path": "dsh-bundle/web-bridge.js",
+      "sha256": "4b76a1b1702cb3617341598973003d2df76f87e55dc6cd6914d2ce1a6a566ebc",
+      "bytes": 1854
+    },
+    {
+      "path": "examples/garment_export/README.md",
+      "sha256": "197acc661fe0f773c0d412034af107646ba08f6b0a4f5b368d52a6f466d0f90a",
+      "bytes": 4352
+    },
+    {
+      "path": "examples/garment_export/build_chinese_inputs.py",
+      "sha256": "09e963f542167010f5d537089d32d2d5d18dc9fab5d622c35696ed2627c5e421",
+      "bytes": 3593
+    },
+    {
+      "path": "examples/garment_export/build_inputs.py",
+      "sha256": "74cfc32c14151163188ce16f5d347862e00d575439e78e5b3c031d00a59695d4",
+      "bytes": 1984
+    },
+    {
+      "path": "examples/garment_export/inputs/chinese/\u521d\u59cb\u9700\u6c42.txt",
+      "sha256": "8744330e8daf9ff2477b8b67e5c1afdc6901211e36063f52ffcacb42ab08480d",
+      "bytes": 462
+    },
+    {
+      "path": "examples/garment_export/inputs/chinese/\u66f4\u65b0\u9700\u6c42.txt",
+      "sha256": "5757e23ab8e01aac9498d83822d5686b7a545b7ab7cd463bc3cbd584d3f29006",
+      "bytes": 329
+    },
+    {
+      "path": "examples/garment_export/inputs/chinese/\u670d\u88c5\u5916\u8d38\u6392\u4ea7\u6570\u636e.xlsx",
+      "sha256": "00064e57f7feacf4d58761129cf9385552563f72bcd4fa1f322d7c8276039c00",
+      "bytes": 9950
+    },
+    {
+      "path": "examples/garment_export/inputs/chinese/\u786e\u8ba4\u6c42\u89e3.txt",
+      "sha256": "6d8e58295510e68f34cd3103dd869b80fae10a715426b4ca918fff560562a835",
+      "bytes": 238
+    },
+    {
+      "path": "examples/garment_export/inputs/garment_export.xlsx",
+      "sha256": "6a23f671a173f76c7175c598b781c602f73ce2299e2145ee1ea4c6a6387233a3",
+      "bytes": 9691
+    },
+    {
+      "path": "examples/garment_export/inputs/initial_request.txt",
+      "sha256": "559dc264c15e45eaf552a5683a3c03a2362efbebcf05a3469ee99973fefb00e5",
+      "bytes": 1078
+    },
+    {
+      "path": "examples/garment_export/inputs/natural_language_data.txt",
+      "sha256": "fd07954742058b8e49f5104dca492e1856380a798291a4635f8c4161b6b727b1",
+      "bytes": 2695
+    },
+    {
+      "path": "examples/garment_export/inputs/update_1.txt",
+      "sha256": "ee6074a67b97aaba5f1cded456a3c1f363955b1479b3214b72173d39d96bf848",
+      "bytes": 377
+    },
+    {
+      "path": "examples/garment_export/offline_client.py",
+      "sha256": "3d02c1584046d2ab8f74e61fdb754cbb0aa96328a94e38076f9370a59e29f0c2",
+      "bytes": 5643
+    },
+    {
+      "path": "examples/garment_export/run_chinese_demo.py",
+      "sha256": "a3d718cf6fa2a802947d2dc0b1cd9dd8184e2c6a576bac3c2b1d54ffa865a460",
+      "bytes": 8875
+    },
+    {
+      "path": "examples/garment_export/run_demo.py",
+      "sha256": "3cb7ca601b3fa899b2e4c2f6d84405deea8f4fd301dde654febee904cb3825d1",
+      "bytes": 7102
+    },
+    {
+      "path": "examples/garment_export/scenario.py",
+      "sha256": "d63171df606a3a8e46c63a6e307f8a11ec429e351a79cd0aa5e5cef93ece92e2",
+      "bytes": 6125
+    },
+    {
+      "path": "examples/garment_export/validate_results.py",
+      "sha256": "5ec85b9a3bd5b6240ead60ea9ada29309d091193378ddf963564f6ef3c603766",
+      "bytes": 3039
     },
     {
       "path": "intranet/Caddyfile",
-      "sha256": "24dccd8c46b03f4004a5ec0b5d31f4d755b20e1d4ed2408d093b5f0cb1536e63",
-      "bytes": 512
+      "sha256": "003cd6d27c02514495ef4715f9d5199ade3dfab2309922fce68508e7dae685a8",
+      "bytes": 227
+    },
+    {
+      "path": "maple",
+      "sha256": "8b65726c24b1d9a0b8b27df934832291561c3a8e87e4fe56d7632a517ba11186",
+      "bytes": 532
     },
     {
       "path": "pyproject.toml",
-      "sha256": "8fe2cabb457710ae49f79da7efa63557a59043bbc661efe9b5ebf15e68393d67",
-      "bytes": 959
+      "sha256": "48b21335a10e6f391bc4cc7e80047034d8ee1c04ebf1b0d0b26f24796c8879e9",
+      "bytes": 971
+    },
+    {
+      "path": "runtime/package.json",
+      "sha256": "d7e901cf7f5e482b0aa6b3aae7a3709e825409280ed0dd90358769dcf34d5fc7",
+      "bytes": 220
+    },
+    {
+      "path": "runtime/pnpm-lock.yaml",
+      "sha256": "0f8d9178914177c9392861978f2b5966fd4dfe529b46b57dc2b5ac6bb30bd746",
+      "bytes": 613619
+    },
+    {
+      "path": "runtime/pnpm-workspace.yaml",
+      "sha256": "c7d197a4c820582326f061e71ae75081ca3d6190e789a7180f5c7000076adcb0",
+      "bytes": 172
     },
     {
       "path": "scripts/bootstrap_intranet.sh",
-      "sha256": "69f179c9c3877d67b5aa23d40d722111754fca252a3cd99eb629e55d3cc1e648",
-      "bytes": 1156
+      "sha256": "7835f62baf05c27e3e9838ef1651cb11bebc70228f067e3d87871819fb037482",
+      "bytes": 1193
     },
     {
       "path": "scripts/bootstrap_local.sh",
-      "sha256": "8f8a2f2d0b21c2b1e5c05a261e63e779c3468d847b8da998603270732c2d9773",
-      "bytes": 2608
+      "sha256": "2032d3bb98a0b9224a80446c1e8214883943083ffabf59faf4d7182fc84fe182",
+      "bytes": 2348
+    },
+    {
+      "path": "scripts/build_release.py",
+      "sha256": "a4d806c07e8104cd5be9124ed481722bb674e082b0eb7790434fa079c7fb4f6b",
+      "bytes": 2979
     },
     {
       "path": "scripts/check_release_contents.py",
-      "sha256": "831751bfa354174897b892c72d2044455fda851331b2edecf0542d7c2f49c5ad",
-      "bytes": 2481
+      "sha256": "d103d9762daad54cf8e85cfa29e7023ca3db6bbe240945126e0b7b0ad1f629a6",
+      "bytes": 2748
+    },
+    {
+      "path": "scripts/common.sh",
+      "sha256": "60330b9f7ac7a513ca168d86bff1fab5830bb6deefb40b18701e356e92d4bec4",
+      "bytes": 843
     },
     {
       "path": "scripts/install.sh",
-      "sha256": "3acc8b8fa578b8bbfca9689c18ea0d77ee63c9c30579712f30b725a91d085ef9",
-      "bytes": 5132
+      "sha256": "a39abeae0b6e4ed65d122183c90443ff1705a8ca5e7a5dedb0eef9a2a4f09d02",
+      "bytes": 1982
     },
     {
       "path": "scripts/install_systemd_user.sh",
-      "sha256": "b2cbb6a23eb6569ad72392e65032c249b8187b7242178259ad520e15309f8eda",
-      "bytes": 1724
+      "sha256": "7e416a40a33ed52d8a5241734002d65dd5eb188fbaf210c144006e8902de4fe7",
+      "bytes": 1996
     },
     {
       "path": "scripts/smoke_dsh.sh",
@@ -124,24 +335,84 @@
       "bytes": 1774
     },
     {
+      "path": "scripts/smoke_web.py",
+      "sha256": "f1f25c735a0247e82e33a6c5affde02ff50c75d3ec0c3f1f9ad812dafa4ef92d",
+      "bytes": 4107
+    },
+    {
       "path": "scripts/start_intranet.sh",
-      "sha256": "02af0f7eddd179d10fbbab42363c3de5338abd7036d8ec1392bb14973b4ee083",
-      "bytes": 2684
+      "sha256": "f9a18b175e8b6709c5debc699cf1758e689fac6ee64833717b2aa390e21be3d8",
+      "bytes": 2833
     },
     {
       "path": "scripts/start_local.sh",
-      "sha256": "4d4e3a3125c25e8ed80a97e4cbecfcc5995e66e6f1d573d49481fb0f047ba24e",
-      "bytes": 1838
+      "sha256": "fb431609f1f084fcb42a0dc2dd42d3a7e05c54a86ed533ab303644cd471e5baf",
+      "bytes": 1865
     },
     {
       "path": "src/liveopt_dsh/__init__.py",
-      "sha256": "fce730639bbc5dbe5582734d9cc4ec1b5eb7ee55d587238deb0c0cea86777cc8",
+      "sha256": "6066e666ee37380f6e68cd8444e53e977b1633f0ed94f265cbf09717733175d6",
       "bytes": 219
     },
     {
       "path": "src/liveopt_dsh/app_settings.py",
-      "sha256": "ae562031e46af7f9dcf74641853899242f543b1dae5a533f7565ce372ab160ef",
-      "bytes": 5445
+      "sha256": "b56fd33d8057221578167eb588a9294429cf2c7cff05061bbcd4173d0999881d",
+      "bytes": 6221
+    },
+    {
+      "path": "src/liveopt_dsh/assets/explorer/ECHARTS-LICENSE",
+      "sha256": "634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a",
+      "bytes": 11990
+    },
+    {
+      "path": "src/liveopt_dsh/assets/explorer/ECHARTS-NOTICE",
+      "sha256": "d491d358344f842685c1b1585970999db65fe30ecf7ef3867af8814f4016c016",
+      "bytes": 168
+    },
+    {
+      "path": "src/liveopt_dsh/assets/explorer/LUCIDE-LICENSE",
+      "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+      "bytes": 3208
+    },
+    {
+      "path": "src/liveopt_dsh/assets/explorer/VENDOR.md",
+      "sha256": "b6572a14b8e46ca0d34288d239a4e8d630a99cecb6c6afb91bd6bb38a49661a1",
+      "bytes": 424
+    },
+    {
+      "path": "src/liveopt_dsh/assets/explorer/echarts.min.js",
+      "sha256": "b66b25aeb4df84e33199dc21694014d336d222cbd9deb0e5a7c14bd6aa0d0fd0",
+      "bytes": 1121883
+    },
+    {
+      "path": "src/liveopt_dsh/assets/explorer/explorer.css",
+      "sha256": "3d3270d6ad4298fe8a8abef4ca4b215b2e88b17d59f7924bb4e00071e99782d4",
+      "bytes": 10138
+    },
+    {
+      "path": "src/liveopt_dsh/assets/explorer/explorer.js",
+      "sha256": "6fe2e9ca01183cce51749c8e955cfe44fdd48963e468d2d34c148819da4d5124",
+      "bytes": 30213
+    },
+    {
+      "path": "src/liveopt_dsh/assets/explorer/external-link.svg",
+      "sha256": "44f892d599cf1b773e16761bd3776ead3dc77ca81e5940d952ebbb012aec02f9",
+      "bytes": 294
+    },
+    {
+      "path": "src/liveopt_dsh/assets/explorer/index.html",
+      "sha256": "5c26f6432014d70e91364069808f6c283c3416af7cee0a36621f5da419a2252b",
+      "bytes": 7483
+    },
+    {
+      "path": "src/liveopt_dsh/assets/explorer/lucide.min.js",
+      "sha256": "344d31835187df329541d22325fa9b97f94bb012b520a41b9b4a74a1a4d9c637",
+      "bytes": 443962
+    },
+    {
+      "path": "src/liveopt_dsh/assets/explorer/solution-view.js",
+      "sha256": "c4a21bacaf4f1c27866b2867f052f75ae7c71bcf7bc16dd1655aebcdb9d38130",
+      "bytes": 3929
     },
     {
       "path": "src/liveopt_dsh/assets/liveopt-mark-256.png",
@@ -165,28 +436,33 @@
     },
     {
       "path": "src/liveopt_dsh/compat.py",
-      "sha256": "44e329ab1984b987e4868d2eaf77be1be763c0e9f44ddc4b43f94288b089773a",
-      "bytes": 20309
+      "sha256": "3feff0ac7abdfe85e3da97383c0d9da0d440afe2242e6125975c71675a265638",
+      "bytes": 20980
     },
     {
       "path": "src/liveopt_dsh/config.py",
-      "sha256": "bc654ff069ca3c089e1ecf259eea1794fd52bff787870b4814d42c7a52537abc",
-      "bytes": 4590
+      "sha256": "b47aa77b046f2b890a8c04814539de5b58bb333dcd5792a623a70cc41ae7ced1",
+      "bytes": 4584
     },
     {
       "path": "src/liveopt_dsh/data_adapter.py",
-      "sha256": "d5c15b14a18bcc9c740dfc1d4b89b4785e0197e68c5556427c7564648b1667b4",
-      "bytes": 16638
+      "sha256": "ed449496cf9ff0a2b242b5769b9e937933c044f1ae846be872a93675a9fa76fa",
+      "bytes": 16997
     },
     {
       "path": "src/liveopt_dsh/documents.py",
-      "sha256": "56f9ec15ef38dfa1bbb9896aefd3a8c1ba4ea6abb4f1b15343ebaa6f37bda27f",
-      "bytes": 9457
+      "sha256": "fc851cc3eb4f93a4b7d8e25d96e1fbe830250dfe2841b87d05219ee456f1ab83",
+      "bytes": 9787
+    },
+    {
+      "path": "src/liveopt_dsh/explorer.py",
+      "sha256": "989b591fcb6946608d898212b6dd194d40a27de0f6fe05e8a1682f2986d8065f",
+      "bytes": 6405
     },
     {
       "path": "src/liveopt_dsh/exports.py",
-      "sha256": "b7e25266ff05d25c3d431a1af8d4827435f5fe41863af2d5e3a8e20ad2fc78f7",
-      "bytes": 11676
+      "sha256": "b5ef6e07984e3462850990a686293abb72869083fd0812d1171c469a507da5a0",
+      "bytes": 15354
     },
     {
       "path": "src/liveopt_dsh/jobs.py",
@@ -194,9 +470,14 @@
       "bytes": 6089
     },
     {
+      "path": "src/liveopt_dsh/localization.py",
+      "sha256": "80fc727051566ec3fdb9360f5bc6276dfb07cea187a5bd1b911aceafbb35b6e8",
+      "bytes": 9698
+    },
+    {
       "path": "src/liveopt_dsh/mcp_server.py",
-      "sha256": "2e85b9e6dd2ea792dde2327ad8a3d19231561b9ab64c04616695294893945ae0",
-      "bytes": 5285
+      "sha256": "e0645251164d84d207f8d25d983f1ebc29d8274c20528c5750f7904686440884",
+      "bytes": 6503
     },
     {
       "path": "src/liveopt_dsh/serialization.py",
@@ -205,8 +486,8 @@
     },
     {
       "path": "src/liveopt_dsh/service.py",
-      "sha256": "16ae7532f04249722211604855c7740c9a095ad12d5201ef462ced5bd74cb714",
-      "bytes": 38281
+      "sha256": "3b7957855ac4daf37339173f668916881b859d71652328bf534bf8352b371873",
+      "bytes": 40272
     },
     {
       "path": "src/liveopt_dsh/solutions.py",
@@ -215,38 +496,53 @@
     },
     {
       "path": "src/liveopt_dsh/store.py",
-      "sha256": "d0c6947d59b1bc435077d723ec34aa52b367f7ce5d60c99b7f321cbcbfd0e980",
-      "bytes": 10066
+      "sha256": "02902dd9bb59c6e9d5068da5d6a2ce53a9e3243687f8c83d95172c3042275eb4",
+      "bytes": 10170
     },
     {
       "path": "src/liveopt_dsh/web_api.py",
-      "sha256": "9000a2d01d71c0ce8ea8ea70f764b2920820ddd44a683cdfabe4a9846269ef85",
-      "bytes": 12365
+      "sha256": "a1cf246425930dcb5bb4121d47da530c147db45bf83015d600b9e79108572039",
+      "bytes": 19416
     },
     {
-      "path": "systemd/liveopt-intranet.service",
-      "sha256": "33066e8571cad22af12cafe2de40dc7382371474384f84304f8f551702ee07c3",
-      "bytes": 516
+      "path": "systemd/maple-intranet.service",
+      "sha256": "fc0fbc83a92fdecc9c860725b89358c10cbae6097fe7c8266b8745a07bf84281",
+      "bytes": 528
+    },
+    {
+      "path": "tests/language-dsh.test.mjs",
+      "sha256": "6e6283bf31814668f0c0f0d16986cc89a81b7a13039e107c390f4c192eb38d31",
+      "bytes": 1291
+    },
+    {
+      "path": "tests/language.test.mjs",
+      "sha256": "e10c69ea3585aed6e5820daee7e461c68e37bbcd8ed242e6621c80ead8e0ca6d",
+      "bytes": 1495
     },
     {
       "path": "tests/mock_dsh_llm.py",
-      "sha256": "0a2dacbe4724280f391da240e7f45511d6c17f36b9c4a842b923ff32fee03dcb",
-      "bytes": 3845
+      "sha256": "a736c9676ecc290eccec2cf157604030f73d880d1151de1cea33013483ec3241",
+      "bytes": 5373
     },
     {
       "path": "tests/simulated_deepseek.py",
-      "sha256": "815849bbe0db721b67661b8f444bb2a81501836754863458159b36274e868889",
-      "bytes": 14123
+      "sha256": "ee540d18f81ef65aaf555c209a268157e9022c55f4ebe6c7e01c445953492356",
+      "bytes": 14117
+    },
+    {
+      "path": "tests/solution-view.test.cjs",
+      "sha256": "51e0f1f6e171d343f6771a8bb848ef2b608250d76cdb196b69aae87496c95c61",
+      "bytes": 3482
     },
     {
       "path": "tests/test_app_settings.py",
-      "sha256": "ab2f3000fd10d0793ed89ae2b290e19abf968ef603bec7f75b0af97a871d3339",
-      "bytes": 2932
+      "sha256": "776add93317feacc2e20205973e892395a1ca91723520272dd4ad9b7102fc4ea",
+      "bytes": 4545
     },
     {
       "path": "tests/test_bundle.py",
-      "sha256": "ed2193be4184d9653f653c9c06a2e2345bc232ef999dd0b6f5ecf03c94df4ebc",
-      "bytes": 5722
+      "sha256": "27ce3d1c15faf435dd257453e575d04095000212e93f68ee141154cf95c4c2db",
+      "bytes": 5920
     },
     {
       "path": "tests/test_compat.py",
@@ -255,23 +551,38 @@
     },
     {
       "path": "tests/test_data_results.py",
-      "sha256": "54337772546b75aea63b13f80942732e49113d13c64750679120caa625558fec",
-      "bytes": 19542
+      "sha256": "f8b1594a9f552d80944cd41844aa1c3233f9e5a1bf3678bddf922dc213aafabe",
+      "bytes": 21846
+    },
+    {
+      "path": "tests/test_explorer.py",
+      "sha256": "c62136ec502f6f7e75e175589c1928fbc9190a04cb619a34d2021f56b431a87e",
+      "bytes": 5515
+    },
+    {
+      "path": "tests/test_garment_demo.py",
+      "sha256": "80042268bd047e150f9abbe472d739648684d1188d51cd77ec69620301366931",
+      "bytes": 3789
     },
     {
       "path": "tests/test_isolation.py",
-      "sha256": "fd129993ac01e4b8f65abf6bb16951f5d441acef8f93465fed103211bab7eb5a",
-      "bytes": 3564
+      "sha256": "5639ee3f6aa8923ae7cc71f969c70622337f803102e592498524eebf21910894",
+      "bytes": 3793
+    },
+    {
+      "path": "tests/test_localization.py",
+      "sha256": "6a08e3515dee707d656e1723031d72fbec4b527a067fa5da9a081ed24e004795",
+      "bytes": 10202
     },
     {
       "path": "tests/test_mcp_stdio.py",
-      "sha256": "ce97c14a069dae806a4357a78504ce0acabc602582635d61be1f0f1c5e346282",
-      "bytes": 2848
+      "sha256": "aef7c8fa4bcb273818076d1af647dc3d2c4d95d3e1e0a159f070fa26b353ad2d",
+      "bytes": 3031
     },
     {
       "path": "tests/test_offline_requirement_matrix.py",
-      "sha256": "60187d2821d13b0923b408d9e49f284ee5e9a248ffa6fbee2974dcbf7ccb2464",
-      "bytes": 12264
+      "sha256": "a79db7056730cb4bcfe5a6a70f90db6cee3e45cae694f09ae79b387b44d83c92",
+      "bytes": 12261
     },
     {
       "path": "tests/test_serialization.py",
@@ -280,8 +591,13 @@
     },
     {
       "path": "tests/test_service.py",
-      "sha256": "72c159f1b359f8ba536fd941a4e505fcfbea02e603b9654123f567d92401b7e0",
-      "bytes": 14479
+      "sha256": "fe34d779e5a61485637b25a191540ee09cf55f565eeccf9860858bdcc47c0792",
+      "bytes": 14476
+    },
+    {
+      "path": "tests/web-bridge.test.mjs",
+      "sha256": "60b64ecdce3ea88adc531698f02b0ad99bf5e86e2e06b71a6c00d575e59e4c21",
+      "bytes": 2831
     },
     {
       "path": "vendor/liveopt-core/MANIFEST.in",
@@ -290,8 +606,8 @@
     },
     {
       "path": "vendor/liveopt-core/SOURCE_REVISION",
-      "sha256": "b97c00864069184190c5625e29c2bfd07b19883fe75b35c959c33ad77432e04a",
-      "bytes": 104
+      "sha256": "67fcf234cfc2660beaa038b9e9b22f637b073c02b5e55b0ad881ed1ddac93dca",
+      "bytes": 106
     },
     {
       "path": "vendor/liveopt-core/demo/Dockerfile",
@@ -385,8 +701,8 @@
     },
     {
       "path": "vendor/liveopt-core/evo2/agents/liveopt_dynamic_impl.py",
-      "sha256": "09049bf362d060b54f8bcebfeb27d4c4d5e282cd538d9e43c2adb8a2fbd6554c",
-      "bytes": 118338
+      "sha256": "0693abd68ed26cf0c16be3597b38ed7ef9581da6b7836e568e540c3b45acc114",
+      "bytes": 113925
     },
     {
       "path": "vendor/liveopt-core/evo2/agents/liveopt_dynamic_runner.py",
@@ -615,8 +931,8 @@
     },
     {
       "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/full_restart_v1/SKILL.md",
-      "sha256": "12209ee5323d181ef22084e7c0f476dc0d3e919ef5e09d33080486269fc71f29",
-      "bytes": 5222
+      "sha256": "8a58d29fc2136e4c439a0eb40e1f2bb25a28753207338fd540d78dda8486174b",
+      "bytes": 4713
     },
     {
       "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/full_restart_v1/runtime_binding.json",
@@ -635,8 +951,8 @@
     },
     {
       "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/warm_restart_v1/SKILL.md",
-      "sha256": "6c19ab27260a973fe069bc5eb1cffe58db2ceb3cd8e819fec79d222a235cade4",
-      "bytes": 4370
+      "sha256": "7f9aa06da6605bdb882ff3e62b71e8d9d60cbdc88e54b809ae0f2a6f90c9c8e2",
+      "bytes": 3908
     },
     {
       "path": "vendor/liveopt-core/evo2/skills/catalog/restart_methods/warm_restart_v1/runtime_binding.json",
@@ -665,8 +981,8 @@
     },
     {
       "path": "vendor/liveopt-core/evo2/skills/catalog/solvers/ga_or_moea/SKILL.md",
-      "sha256": "9e634212dcf9858219567042925e4bb56f01b39dc03e2793d8f44defc85bb5ff",
-      "bytes": 3667
+      "sha256": "ab0fa95a70027d5d2f387ca19b8daec41ac7584f9187100d810408ad85875dfe",
+      "bytes": 3632
     },
     {
       "path": "vendor/liveopt-core/evo2/skills/catalog/solvers/ga_or_moea/runtime_binding.json",
@@ -768,7 +1084,5 @@
       "sha256": "eb2f64156d58fec2e4f7c8c53c881a9e25d67d5f963703e489d829424ad0ffe5",
       "bytes": 606
     }
-  ],
-  "revision_note": "MAPLE complete-tree PNG emblem with pale Pareto-front candidates, one dark selected candidate, and neutral off-front candidates. Updated logo assets and derived manuscript PDFs; original data, prompts, numerical labels and runtime identifiers retained.",
-  "release_scope": "code, tests, benchmark inputs, runtime assets, installation documentation"
+  ]
 }

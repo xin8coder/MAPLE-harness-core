@@ -19,7 +19,7 @@ class ServiceConfig:
     network_mode: str = "auto"
     max_workers: int = 2
     max_result_archive: int = 50
-    default_model: str = "deepseek-v4-flash"
+    default_model: str = "deepseek-flash"
     solver_time_limit_seconds: float = 30.0
 
     @classmethod
@@ -51,7 +51,7 @@ class ServiceConfig:
                 1, int(os.getenv("LIVEOPT_MCP_MAX_RESULT_ARCHIVE", "50"))
             ),
             default_model=os.getenv(
-                "LIVEOPT_MCP_DEFAULT_MODEL", "deepseek-v4-flash"
+                "LIVEOPT_MCP_DEFAULT_MODEL", "deepseek-flash"
             ).strip(),
             solver_time_limit_seconds=max(
                 1.0,

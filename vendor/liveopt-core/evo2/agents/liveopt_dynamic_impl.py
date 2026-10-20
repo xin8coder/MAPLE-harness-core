@@ -35,10 +35,8 @@ from evo2.core.template_optimizer import (
 
 
 RESTART_SKILLS = {
-    "adaptive_mix_v1",
     "full_restart_v1",
     "warm_restart_v1",
-    "population_transfer_v1",
 }
 
 # A restart decision should answer whether the old search state is still a
@@ -443,11 +441,9 @@ class ScaffoldRestartSeedBuilder:
         seed: int | None = None,
         evaluate: Callable[[dict[str, Any], dict[str, Any]], Any] | None = None,
         data: dict[str, Any] | None = None,
-        objective_shift: ObjectiveSpaceShift | None = None,
     ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         if restart_skill not in RESTART_SKILLS:
             raise ValueError(f"unsupported restart_skill: {restart_skill}")
-        shift = objective_shift
         if restart_skill == "full_restart_v1" or previous_result is None:
             return [], {
                 "restart_skill": restart_skill,
@@ -460,56 +456,25 @@ class ScaffoldRestartSeedBuilder:
         candidates = candidate_genomes(previous_result)
         if not candidates:
             return [], {"restart_skill": restart_skill, "source": "empty_previous_memory", "seed_count": 0}
-        migration_metadata: dict[str, Any] = {}
-        if restart_skill in {"adaptive_mix_v1", "warm_restart_v1"}:
-            if restart_skill == "adaptive_mix_v1":
-                if shift is None:
-                    raise ValueError("adaptive_mix_v1 requires an objective_space_shift record")
-                fresh_ratio = float(shift.fresh_population_ratio)
-                fresh_ratio = max(0.0, min(1.0, fresh_ratio))
-                history_seed_target = max(0, min(population_size, int(round(population_size * (1.0 - fresh_ratio)))))
-            else:
-                fresh_ratio = 0.5
-                history_seed_target = self._warm_history_seed_target(population_size)
-            seeds = self._greedy_repair_seeds(
-                candidates,
-                segments,
-                population_size,
-                rng,
-                evaluate,
-                data or {},
-                history_seed_target=history_seed_target,
-            )
-            source = (
-                "objective_space_adaptive_population_mix"
-                if restart_skill == "adaptive_mix_v1"
-                else "greedy_repair_from_previous_population"
-            )
-            migration_metadata = {
-                "warm_history_seed_target": history_seed_target,
-                "warm_history_seed_ratio": history_seed_target / max(1, int(population_size)),
-                "history_population_ratio": history_seed_target / max(1, int(population_size)),
-                "fresh_population_ratio": 1.0 - history_seed_target / max(1, int(population_size)),
-                "warm_ratio_policy": (
-                    "objective_space_population_mix_v1"
-                    if restart_skill == "adaptive_mix_v1"
-                    else "fixed_half_population"
-                ),
-                "implicit_fresh_seed_slots": max(0, int(population_size) - len(seeds)),
-            }
-        elif restart_skill == "population_transfer_v1":
-            seeds, migration_metadata = self._population_transfer(
-                candidates,
-                segments,
-                population_size,
-                rng,
-                evaluate,
-                data or {},
-            )
-            source = "direct_population_migration"
-        else:  # pragma: no cover - guarded by validation above.
-            seeds = []
-            source = "unknown"
+        history_seed_target = self._warm_history_seed_target(population_size)
+        seeds = self._greedy_repair_seeds(
+            candidates,
+            segments,
+            population_size,
+            rng,
+            evaluate,
+            data or {},
+            history_seed_target=history_seed_target,
+        )
+        source = "greedy_repair_from_previous_population"
+        migration_metadata = {
+            "warm_history_seed_target": history_seed_target,
+            "warm_history_seed_ratio": history_seed_target / max(1, int(population_size)),
+            "history_population_ratio": history_seed_target / max(1, int(population_size)),
+            "fresh_population_ratio": 1.0 - history_seed_target / max(1, int(population_size)),
+            "warm_ratio_policy": "fixed_half_population",
+            "implicit_fresh_seed_slots": max(0, int(population_size) - len(seeds)),
+        }
         seeds = unique_genomes(seeds, population_size)
         feasible_seed_count = len(filter_feasible_seeds(seeds, evaluate, data or {}))
         metadata = {
@@ -552,51 +517,6 @@ class ScaffoldRestartSeedBuilder:
     def _warm_history_seed_target(self, population_size: int) -> int:
         return max(1, min(population_size, population_size // 2))
 
-    def _population_transfer(
-        self,
-        candidates: list[Candidate],
-        segments: list[SegmentSpec],
-        population_size: int,
-        rng: random.Random,
-        evaluate: Callable[[dict[str, Any], dict[str, Any]], Any] | None,
-        data: dict[str, Any],
-    ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-        """Directly migrate the previous typed population/archive.
-
-        Repair belongs to ``warm_restart_v1``. Keeping transfer as a direct
-        operator makes the restart skills separable and auditable: the public
-        probe chooses between direct migration, greedy repair, and full restart.
-        """
-
-        del rng
-        probe_limit = max(1, min(len(candidates), population_size))
-        direct_evaluated: list[Candidate] = []
-        seeds: list[dict[str, Any]] = []
-
-        for candidate in candidates[:probe_limit]:
-            direct_genome = coerce_genome(candidate.genome, segments)
-            seeds.append(direct_genome)
-            direct_result = _safe_evaluate_raw(evaluate, direct_genome, data)
-            if direct_result is not None:
-                direct_evaluated.append(Candidate(direct_genome, direct_result))
-
-        feasible_direct = [candidate for candidate in direct_evaluated if candidate.result and candidate.result.feasible]
-        metadata = {
-            "migration_operator": "direct_population_migration",
-            "direct_evaluated_count": len(direct_evaluated),
-            "direct_feasible_count": len(feasible_direct),
-            "repaired_feasible_count": 0,
-            "boundary_seed_count": 0,
-            "retained_direct_count": len(unique_genomes(seeds, population_size)),
-            "retained_repaired_count": 0,
-            "local_variant_count": 0,
-            "transfer_target": population_size,
-            "evaluated_candidate_count": probe_limit,
-            "history_population_ratio": 1.0,
-            "fresh_population_ratio": 0.0,
-        }
-        return seeds, metadata
-
     def _greedy_repair_seeds(
         self,
         candidates: list[Candidate],
@@ -634,25 +554,6 @@ class ScaffoldRestartSeedBuilder:
             rng,
             history_seed_target=target,
         )
-
-def calibrate_restart_skill_from_public_evidence(
-    *,
-    restart_skill: str,
-    objective_shift: ObjectiveSpaceShift | None = None,
-    natural_language_update: str = "",
-    project: ScaffoldProject | None = None,
-    data_patch: dict[str, Any] | None = None,
-) -> tuple[str, str]:
-    """Choose fixed warm or full restart from public regime evidence."""
-
-    if restart_skill not in RESTART_SKILLS:
-        raise ValueError(f"unsupported restart_skill: {restart_skill}")
-    if objective_shift is None:
-        return restart_skill, ""
-    if objective_shift.sample_count <= 0:
-        return "full_restart_v1", objective_shift.reason
-    return objective_shift.selected_restart_skill, objective_shift.reason
-
 
 def select_dynamic_restart_from_semantic_evidence(
     *,
@@ -1562,7 +1463,6 @@ class LiveOptDynamicRunner:
         impact_raw["state_binding_memory_view"] = memory_view
         impact = replace(impact, raw=impact_raw)
         cfg = config or EvolutionConfig()
-        objective_shift = None
         semantic_decision: SemanticRestartDecision | None = None
         semantic_trace = ScaffoldTrace(model="semantic_restart_gate_not_used")
         if (
@@ -1612,7 +1512,6 @@ class LiveOptDynamicRunner:
             seed=cfg.seed,
             evaluate=project.evaluate,
             data=project.data,
-            objective_shift=None if force_restart_skill else objective_shift,
         )
         # All memory-view arms receive the same restart population.  Bindings
         # are attached only after restart seeds have been constructed from the

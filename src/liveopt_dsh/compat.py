@@ -72,7 +72,7 @@ def sanitize_code_slot(code: str) -> str:
 class StructuredWorkbenchPatcher:
     """Application patcher that exchanges slots as one JSON object."""
 
-    def __init__(self, model: str = "deepseek-v4-flash", client: Any | None = None):
+    def __init__(self, model: str = "deepseek-flash", client: Any | None = None):
         self.model = model
         self.client = client or create_llm_client(model=model)
 
@@ -115,6 +115,16 @@ class StructuredWorkbenchPatcher:
             + ". Any violations dictionary must be sparse: omit satisfied or zero-valued "
             "constraints and include only active positive violations."
         )
+        from .localization import public_semantic_context
+        prompt += public_semantic_context(public_context)
+        if public_context.get("localization"):
+            from .localization import response_language
+            language = "Chinese" if response_language(natural_language_update, public_context) == "zh" else "English"
+            prompt += (
+                f" Preserve canonical schema keys and original entity values from localization. "
+                f"User-facing objective names and explanatory solution text use {language}. "
+                "Reuse localization.labels for derived output keys. Never translate identifiers or units."
+            )
         trace.prompts.append(prompt)
         started = time.perf_counter()
         full_regeneration = bool(

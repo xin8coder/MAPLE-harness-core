@@ -41,6 +41,7 @@ from .data_adapter import prepare_public_data
 from .documents import prepare_uploaded_documents
 from .exports import export_session
 from .jobs import JobManager
+from .localization import map_prepared_data, mapping_summary, response_language, public_semantic_context
 from .serialization import (
     candidate_summary,
     evolution_from_record,
@@ -52,7 +53,7 @@ from .store import StateStore
 
 ClientFactory = Callable[..., Any]
 SNAPSHOT_VERSION = 1
-APPLICATION_MODEL = "deepseek-v4-flash"
+APPLICATION_MODEL = "deepseek-flash"
 SOLVER_PREFERENCES = frozenset({"auto", "exact", "evolutionary"})
 
 
@@ -122,6 +123,8 @@ class LiveOptService:
         context = self._load_public_context(
             public_context, public_context_path, prepared_data_id
         )
+        if mapping_summary(context)["mapping_required"]:
+            raise ValueError("Non-English headers need a semantic mapping. Call liveopt_map_data with the prepared_data_id and reuse the returned id before liveopt_start.")
         if generations is None:
             generations = int(load_application_settings(self.store.root)["generations"])
         search = _validate_search(
@@ -280,6 +283,13 @@ class LiveOptService:
             column_groups=column_groups,
         )
 
+    def map_data(
+        self, prepared_data_id: str, table_mappings: dict[str, dict[str, Any]], *,
+        language: str = "zh", result_labels: dict[str, str] | None = None,
+    ) -> dict[str, Any]:
+        return map_prepared_data(self.store, prepared_data_id, table_mappings,
+                                 language=language, result_labels=result_labels)
+
     def wait_for_job(
         self,
         job_id: str,
@@ -296,8 +306,8 @@ class LiveOptService:
                 return {**job, "wait_timed_out": True}
             time.sleep(0.25)
 
-    def export_results(self, session_id: str) -> dict[str, Any]:
-        return export_session(self.store, session_id)
+    def export_results(self, session_id: str, result_labels: dict[str, str] | None = None) -> dict[str, Any]:
+        return export_session(self.store, session_id, result_labels=result_labels)
 
     def cancel(self, job_id: str) -> dict[str, Any]:
         return self.jobs.cancel(job_id)
@@ -332,7 +342,10 @@ class LiveOptService:
                         request["solver_preference"]
                     )
                     + "\n"
-                    + _data_driven_workbench_instruction(),
+                    + _data_driven_workbench_instruction()
+                    + "\n"
+                    + _localized_workbench_instruction(request["problem"], context)
+                    + public_semantic_context(context),
                     smoke_test=True,
                     max_repairs=request["max_repairs"],
                 )
@@ -552,6 +565,7 @@ class LiveOptService:
                 turn=next_turn,
                 solver_preference=runtime.solver_preference,
             )
+            localization = copy.deepcopy(runtime.runner.public_context.get("localization"))
             with restart_progress(
                 lambda details: progress(
                     "restart_selected",
@@ -574,6 +588,8 @@ class LiveOptService:
                     config=_evolution_config(runtime.__dict__, turn=next_turn),
                     max_patch_repairs=runtime.max_repairs,
                 )
+            if localization:
+                runtime.runner.public_context["localization"] = localization
             _enforce_solver_preference(
                 stage.project.problem_spec, runtime.solver_preference
             )
@@ -813,6 +829,19 @@ def _solver_preference_instruction(preference: str) -> str:
         "Application solver choice: Auto. Select linear_mip for a valid linear exact "
         "formulation, scalar_ga for scalar nonlinear/combinatorial search, or moea for "
         "Pareto search."
+    )
+
+
+def _localized_workbench_instruction(problem: str, context: dict[str, Any]) -> str:
+    language = "Simplified Chinese" if response_language(problem, context) == "zh" else "English"
+    return (
+        f"User-facing objective_names and explanatory text must be in {language}. "
+        "Use the prepared canonical table/column names in code. public_context.localization "
+        "is display metadata, not extra objective data. Preserve all original cell values, "
+        "including Chinese entity identifiers and names, in the solution. Reuse canonical "
+        "field names for solution records, and the localization.labels keys for derived "
+        "result fields when provided. The application maps those keys back to user labels. "
+        "Do not translate identifiers, invent English entity IDs, or convert units while translating labels."
     )
 
 

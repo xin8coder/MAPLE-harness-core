@@ -31,20 +31,22 @@ MAPLE Harness connects a conversational application to the MAPLE optimization ru
 
 ## Quick start
 
-The standalone application requires **Python 3.10+** and a **DeepSeek API key**. On Linux, the bootstrap installs the pinned Node.js, package manager, DeepSeek Harness host, and MAPLE sidecar under your user account.
+The application requires **Python 3.10+** and a **DeepSeek API key**. The launcher installs Node.js, the package manager, **DeepSeek Harness 0.2.1-rc.2**, and the MAPLE sidecar under your user account on Linux or macOS. The complete DSH dependency graph is locked, rather than resolved again on each installation.
 
 Download this anonymous repository as a source archive and extract it into a directory named `MAPLE-harness-core`.
 
 ```bash
 cd MAPLE-harness-core
-./scripts/bootstrap_local.sh
-
-mkdir -p public-data
-export LIVEOPT_MCP_WORKSPACE_ROOT="$PWD/public-data"
-./scripts/start_local.sh
+./maple
 ```
 
-Open **http://127.0.0.1:3000**, enter your key in **MAPLE Settings**, and start a conversation. The application uses `deepseek-v4-flash`; the default evolutionary iteration count is **100** and can be changed in Settings. Real solves use the configured provider. To explore without a key, open the [recorded demo](https://anonymous.4open.science/w/MAPLE-demo-review-F98B/).
+Open the **launch link printed in your terminal**, enter your key in **MAPLE Settings**, and start a conversation. The default port is **3000**. There is no account/password prompt: the official DSH launch link pairs your browser with this installation. Keep that link private. The application uses Flash models only, with **100** evolutionary iterations by default. To explore without a key, open the [recorded demo](https://anonymous.4open.science/w/MAPLE-demo-review-F98B/).
+
+The new installation defaults to `~/.local/share/maple-harness`. It does not overwrite an existing `~/.local/share/liveopt-dsh` deployment. Use `MAPLE_HOME=/path/to/installation ./maple` for a separate installation, or `MAPLE_PORT=3002 ./maple` for a second local instance. Existing sessions are not migrated automatically.
+
+### Desktop client
+
+[`desktop/`](desktop/) contains an Electron client for an existing server. Connect using its HTTPS address or official launch link. Optimization runs on that server; the client does not bundle the Python backend. Linux packages can be built locally, while the release workflow builds Windows and macOS packages on their respective runners. See [Desktop and language](docs/desktop-and-language.md).
 
 Already have the required Node.js and host tools? Use [`scripts/install.sh`](scripts/install.sh). See the [operations guide](docs/operations.md) for pinned versions, Docker, SSH forwarding, private-network deployment, and persistent services.
 
@@ -70,7 +72,7 @@ The second request continues the accepted session. **Solutions** exposes the req
 | Population and archive | Supply reusable candidates for subsequent search |
 | Validation and artifacts | Record accepted transitions and downloadable outputs |
 
-The sidecar saves accepted state atomically and reconstructs the Workbench after a restart. The default state directory is `~/.local/share/liveopt-dsh/state`; [`docs/operations.md`](docs/operations.md#persistence-and-cache-behavior) explains recovery and cache modes.
+The sidecar saves accepted state atomically and reconstructs the Workbench after a restart. The launcher uses `~/.local/share/maple-harness/state`; [`docs/operations.md`](docs/operations.md#persistence-and-cache-behavior) explains recovery and cache modes.
 
 ## Architecture
 
@@ -87,7 +89,7 @@ Conversation + uploaded public data
       Accepted state + exported artifacts
 ```
 
-The standalone source repository vendors its core dependency in `vendor/liveopt-core/`, with provenance in `SOURCE_REVISION`. `LIVEOPT_CORE_ROOT` selects an explicit alternative checkout. The monorepo integration resolves the research checkout directly. Application state is stored in its own persistent directory.
+The standalone source repository vendors its core dependency in `vendor/liveopt-core/`, with provenance in `vendor/liveopt-core/SOURCE_REVISION` and file hashes in `RELEASE_MANIFEST.json`. `LIVEOPT_CORE_ROOT` selects an explicit alternative checkout. Application state is stored in its own persistent directory.
 
 | Directory | Role |
 |---|---|
@@ -105,9 +107,11 @@ Run the sidecar checks from a standalone checkout:
 ```bash
 python -m pip install -e vendor/liveopt-core -e . pytest
 python -m pytest tests -q
+node --test tests/*.test.mjs tests/*.test.cjs desktop/tests/*.test.cjs
+python scripts/smoke_web.py
 ```
 
-For monorepo development, use the corresponding installation and test commands in the operations guide. The [online demo](https://anonymous.4open.science/w/MAPLE-demo-review-F98B/) contains the static preview; executable application source lives in [MAPLE-harness-core](https://anonymous.4open.science/r/MAPLE-harness-core).
+The smoke check boots a temporary web profile, verifies uploads and authenticated result routes, and shuts it down without contacting an LLM. The [online demo](https://anonymous.4open.science/w/MAPLE-demo-review-F98B/) is a recorded preview, not a live server.
 
 ## License
 

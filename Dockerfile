@@ -1,37 +1,18 @@
-FROM node:22-bookworm
-
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PNPM_HOME=/opt/pnpm \
-    LIVEOPT_MCP_STATE_DIR=/data/liveopt \
-    LIVEOPT_MCP_WORKSPACE_ROOT=/workspace \
-    LIVEOPT_MCP_COMMAND=/opt/liveopt/bin/liveopt-mcp
-
-ENV PATH="${PNPM_HOME}/bin:${PATH}"
+FROM node:24.19.0-bookworm
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3 python3-venv python3-pip \
-    && rm -rf /var/lib/apt/lists/* \
-    && corepack enable \
-    && corepack prepare pnpm@11.7.0 --activate \
-    && mkdir -p "${PNPM_HOME}/bin" \
-    && pnpm config set global-bin-dir "${PNPM_HOME}/bin" \
-    && pnpm add --global \
-       --allow-build=@deepseek-ai/dsh-subprocess-local \
-       --allow-build=@google/genai \
-       --allow-build=koffi \
-       --allow-build=node-pty \
-       --allow-build=protobufjs \
-       @deepseek-ai/dsh@0.1.0-rc.8
-
-COPY . /src/liveopt
-RUN python3 -m venv /opt/liveopt \
-    && /opt/liveopt/bin/pip install --no-cache-dir /src/liveopt \
-       /src/liveopt/integrations/deepseek-harness-liveopt \
-    && dsh plugin --profile web add /src/liveopt/integrations/deepseek-harness-liveopt/dsh-bundle
-
+    && apt-get install -y --no-install-recommends python3 python3-venv curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+ENV MAPLE_HOME=/opt/maple \
+    DSH_HOME=/data/maple/dsh-home \
+    LIVEOPT_MCP_STATE_DIR=/data/maple/state \
+    LIVEOPT_MCP_WORKSPACE_ROOT=/workspace \
+    LIVEOPT_DSH_HOST=0.0.0.0 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+COPY . /opt/maple-source
+RUN /opt/maple-source/scripts/bootstrap_local.sh
 WORKDIR /workspace
-VOLUME ["/data/liveopt", "/workspace"]
+VOLUME ["/data/maple", "/workspace"]
 EXPOSE 3000
-
-CMD ["dsh", "--profile", "web", "--host", "0.0.0.0", "--port", "3000", "--no-open"]
+CMD ["/opt/maple-source/maple"]

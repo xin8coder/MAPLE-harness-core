@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import os
 import sys
+from pathlib import Path
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -11,6 +12,7 @@ from mcp.client.stdio import stdio_client
 def test_stdio_server_advertises_only_compact_liveopt_protocol(tmp_path):
     async def run() -> None:
         env = dict(os.environ)
+        env["PYTHONPATH"] = str(Path(__file__).resolve().parents[1] / "src") + os.pathsep + env.get("PYTHONPATH", "")
         env["LIVEOPT_MCP_STATE_DIR"] = str(tmp_path / "state")
         env["LIVEOPT_MCP_WORKSPACE_ROOT"] = str(tmp_path)
         params = StdioServerParameters(
@@ -26,6 +28,7 @@ def test_stdio_server_advertises_only_compact_liveopt_protocol(tmp_path):
                 assert set(tools) == {
                     "liveopt_prepare_data",
                     "liveopt_prepare_uploads",
+                    "liveopt_map_data",
                     "liveopt_start",
                     "liveopt_update",
                     "liveopt_override_slots",

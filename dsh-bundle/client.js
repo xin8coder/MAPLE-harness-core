@@ -28,8 +28,10 @@ window.__ModuleLoader__.load({
       .liveopt-table th{background:var(--dsw-alias-bg-layer-1);font-weight:600;position:sticky;top:0}
       .liveopt-table tr:last-child td{border-bottom:0}
       .liveopt-downloads{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
-      .liveopt-download{display:inline-flex;align-items:center;min-height:28px;padding:0 9px;border:1px solid var(--dsw-alias-border-l1);border-radius:4px;color:var(--dsw-alias-label-primary);text-decoration:none;background:var(--dsw-alias-bg-layer-1)}
-      .liveopt-download:hover{border-color:#139b8e;color:#087d73}
+      .liveopt-download{display:inline-flex;align-items:center;min-height:28px;padding:0 9px;border:1px solid var(--dsw-alias-border-l1);border-radius:4px;color:var(--dsw-alias-label-primary);text-decoration:none;background:var(--dsw-alias-bg-layer-1);font:inherit;cursor:pointer}
+      .liveopt-download:hover:not(:disabled){border-color:#139b8e;color:#087d73}
+      .liveopt-download:disabled{cursor:wait;opacity:.65}
+      .liveopt-download-error{width:100%;color:var(--dsw-alias-state-error-primary);font-size:11px;line-height:16px}
       .liveopt-chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
       .liveopt-chart-panel{min-width:0}
       .liveopt-chart-name{font-size:11px;color:var(--dsw-alias-label-secondary);margin:0 0 3px 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -111,6 +113,7 @@ window.__ModuleLoader__.load({
       [data-liveopt-hidden=true]{display:none!important}
       @media(max-width:620px){.liveopt-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
       @media(max-width:620px){.liveopt-settings-field{grid-template-columns:1fr;gap:5px}.liveopt-solutions-view{padding:12px}.liveopt-solutions-toolbar{align-items:stretch;flex-direction:column}.liveopt-turn-summary-metric{display:none}}
+      @media(max-width:620px){[role=dialog]:has(.liveopt-settings){flex-direction:column}[role=dialog]:has(.liveopt-settings)>nav{width:100%;gap:8px;padding:14px 12px 0}[role=dialog]:has(.liveopt-settings)>nav>div:last-child{flex-direction:row}[role=dialog]:has(.liveopt-settings)>div{min-height:0}.liveopt-settings-group{padding:12px}.liveopt-settings h2{font-size:17px}}
       @media(prefers-reduced-motion:reduce){.liveopt-fill{transition:none}}
     `
     if (typeof document !== 'undefined' && !document.querySelector('style[data-plugin-css="liveopt"]')) {
@@ -121,23 +124,169 @@ window.__ModuleLoader__.load({
       document.head.appendChild(style)
     }
 
-    const LIVEOPT_APP_VERSION = '0.1.0'
-    const LIVEOPT_HOST_VERSION = '0.1.0-rc.8'
+
+    const ZH = {
+      "Generating the TSS Workbench from the public request and data.": "正在根据需求和数据生成 TSS 工作台。",
+      "Searching the generated Workbench.": "正在搜索已生成的工作台。",
+      "Persisting the accepted LiveOpt state.": "正在保存已接受的优化状态。",
+      "Validating the edited Workbench slots against the accepted public state.": "正在根据已接受的数据验证工作台修改。",
+      "Running the validated Workbench on the accepted public state.": "正在使用当前数据运行已验证的工作台。",
+      "Searching the manually repaired Workbench.": "正在搜索手动修复的工作台。",
+      "Grounding the update against accepted state before selecting restart and reuse.": "正在结合当前状态解析更新，并选择重启与复用策略。",
+      "Searching the updated Workbench with the selected restart state.": "正在按选定的重启策略搜索更新后的工作台。",
+      "Persisting the accepted updated state.": "正在保存已接受的更新状态。",
+      "Solving the generated LP/MILP model with the exact-solver backend.": "正在使用精确求解器求解 LP/MILP 模型。",
+      "Running typed Pareto evolutionary search.": "正在运行类型化帕累托进化搜索。",
+      "Running typed scalar evolutionary search.": "正在运行类型化单目标进化搜索。",
+      "Full restart selected: no previous solutions are reused; search starts from a fresh population.": "已选择全量重启：不复用历史解，从新种群开始搜索。",
+      "Warm restart selected: reusing and repairing {count} previous solutions, then filling fresh seeds.": "已选择热启动：复用并修复 {count} 个历史解，其余位置使用新解。",
+      "Population transfer selected: directly reusing {count} compatible previous solutions.": "已选择种群迁移：直接复用 {count} 个兼容的历史解。",
+      "Uploading {count}": "正在上传 {count} 个文件",
+      "Documents {count}": "文档 {count}",
+      "Final population ({count})": "最终种群（{count}）",
+      "Pareto set ({count})": "帕累托解集（{count}）",
+      "Turn {turn} · {count} accepted solutions": "第 {turn} 轮 · {count} 个已接受解",
+      "{count} accepted solutions · {generations} iterations": "{count} 个已接受解 · {generations} 次迭代",
+      "{count} accepted optimization turns": "{count} 轮已接受优化",
+      "{count} population · {generations} iterations": "种群 {count} · 迭代上限 {generations}",
+      "Updated {time}": "更新于 {time}",
+      "Configured ({key})": "已配置（{key}）",
+      "Solutions": "方案",
+      "Refresh": "刷新",
+      "About MAPLE Harness": "关于 MAPLE Harness",
+      "Close About dialog": "关闭关于窗口",
+      "MAPLE Harness Settings": "MAPLE Harness 设置",
+      "Language": "语言",
+      "Application": "应用",
+      "Host": "宿主",
+      "Attribution": "致谢",
+      "Memory-Augmented Planning with Language and Evolution": "融合语言、进化与记忆的优化规划",
+      "Built on the MIT-licensed DeepSeek Harness": "基于 MIT 许可的 DeepSeek Harness",
+      "MAPLE Harness turns public problem descriptions and data into exact or evolutionary optimization workflows, then adapts accepted state and search archives across natural-language updates.": "MAPLE Harness 将需求和数据转化为优化任务，使用精确或进化算法求解，并根据后续需求更新方案。",
+      "Queued": "排队中",
+      "Starting": "正在启动",
+      "Building TSS Workbench": "正在构建 TSS 工作台",
+      "Preparing solver": "正在准备求解器",
+      "Applying public update": "正在应用需求更新",
+      "Restart and reuse selected": "已选择重启与复用策略",
+      "Evolutionary search": "进化搜索中",
+      "Saving accepted state": "正在保存已接受状态",
+      "Validating edited Workbench": "正在验证工作台",
+      "Completed": "已完成",
+      "Failed": "失败",
+      "Interrupted": "已中断",
+      "Cancelled": "已取消",
+      "MAPLE job": "MAPLE 任务",
+      "MAPLE result": "MAPLE 结果",
+      "MAPLE progress": "MAPLE 进度",
+      "Full": "全量重启",
+      "Warm": "热启动",
+      "Transfer": "种群迁移",
+      "Restart": "重启策略",
+      "Reused solutions": "复用解数量",
+      "History share": "历史解占比",
+      "Fresh share": "新解占比",
+      "Generation": "迭代",
+      "Feasible": "可行解",
+      "Archive": "解集",
+      "Population": "种群",
+      "Submitted": "已提交",
+      "Submitting": "正在提交",
+      "MAPLE data": "MAPLE 数据",
+      "Prepared": "已准备",
+      "Preparing public tables": "正在准备数据表",
+      "Tables": "数据表",
+      "Rows": "行数",
+      "Columns": "列数",
+      "Documents": "文档",
+      "Data ID": "数据编号",
+      "Table": "数据表",
+      "Public ID": "公开编号",
+      "Document": "文档",
+      "Characters": "字符数",
+      "Status": "状态",
+      "Truncated to context limit": "已按上下文长度截断",
+      "Complete": "完整",
+      "Upload failed": "上传失败",
+      "Attach public documents or data to this optimization request": "为本次优化附加文档或数据",
+      "Solid: best": "实线：最优值",
+      "Dashed: mean": "虚线：均值",
+      "Band: population range": "色带：种群范围",
+      "Plot shows objectives 1 and 2; all objectives are exported.": "图中展示目标 1 和 2，导出文件包含全部目标。",
+      "Loading accepted result...": "正在加载结果…",
+      "MAPLE output": "MAPLE 输出",
+      "Objective evolution": "各目标迭代曲线",
+      "Final population and Pareto set": "最终种群与帕累托解集",
+      "Solution set": "解集",
+      "Saving settings...": "正在保存设置…",
+      "Settings saved. New optimization jobs use these values.": "设置已保存。",
+      "MAPLE Harness uses one application mode, the DeepSeek Flash model, and a fixed light appearance.": "MAPLE Harness",
+      "API": "API",
+      "DeepSeek API key": "DeepSeek API 密钥",
+      "Enter API key": "输入 API 密钥",
+      "Provider and model": "提供商与模型",
+      "API endpoint": "API 地址",
+      "Optimization": "优化",
+      "Iterations per run": "每次运行的迭代上限",
+      "Saving...": "正在保存…",
+      "Save": "保存",
+      "Default: 100. Existing accepted sessions retain their own search configuration.": "默认 100 代。已有会话保留各自的搜索配置。",
+      "Full restart": "全量重启",
+      "Warm restart": "热启动",
+      "Population transfer": "种群迁移",
+      "Initial search": "初始搜索",
+      "Initialization": "初始化",
+      "Initial requirement": "初始需求",
+      "Natural-language update": "自然语言更新",
+      "Requirement text was not retained for this legacy turn.": "该历史轮次未保留需求文本。",
+      "Yes": "是",
+      "No": "否",
+      "Final population": "最终种群",
+      "Iterations": "迭代次数",
+      "History reused": "历史解复用比例",
+      "Result and conclusion": "结果与结论",
+      "Accepted solutions": "已接受解",
+      "TSS Workbench and accepted history": "TSS 工作台与历史状态",
+      "Segment": "片段",
+      "Encoding": "编码",
+      "Length": "长度",
+      "Domain size": "取值域大小",
+      "This turn reused the accepted TSS structure.": "本轮复用了已接受的 TSS 结构。",
+      "Public data patch": "数据更新",
+      "Patch and validation summary": "补丁与验证摘要",
+      "Representative solution": "代表性方案",
+      "Loading optimization history...": "正在加载优化历史…",
+      "This conversation has no MAPLE solution history yet.": "当前会话暂无 MAPLE 优化记录。",
+      "Attach optimization documents": "添加优化文档",
+      "Interface and agent replies": "界面与智能体回复",
+      "Downloading...": "正在下载…",
+      "Solid: best; dashed: mean; band: population range": "实线：最优值；虚线：均值；色带：种群范围"
+}
+    let localeService
+    function t(key, values = {}) {
+      const template = localeService?.getSnapshot().active === 'zh' ? ZH[key] || key : key
+      return template.replace(/\{(\w+)\}/g, (match, name) => String(values[name] ?? match))
+    }
+    function localized(Component) {
+      return function LocalizedComponent(props) {
+        React.useSyncExternalStore(
+          (listener) => localeService.subscribe(listener),
+          () => localeService.getSnapshot(),
+        )
+        return React.createElement(Component, props)
+      }
+    }
+
+    const LIVEOPT_APP_VERSION = '0.1.1'
+    const LIVEOPT_HOST_VERSION = '0.2.1-rc.2'
 
     function liveOptAssetUrl(filename) {
-      if (typeof window !== 'undefined' && window.location.protocol === 'http:') {
-        return `http://${window.location.hostname}:8766/brand/${filename}`
-      }
       return `/liveopt-api/brand/${filename}`
     }
 
     function liveOptApiEndpoints(path) {
       const normalized = String(path || '').startsWith('/') ? String(path) : `/${path}`
-      const endpoints = [`/liveopt-api${normalized}`]
-      if (typeof window !== 'undefined' && window.location.protocol === 'http:') {
-        endpoints.push(`http://${window.location.hostname}:8766${normalized}`)
-      }
-      return endpoints
+      return [`/liveopt-api${normalized}`]
     }
 
     async function liveOptApi(path, options = {}) {
@@ -160,6 +309,121 @@ window.__ModuleLoader__.load({
         }
       }
       throw lastError || new Error('MAPLE application service is unavailable')
+    }
+
+    function liveOptDownloadEndpoints(url) {
+      const value = String(url || '').trim()
+      if (!value) return []
+      if (/^(?:https?:|blob:)/i.test(value)) return [value]
+      const apiPath = value.startsWith('/liveopt-api/')
+        ? value.slice('/liveopt-api'.length)
+        : value
+      return liveOptApiEndpoints(apiPath)
+    }
+
+    async function downloadLiveOptArtifact(item) {
+      let lastError = null
+      for (const endpoint of liveOptDownloadEndpoints(item?.url)) {
+        try {
+          const response = await fetch(endpoint, {
+            cache: 'no-store',
+            credentials: 'same-origin',
+          })
+          if (!response.ok) throw new Error(`Download failed (${response.status})`)
+          const blob = await response.blob()
+          const objectUrl = URL.createObjectURL(blob)
+          const anchor = document.createElement('a')
+          anchor.href = objectUrl
+          anchor.download = String(item?.name || 'liveopt-artifact')
+          anchor.style.display = 'none'
+          document.body.appendChild(anchor)
+          anchor.click()
+          anchor.remove()
+          window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000)
+          return
+        } catch (error) {
+          lastError = error
+        }
+      }
+      throw lastError || new Error('Artifact download is unavailable')
+    }
+
+    function workspaceDownloadName(path) {
+      const parts = String(path || '').split(/[\\/]/).filter(Boolean)
+      return parts[parts.length - 1] || 'liveopt-artifact'
+    }
+
+    async function downloadWorkspaceArtifact(path) {
+      const value = String(path || '').trim()
+      if (!value || value === '.') throw new Error('A file path is required')
+      await downloadLiveOptArtifact({
+        name: workspaceDownloadName(value),
+        url: `/liveopt-api/workspace-files/${encodeURIComponent(value)}`,
+      })
+    }
+
+    function installRemoteDeliverableDownloads() {
+      if (typeof document === 'undefined' || typeof window === 'undefined') return undefined
+      const host = String(window.location.hostname || '').toLowerCase()
+      if (host === 'localhost' || host === '127.0.0.1' || host === '::1') return undefined
+      const onClick = (event) => {
+        const origin = event.target
+        const button = origin instanceof Element
+          ? origin.closest('[data-produced-files-row] button[title]')
+          : null
+        if (!(button instanceof HTMLButtonElement)) return
+        const path = String(button.getAttribute('title') || '').trim()
+        if (!path || path === '.') return
+        event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+        const original = button.textContent
+        button.disabled = true
+        button.textContent = `Downloading ${workspaceDownloadName(path)}...`
+        downloadWorkspaceArtifact(path).catch((reason) => {
+          window.alert(reason instanceof Error ? reason.message : String(reason))
+        }).finally(() => {
+          button.disabled = false
+          button.textContent = original
+        })
+      }
+      document.addEventListener('click', onClick, true)
+      return () => document.removeEventListener('click', onClick, true)
+    }
+
+    function DownloadLinks({ items }) {
+      const [active, setActive] = React.useState('')
+      const [error, setError] = React.useState('')
+      const downloads = Array.isArray(items) ? items : []
+      if (!downloads.length) return null
+      async function start(item) {
+        setActive(item.url || item.name)
+        setError('')
+        try {
+          await downloadLiveOptArtifact(item)
+        } catch (reason) {
+          setError(reason instanceof Error ? reason.message : String(reason))
+        } finally {
+          setActive('')
+        }
+      }
+      return React.createElement('div', { className: 'liveopt-downloads' },
+        downloads.map((item) => {
+          const pending = active === (item.url || item.name)
+          return React.createElement('button', {
+            type: 'button',
+            className: 'liveopt-download',
+            key: item.url || item.name,
+            disabled: Boolean(active),
+            onClick: (event) => {
+              event.preventDefault()
+              event.stopPropagation()
+              start(item)
+            },
+          }, pending ? `Downloading ${item.name}...` : item.name)
+        }),
+        error ? React.createElement('div', { className: 'liveopt-download-error', role: 'alert' }, error) : null,
+      )
     }
 
     const LIVEOPT_CONVERSATION_SESSION_PREFIX = 'liveopt:conversation-session:'
@@ -232,7 +496,7 @@ window.__ModuleLoader__.load({
       const enforceTitle = () => {
         const current = document.title.trim()
         const branded = current
-          ? current.replaceAll('DeepSeek Harness', 'MAPLE Harness')
+          ? current.replaceAll('DeepSeek Harness', 'MAPLE Harness').replaceAll('LiveOpt Harness', 'MAPLE Harness')
           : 'MAPLE Harness'
         if (document.title !== branded) document.title = branded
       }
@@ -311,12 +575,12 @@ window.__ModuleLoader__.load({
           type: 'button',
           className: 'liveopt-about-trigger',
           'data-wide': String(Boolean(wide)),
-          'aria-label': 'About MAPLE Harness',
-          title: 'About MAPLE Harness',
+          'aria-label': t('About MAPLE Harness'),
+          title: t('About MAPLE Harness'),
           onClick: () => setOpen(true),
         },
         React.createElement('span', { className: 'liveopt-about-icon', 'aria-hidden': true }, 'i'),
-        wide ? React.createElement('span', null, 'About MAPLE Harness') : null),
+        wide ? React.createElement('span', null, t('About MAPLE Harness')) : null),
         open ? React.createElement('div', {
           className: 'liveopt-about-overlay',
           role: 'presentation',
@@ -331,25 +595,25 @@ window.__ModuleLoader__.load({
           React.createElement(LiveOptBrandMark, { size: 48 }),
           React.createElement('div', null,
             React.createElement('div', { id: 'liveopt-about-title', className: 'liveopt-about-heading' }, 'MAPLE Harness'),
-            React.createElement('div', { className: 'liveopt-about-subtitle' }, 'Memory-Augmented Planning with Language and Evolution')),
+            React.createElement('div', { className: 'liveopt-about-subtitle' }, t('Memory-Augmented Planning with Language and Evolution'))),
           React.createElement('button', {
             type: 'button',
             className: 'liveopt-about-close',
-            'aria-label': 'Close About dialog',
+            'aria-label': t('Close About dialog'),
             onClick: () => setOpen(false),
           }, '\u00d7')),
         React.createElement('p', { className: 'liveopt-about-copy' },
-          'MAPLE Harness turns public problem descriptions and data into exact or evolutionary optimization workflows, then adapts accepted state and search archives across natural-language updates.'),
+          t('MAPLE Harness turns public problem descriptions and data into exact or evolutionary optimization workflows, then adapts accepted state and search archives across natural-language updates.')),
         React.createElement('dl', { className: 'liveopt-about-meta' },
-          React.createElement('dt', null, 'Application'), React.createElement('dd', null, `MAPLE Harness ${LIVEOPT_APP_VERSION}`),
-          React.createElement('dt', null, 'Host'), React.createElement('dd', null, `DeepSeek Harness ${LIVEOPT_HOST_VERSION}`),
-          React.createElement('dt', null, 'Attribution'), React.createElement('dd', null,
+          React.createElement('dt', null, t('Application')), React.createElement('dd', null, `MAPLE Harness ${LIVEOPT_APP_VERSION}`),
+          React.createElement('dt', null, t('Host')), React.createElement('dd', null, `DeepSeek Harness ${LIVEOPT_HOST_VERSION}`),
+          React.createElement('dt', null, t('Attribution')), React.createElement('dd', null,
             React.createElement('a', {
               className: 'liveopt-about-link',
               href: 'https://github.com/deepseek-ai/deepseek-harness',
               target: '_blank',
               rel: 'noreferrer',
-            }, 'Built on the MIT-licensed DeepSeek Harness'))),
+            }, t('Built on the MIT-licensed DeepSeek Harness')))),
         )) : null)
     }
 
@@ -377,21 +641,21 @@ window.__ModuleLoader__.load({
 
     function phaseLabel(phase) {
       const labels = {
-        queued: 'Queued',
-        starting: 'Starting',
-        generating_workbench: 'Building TSS Workbench',
-        solving: 'Preparing solver',
-        adapting_and_solving: 'Applying public update',
-        restart_selected: 'Restart and reuse selected',
-        evolutionary_search: 'Evolutionary search',
-        persisting_state: 'Saving accepted state',
-        validating_override: 'Validating edited Workbench',
-        completed: 'Completed',
-        failed: 'Failed',
-        interrupted: 'Interrupted',
-        cancelled: 'Cancelled',
+        queued: t('Queued'),
+        starting: t('Starting'),
+        generating_workbench: t('Building TSS Workbench'),
+        solving: t('Preparing solver'),
+        adapting_and_solving: t('Applying public update'),
+        restart_selected: t('Restart and reuse selected'),
+        evolutionary_search: t('Evolutionary search'),
+        persisting_state: t('Saving accepted state'),
+        validating_override: t('Validating edited Workbench'),
+        completed: t('Completed'),
+        failed: t('Failed'),
+        interrupted: t('Interrupted'),
+        cancelled: t('Cancelled'),
       }
-      return labels[phase] || phase || 'MAPLE job'
+      return labels[phase] || phase || t('MAPLE job')
     }
 
     function formatElapsed(seconds) {
@@ -459,13 +723,21 @@ window.__ModuleLoader__.load({
       const total = Number(progress.total_generations)
       const hasGeneration = Number.isFinite(generation) && Number.isFinite(total) && total > 0
       const percent = hasGeneration ? Math.max(0, Math.min(100, Number(progress.percent) || generation * 100 / total)) : 0
-      const title = status === 'succeeded' ? 'MAPLE result' : 'MAPLE progress'
-      const message = progress.message || (settled && !payload ? textResult(block).split('\n')[0] : '')
+      const title = status === 'succeeded' ? t('MAPLE result') : t('MAPLE progress')
+      let message = progress.message || (settled && !payload ? textResult(block).split('\n')[0] : '')
+      if (phase === 'restart_selected' && Number.isFinite(Number(progress.reused_solution_count))) {
+        const count = progress.reused_solution_count
+        if (progress.restart_skill === 'warm_restart_v1') {
+          message = t('Warm restart selected: reusing and repairing {count} previous solutions, then filling fresh seeds.', { count })
+        } else if (progress.restart_skill === 'population_transfer_v1') {
+          message = t('Population transfer selected: directly reusing {count} compatible previous solutions.', { count })
+        }
+      }
       const restartSelected = phase === 'restart_selected' && progress.restart_skill
       const restartName = {
-        full_restart_v1: 'Full',
-        warm_restart_v1: 'Warm',
-        population_transfer_v1: 'Transfer',
+        full_restart_v1: t('Full'),
+        warm_restart_v1: t('Warm'),
+        population_transfer_v1: t('Transfer'),
       }[progress.restart_skill] || progress.restart_skill
       return React.createElement('section', { className: 'liveopt-card', 'data-status': status },
         React.createElement('div', { className: 'liveopt-head' },
@@ -479,18 +751,18 @@ window.__ModuleLoader__.load({
         ) : null,
         restartSelected
           ? React.createElement('div', { className: 'liveopt-metrics' },
-              React.createElement(Metric, { label: 'Restart', value: restartName }),
-              React.createElement(Metric, { label: 'Reused solutions', value: progress.reused_solution_count }),
-              React.createElement(Metric, { label: 'History share', value: Number.isFinite(Number(progress.history_population_ratio)) ? `${Math.round(Number(progress.history_population_ratio) * 100)}%` : '-' }),
-              React.createElement(Metric, { label: 'Fresh share', value: Number.isFinite(Number(progress.fresh_population_ratio)) ? `${Math.round(Number(progress.fresh_population_ratio) * 100)}%` : '-' }),
+              React.createElement(Metric, { label: t('Restart'), value: restartName }),
+              React.createElement(Metric, { label: t('Reused solutions'), value: progress.reused_solution_count }),
+              React.createElement(Metric, { label: t('History share'), value: Number.isFinite(Number(progress.history_population_ratio)) ? `${Math.round(Number(progress.history_population_ratio) * 100)}%` : '-' }),
+              React.createElement(Metric, { label: t('Fresh share'), value: Number.isFinite(Number(progress.fresh_population_ratio)) ? `${Math.round(Number(progress.fresh_population_ratio) * 100)}%` : '-' }),
             )
           : React.createElement('div', { className: 'liveopt-metrics' },
-              React.createElement(Metric, { label: 'Generation', value: hasGeneration ? `${generation} / ${total}` : '-' }),
-              React.createElement(Metric, { label: 'Feasible', value: progress.feasible_count }),
-              React.createElement(Metric, { label: 'Archive', value: progress.archive_size }),
-              React.createElement(Metric, { label: 'Population', value: progress.population_size }),
+              React.createElement(Metric, { label: t('Generation'), value: hasGeneration ? `${generation} / ${total}` : '-' }),
+              React.createElement(Metric, { label: t('Feasible'), value: progress.feasible_count }),
+              React.createElement(Metric, { label: t('Archive'), value: progress.archive_size }),
+              React.createElement(Metric, { label: t('Population'), value: progress.population_size }),
             ),
-        message ? React.createElement('div', { className: 'liveopt-message' }, message) : null,
+        message ? React.createElement('div', { className: 'liveopt-message' }, t(message)) : null,
       )
     }
 
@@ -501,8 +773,8 @@ window.__ModuleLoader__.load({
       return React.createElement('section', { className: 'liveopt-card' },
         React.createElement('div', { className: 'liveopt-head' },
           React.createElement('span', { className: 'liveopt-dot', 'data-state': 'queued' }),
-          React.createElement('span', { className: 'liveopt-title' }, 'MAPLE job'),
-          React.createElement('span', { className: 'liveopt-phase' }, payload ? 'Submitted' : 'Submitting'),
+          React.createElement('span', { className: 'liveopt-title' }, t('MAPLE job')),
+          React.createElement('span', { className: 'liveopt-phase' }, payload ? t('Submitted') : t('Submitting')),
           payload?.job_id ? React.createElement('span', { className: 'liveopt-elapsed' }, payload.job_id) : null,
         ),
       )
@@ -515,21 +787,21 @@ window.__ModuleLoader__.load({
       return React.createElement('section', { className: 'liveopt-card' },
         React.createElement('div', { className: 'liveopt-head' },
           React.createElement('span', { className: 'liveopt-dot' }),
-          React.createElement('span', { className: 'liveopt-title' }, 'MAPLE data'),
-          React.createElement('span', { className: 'liveopt-phase' }, payload ? 'Prepared' : 'Preparing public tables'),
+          React.createElement('span', { className: 'liveopt-title' }, t('MAPLE data')),
+          React.createElement('span', { className: 'liveopt-phase' }, payload ? t('Prepared') : t('Preparing public tables')),
         ),
         payload ? React.createElement('div', { className: 'liveopt-metrics' },
-          React.createElement(Metric, { label: 'Tables', value: tables.length }),
-          React.createElement(Metric, { label: 'Rows', value: tables.reduce((sum, item) => sum + Number(item.rows || 0), 0) }),
-          React.createElement(Metric, { label: 'Columns', value: tables.reduce((sum, item) => sum + (item.columns || []).length, 0) }),
-          React.createElement(Metric, { label: 'Documents', value: documents.length }),
-          React.createElement(Metric, { label: 'Data ID', value: payload.prepared_data_id }),
+          React.createElement(Metric, { label: t('Tables'), value: tables.length }),
+          React.createElement(Metric, { label: t('Rows'), value: tables.reduce((sum, item) => sum + Number(item.rows || 0), 0) }),
+          React.createElement(Metric, { label: t('Columns'), value: tables.reduce((sum, item) => sum + (item.columns || []).length, 0) }),
+          React.createElement(Metric, { label: t('Documents'), value: documents.length }),
+          React.createElement(Metric, { label: t('Data ID'), value: payload.prepared_data_id }),
         ) : null,
         tables.length ? React.createElement('div', { className: 'liveopt-section' },
           React.createElement('div', { className: 'liveopt-table-wrap' },
             React.createElement('table', { className: 'liveopt-table' },
               React.createElement('thead', null, React.createElement('tr', null,
-                ['Table', 'Rows', 'Columns', 'Public ID'].map((name) => React.createElement('th', { key: name }, name)),
+                [t('Table'), t('Rows'), t('Columns'), t('Public ID')].map((name) => React.createElement('th', { key: name }, name)),
               )),
               React.createElement('tbody', null, tables.map((item) => React.createElement('tr', { key: item.name },
                 React.createElement('td', null, item.name),
@@ -544,12 +816,12 @@ window.__ModuleLoader__.load({
           React.createElement('div', { className: 'liveopt-table-wrap' },
             React.createElement('table', { className: 'liveopt-table' },
               React.createElement('thead', null, React.createElement('tr', null,
-                ['Document', 'Characters', 'Status'].map((name) => React.createElement('th', { key: name }, name)),
+                [t('Document'), t('Characters'), t('Status')].map((name) => React.createElement('th', { key: name }, name)),
               )),
               React.createElement('tbody', null, documents.map((item) => React.createElement('tr', { key: item.upload_id },
                 React.createElement('td', null, item.filename),
                 React.createElement('td', null, item.retained_chars),
-                React.createElement('td', null, item.truncated ? 'Truncated to context limit' : 'Complete'),
+                React.createElement('td', null, item.truncated ? t('Truncated to context limit') : t('Complete')),
               ))),
             ),
           ),
@@ -594,12 +866,12 @@ window.__ModuleLoader__.load({
       }
 
       const label = state.phase === 'uploading'
-        ? `Uploading ${state.count}`
+        ? t('Uploading {count}', { count: state.count })
         : state.phase === 'ready'
-          ? `Documents ${state.count}`
+          ? t('Documents {count}', { count: state.count })
           : state.phase === 'error'
-            ? 'Upload failed'
-            : 'Document'
+            ? t('Upload failed')
+            : t('Document')
       return React.createElement(React.Fragment, null,
         React.createElement('input', {
           ref: fileInput,
@@ -614,7 +886,7 @@ window.__ModuleLoader__.load({
           className: 'liveopt-upload-button',
           disabled: locked,
           'data-state': state.phase,
-          title: state.error || 'Attach public documents or data to this optimization request',
+          title: state.error || t('Attach public documents or data to this optimization request'),
           onClick: () => fileInput.current?.click(),
         },
         React.createElement('span', { className: 'liveopt-upload-glyph', 'aria-hidden': true }, '+'),
@@ -698,9 +970,9 @@ window.__ModuleLoader__.load({
           React.createElement('text', { className: 'liveopt-chart-text', x: 2, y: 128 }, formatNumber(yExtent?.[0])),
         ),
         React.createElement('div', { className: 'liveopt-legend' },
-          React.createElement('span', null, 'Solid: best'),
-          React.createElement('span', null, 'Dashed: mean'),
-          React.createElement('span', null, 'Band: population range'),
+          React.createElement('span', null, t('Solid: best')),
+          React.createElement('span', null, t('Dashed: mean')),
+          React.createElement('span', null, t('Band: population range')),
         ),
       )
     }
@@ -738,9 +1010,9 @@ window.__ModuleLoader__.load({
           React.createElement('text', { className: 'liveopt-chart-text', x: 3, y: 10 }, yName),
         ),
         React.createElement('div', { className: 'liveopt-legend' },
-          React.createElement('span', { className: 'liveopt-legend-item' }, React.createElement('span', { className: 'liveopt-swatch' }), `Final population (${all.length})`),
-          React.createElement('span', { className: 'liveopt-legend-item' }, React.createElement('span', { className: 'liveopt-swatch', 'data-kind': 'pareto' }), `Pareto set (${front.length})`),
-          width > 2 ? React.createElement('span', null, 'Plot shows objectives 1 and 2; all objectives are exported.') : null,
+          React.createElement('span', { className: 'liveopt-legend-item' }, React.createElement('span', { className: 'liveopt-swatch' }), t('Final population ({count})', { count: all.length })),
+          React.createElement('span', { className: 'liveopt-legend-item' }, React.createElement('span', { className: 'liveopt-swatch', 'data-kind': 'pareto' }), t('Pareto set ({count})', { count: front.length })),
+          width > 2 ? React.createElement('span', null, t('Plot shows objectives 1 and 2; all objectives are exported.')) : null,
         ),
       )
     }
@@ -767,6 +1039,25 @@ window.__ModuleLoader__.load({
       return { result, error }
     }
 
+    function ExplorerLink({ sessionId, turn }) {
+      if (!sessionId) return null
+      const base = '/liveopt-api'
+      const params = new URLSearchParams({ session: sessionId, lang: localeService.getSnapshot().active })
+      if (Number.isInteger(turn)) params.set('turn', String(turn))
+      const url = `${base}/explorer/?${params}`
+      return React.createElement('a', {
+        className: 'liveopt-download', style: { marginTop: 10, gap: 7 },
+        href: url, target: '_blank', rel: 'noopener noreferrer',
+        onClick: (event) => {
+          if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+          event.preventDefault()
+          window.open(url, '_blank', 'popup=yes,width=1360,height=900,noopener,noreferrer')
+        },
+        title: localeService.getSnapshot().active === 'zh' ? '在独立窗口选择方案' : 'Choose a plan in a separate window',
+      }, React.createElement('img', { src: `${base}/explorer/external-link.svg`, width: 15, height: 15, alt: '' }),
+      localeService.getSnapshot().active === 'zh' ? '查看并选择方案' : 'Explore and select a plan')
+    }
+
     function ResultCard({ block, sessionId: conversationSessionId }) {
       const initialPayload = 'kind' in block ? jsonResult(block) : null
       const args = callArgs(block)
@@ -774,25 +1065,25 @@ window.__ModuleLoader__.load({
       useConversationLiveOptBinding(conversationSessionId, liveoptSessionId)
       const loaded = useLiveResult(liveoptSessionId, initialPayload)
       const payload = loaded.result
-      if (!payload) return React.createElement('section', { className: 'liveopt-card' }, loaded.error || 'Loading accepted result...')
+      if (!payload) return React.createElement('section', { className: 'liveopt-card' }, loaded.error || t('Loading accepted result...'))
       const preview = payload.solution_preview || []
       const columns = preview.length ? Object.keys(preview[0]) : []
       return React.createElement('section', { className: 'liveopt-card' },
         React.createElement('div', { className: 'liveopt-head' },
           React.createElement('span', { className: 'liveopt-dot' }),
-          React.createElement('span', { className: 'liveopt-title' }, 'MAPLE output'),
-          React.createElement('span', { className: 'liveopt-phase' }, `Turn ${payload.turn} · ${payload.solution_count} accepted solutions`),
+          React.createElement('span', { className: 'liveopt-title' }, t('MAPLE output')),
+          React.createElement('span', { className: 'liveopt-phase' }, t('Turn {turn} · {count} accepted solutions', { turn: payload.turn, count: payload.solution_count })),
         ),
         React.createElement('div', { className: 'liveopt-section' },
-          React.createElement('div', { className: 'liveopt-section-title' }, 'Objective evolution'),
+          React.createElement('div', { className: 'liveopt-section-title' }, t('Objective evolution')),
           React.createElement(ObjectiveHistoryCharts, { series: payload.objective_series }),
         ),
         React.createElement('div', { className: 'liveopt-section' },
-          React.createElement('div', { className: 'liveopt-section-title' }, 'Final population and Pareto set'),
+          React.createElement('div', { className: 'liveopt-section-title' }, t('Final population and Pareto set')),
           React.createElement(PopulationChart, { population: payload.population_preview, pareto: payload.pareto_preview, objectiveNames: payload.objective_names }),
         ),
         preview.length ? React.createElement('div', { className: 'liveopt-section' },
-          React.createElement('div', { className: 'liveopt-section-title' }, 'Solution set'),
+          React.createElement('div', { className: 'liveopt-section-title' }, t('Solution set')),
           React.createElement('div', { className: 'liveopt-table-wrap' },
             React.createElement('table', { className: 'liveopt-table' },
               React.createElement('thead', null, React.createElement('tr', null,
@@ -804,9 +1095,8 @@ window.__ModuleLoader__.load({
             ),
           ),
         ) : null,
-        React.createElement('div', { className: 'liveopt-downloads' },
-          (payload.downloads || []).map((item) => React.createElement('a', { className: 'liveopt-download', key: item.name, href: item.url, download: item.name }, item.name)),
-        ),
+        React.createElement(ExplorerLink, { sessionId: liveoptSessionId, turn: payload.turn }),
+        React.createElement(DownloadLinks, { items: payload.downloads }),
       )
     }
 
@@ -833,7 +1123,7 @@ window.__ModuleLoader__.load({
 
       async function save(event) {
         event.preventDefault()
-        setState({ phase: 'saving', message: 'Saving settings...' })
+        setState({ phase: 'saving', message: t('Saving settings...') })
         try {
           const body = { generations: Number(generations) }
           if (apiKey.trim()) body.api_key = apiKey.trim()
@@ -845,41 +1135,54 @@ window.__ModuleLoader__.load({
           setSettings(payload)
           setGenerations(Number(payload.generations) || 100)
           setApiKey('')
-          setState({ phase: 'saved', message: 'Settings saved. New optimization jobs use these values.' })
+          setState({ phase: 'saved', message: t('Settings saved. New optimization jobs use these values.') })
         } catch (error) {
           setState({ phase: 'error', message: error instanceof Error ? error.message : String(error) })
         }
       }
 
       return React.createElement('form', { className: 'liveopt-settings', onSubmit: save },
-        React.createElement('h2', null, 'MAPLE Harness Settings'),
-        React.createElement('p', { className: 'liveopt-settings-intro' }, 'MAPLE Harness uses one application mode, the DeepSeek Flash model, and a fixed light appearance.'),
+        React.createElement('h2', null, t('MAPLE Harness Settings')),
         React.createElement('section', { className: 'liveopt-settings-group' },
-          React.createElement('h3', null, 'API'),
           React.createElement('label', { className: 'liveopt-settings-field' },
-            React.createElement('span', { className: 'liveopt-settings-label' }, 'DeepSeek API key'),
+            React.createElement('span', { className: 'liveopt-settings-label' }, t('Interface and agent replies')),
+            React.createElement('select', {
+              className: 'liveopt-settings-input',
+              'aria-label': t('Language'),
+              value: localeService.getSnapshot().active,
+              onChange: (event) => localeService.setLocale(event.target.value),
+            },
+              React.createElement('option', { value: 'en' }, 'English'),
+              React.createElement('option', { value: 'zh' }, '简体中文'),
+            ),
+          ),
+        ),
+        React.createElement('section', { className: 'liveopt-settings-group' },
+          React.createElement('h3', null, t('API')),
+          React.createElement('label', { className: 'liveopt-settings-field' },
+            React.createElement('span', { className: 'liveopt-settings-label' }, t('DeepSeek API key')),
             React.createElement('input', {
               className: 'liveopt-settings-input',
               type: 'password',
               autoComplete: 'new-password',
               value: apiKey,
-              placeholder: settings?.api?.configured ? `Configured (${settings.api.masked || 'hidden'})` : 'Enter API key',
+              placeholder: settings?.api?.configured ? t('Configured ({key})', { key: settings.api.masked || '****' }) : t('Enter API key'),
               onChange: (event) => setApiKey(event.target.value),
             }),
           ),
           React.createElement('div', { className: 'liveopt-settings-field' },
-            React.createElement('span', { className: 'liveopt-settings-label' }, 'Provider and model'),
-            React.createElement('span', { className: 'liveopt-settings-readonly' }, `${settings?.provider || 'DeepSeek'} · ${settings?.model || 'deepseek-v4-flash'}`),
+            React.createElement('span', { className: 'liveopt-settings-label' }, t('Provider and model')),
+            React.createElement('span', { className: 'liveopt-settings-readonly' }, `${settings?.provider || 'DeepSeek'} · ${settings?.model || 'deepseek-flash'}`),
           ),
           React.createElement('div', { className: 'liveopt-settings-field' },
-            React.createElement('span', { className: 'liveopt-settings-label' }, 'API endpoint'),
+            React.createElement('span', { className: 'liveopt-settings-label' }, t('API endpoint')),
             React.createElement('span', { className: 'liveopt-settings-readonly' }, settings?.endpoint || 'https://api.deepseek.com/v1'),
           ),
         ),
         React.createElement('section', { className: 'liveopt-settings-group' },
-          React.createElement('h3', null, 'Optimization'),
+          React.createElement('h3', null, t('Optimization')),
           React.createElement('label', { className: 'liveopt-settings-field' },
-            React.createElement('span', { className: 'liveopt-settings-label' }, 'Iterations per run'),
+            React.createElement('span', { className: 'liveopt-settings-label' }, t('Iterations per run')),
             React.createElement('input', {
               className: 'liveopt-settings-input',
               type: 'number',
@@ -890,11 +1193,11 @@ window.__ModuleLoader__.load({
               onChange: (event) => setGenerations(event.target.value),
             }),
           ),
-          React.createElement('div', { className: 'liveopt-settings-readonly' }, 'Default: 10. Existing accepted sessions retain their own search configuration.'),
+          React.createElement('div', { className: 'liveopt-settings-readonly' }, t('Default: 100. Existing accepted sessions retain their own search configuration.')),
         ),
         React.createElement('div', { className: 'liveopt-settings-status', 'data-state': state.phase }, state.message),
         React.createElement('div', { className: 'liveopt-settings-actions' },
-          React.createElement('button', { className: 'liveopt-primary-button', type: 'submit', disabled: state.phase === 'loading' || state.phase === 'saving' }, state.phase === 'saving' ? 'Saving...' : 'Save'),
+          React.createElement('button', { className: 'liveopt-primary-button', type: 'submit', disabled: state.phase === 'loading' || state.phase === 'saving' }, state.phase === 'saving' ? t('Saving...') : t('Save')),
         ),
       )
     }
@@ -906,10 +1209,10 @@ window.__ModuleLoader__.load({
 
     function restartDisplay(value) {
       return {
-        full_restart_v1: 'Full restart',
-        warm_restart_v1: 'Warm restart',
-        population_transfer_v1: 'Population transfer',
-      }[value] || value || 'Initial search'
+        full_restart_v1: t('Full restart'),
+        warm_restart_v1: t('Warm restart'),
+        population_transfer_v1: t('Population transfer'),
+      }[value] || value || t('Initial search')
     }
 
     function JsonDetails({ title, value }) {
@@ -920,7 +1223,7 @@ window.__ModuleLoader__.load({
       )
     }
 
-    function SolutionTurn({ turn, latestTurn }) {
+    function SolutionTurn({ turn, latestTurn, sessionId }) {
       const preview = turn.solution_preview || []
       const columns = preview.length ? Object.keys(preview[0]) : []
       const segments = turn.tss?.segments || []
@@ -929,34 +1232,34 @@ window.__ModuleLoader__.load({
       return React.createElement('details', { className: 'liveopt-turn', defaultOpen: turn.turn === latestTurn },
         React.createElement('summary', { className: 'liveopt-turn-summary' },
           React.createElement('span', { className: 'liveopt-turn-name' }, turn.update_id || `t${String(turn.turn).padStart(3, '0')}`),
-          React.createElement('span', { className: 'liveopt-turn-kind' }, turn.turn === 0 ? 'Initialization' : restartDisplay(restart.skill)),
-          React.createElement('span', { className: 'liveopt-turn-summary-metric' }, `${turn.result?.archive_count ?? 0} accepted solutions · ${turn.result?.generations_completed ?? 0} iterations`),
+          React.createElement('span', { className: 'liveopt-turn-kind' }, turn.turn === 0 ? t('Initialization') : restartDisplay(restart.skill)),
+          React.createElement('span', { className: 'liveopt-turn-summary-metric' }, t('{count} accepted solutions · {generations} iterations', { count: turn.result?.archive_count ?? 0, generations: turn.result?.generations_completed ?? 0 })),
         ),
         React.createElement('div', { className: 'liveopt-turn-body' },
-          React.createElement('div', { className: 'liveopt-section-title' }, turn.turn === 0 ? 'Initial requirement' : 'Natural-language update'),
-          React.createElement('pre', { className: 'liveopt-requirement' }, turn.requirement || 'Requirement text was not retained for this legacy turn.'),
+          React.createElement('div', { className: 'liveopt-section-title' }, turn.turn === 0 ? t('Initial requirement') : t('Natural-language update')),
+          React.createElement('pre', { className: 'liveopt-requirement' }, turn.requirement || t('Requirement text was not retained for this legacy turn.')),
           React.createElement('div', { className: 'liveopt-metrics' },
-            React.createElement(Metric, { label: 'Feasible', value: turn.result?.feasible === true ? 'Yes' : turn.result?.feasible === false ? 'No' : '-' }),
-            React.createElement(Metric, { label: 'Solution set', value: turn.result?.archive_count }),
-            React.createElement(Metric, { label: 'Final population', value: turn.result?.population_count }),
-            React.createElement(Metric, { label: 'Iterations', value: turn.result?.generations_completed }),
-            turn.turn > 0 ? React.createElement(Metric, { label: 'Restart', value: restartDisplay(restart.skill) }) : null,
-            turn.turn > 0 ? React.createElement(Metric, { label: 'History reused', value: Number.isFinite(Number(restart.history_population_ratio)) ? `${Math.round(Number(restart.history_population_ratio) * 100)}%` : '-' }) : null,
+            React.createElement(Metric, { label: t('Feasible'), value: turn.result?.feasible === true ? t('Yes') : turn.result?.feasible === false ? t('No') : '-' }),
+            React.createElement(Metric, { label: t('Solution set'), value: turn.result?.archive_count }),
+            React.createElement(Metric, { label: t('Final population'), value: turn.result?.population_count }),
+            React.createElement(Metric, { label: t('Iterations'), value: turn.result?.generations_completed }),
+            turn.turn > 0 ? React.createElement(Metric, { label: t('Restart'), value: restartDisplay(restart.skill) }) : null,
+            turn.turn > 0 ? React.createElement(Metric, { label: t('History reused'), value: Number.isFinite(Number(restart.history_population_ratio)) ? `${Math.round(Number(restart.history_population_ratio) * 100)}%` : '-' }) : null,
           ),
           React.createElement('div', { className: 'liveopt-section' },
-            React.createElement('div', { className: 'liveopt-section-title' }, 'Result and conclusion'),
+            React.createElement('div', { className: 'liveopt-section-title' }, t('Result and conclusion')),
             React.createElement('p', { className: 'liveopt-conclusion' }, turn.conclusion),
           ),
           (turn.objective_series || []).length ? React.createElement('div', { className: 'liveopt-section' },
-            React.createElement('div', { className: 'liveopt-section-title' }, 'Objective evolution'),
+            React.createElement('div', { className: 'liveopt-section-title' }, t('Objective evolution')),
             React.createElement(ObjectiveHistoryCharts, { series: turn.objective_series }),
           ) : null,
           (turn.population_preview || []).length ? React.createElement('div', { className: 'liveopt-section' },
-            React.createElement('div', { className: 'liveopt-section-title' }, 'Final population and Pareto set'),
+            React.createElement('div', { className: 'liveopt-section-title' }, t('Final population and Pareto set')),
             React.createElement(PopulationChart, { population: turn.population_preview, pareto: turn.pareto_preview, objectiveNames: turn.objective_names }),
           ) : null,
           preview.length ? React.createElement('div', { className: 'liveopt-section' },
-            React.createElement('div', { className: 'liveopt-section-title' }, 'Accepted solutions'),
+            React.createElement('div', { className: 'liveopt-section-title' }, t('Accepted solutions')),
             React.createElement('div', { className: 'liveopt-table-wrap' },
               React.createElement('table', { className: 'liveopt-table' },
                 React.createElement('thead', null, React.createElement('tr', null, columns.map((name) => React.createElement('th', { key: name }, name.replaceAll('_', ' '))))),
@@ -965,10 +1268,10 @@ window.__ModuleLoader__.load({
             ),
           ) : null,
           React.createElement('div', { className: 'liveopt-section' },
-            React.createElement('div', { className: 'liveopt-section-title' }, 'TSS Workbench and accepted history'),
+            React.createElement('div', { className: 'liveopt-section-title' }, t('TSS Workbench and accepted history')),
             segments.length ? React.createElement('div', { className: 'liveopt-table-wrap' },
               React.createElement('table', { className: 'liveopt-table' },
-                React.createElement('thead', null, React.createElement('tr', null, ['Segment', 'Encoding', 'Length', 'Domain size'].map((name) => React.createElement('th', { key: name }, name)))),
+                React.createElement('thead', null, React.createElement('tr', null, [t('Segment'), t('Encoding'), t('Length'), t('Domain size')].map((name) => React.createElement('th', { key: name }, name)))),
                 React.createElement('tbody', null, segments.map((segment, index) => React.createElement('tr', { key: `${segment.name}-${index}` },
                   React.createElement('td', null, segment.name || '-'),
                   React.createElement('td', null, segment.kind || '-'),
@@ -976,25 +1279,25 @@ window.__ModuleLoader__.load({
                   React.createElement('td', null, (segment.options || 0) + (segment.values || 0) || '-'),
                 ))),
               ),
-            ) : React.createElement('div', { className: 'liveopt-settings-readonly' }, 'This turn reused the accepted TSS structure.'),
+            ) : React.createElement('div', { className: 'liveopt-settings-readonly' }, t('This turn reused the accepted TSS structure.')),
             Object.entries(slots).map(([name, source]) => React.createElement('details', { className: 'liveopt-details', key: name },
               React.createElement('summary', null, name),
               React.createElement('pre', { className: 'liveopt-code' }, source),
             )),
-            React.createElement(JsonDetails, { title: 'Public data patch', value: turn.public_data_patch }),
-            React.createElement(JsonDetails, { title: 'Patch and validation summary', value: turn.tss?.patch_summary }),
-            React.createElement(JsonDetails, { title: 'Representative solution', value: turn.result?.best_solution }),
+            React.createElement(JsonDetails, { title: t('Public data patch'), value: turn.public_data_patch }),
+            React.createElement(JsonDetails, { title: t('Patch and validation summary'), value: turn.tss?.patch_summary }),
+            React.createElement(JsonDetails, { title: t('Representative solution'), value: turn.result?.best_solution }),
           ),
-          React.createElement('div', { className: 'liveopt-downloads' },
-            (turn.downloads || []).map((item) => React.createElement('a', { className: 'liveopt-download', key: item.url, href: item.url, download: item.name }, item.name)),
-          ),
+          React.createElement(ExplorerLink, { sessionId, turn: turn.turn }),
+          React.createElement(DownloadLinks, { items: turn.downloads }),
         ),
       )
     }
 
-    function SolutionsView({ sessionId: conversationSessionId, useSession }) {
-      const settledNodes = useSession((snapshot) => snapshot.chat.legacy.nodes)
-      const runningCalls = useSession((snapshot) => snapshot.chat.legacy.runningCalls)
+    const EMPTY_NODES = []
+    function SolutionsView({ sessionId: conversationSessionId, useConversation }) {
+      const settledNodes = useConversation((snapshot) => snapshot.views.get('chat')?.legacy.nodes || EMPTY_NODES)
+      const runningCalls = useConversation((snapshot) => snapshot.views.get('chat')?.legacy.runningCalls || EMPTY_NODES)
       const inferredSession = React.useMemo(
         () => inferConversationLiveOptSession(settledNodes, runningCalls),
         [settledNodes, runningCalls],
@@ -1050,36 +1353,39 @@ window.__ModuleLoader__.load({
       return React.createElement('div', { className: 'liveopt-solutions-view' },
         React.createElement('div', { className: 'liveopt-solutions-inner' },
           React.createElement('div', { className: 'liveopt-solutions-toolbar' },
-            React.createElement('div', { className: 'liveopt-solutions-heading' }, 'Solutions'),
-            React.createElement('button', { className: 'liveopt-secondary-button', type: 'button', onClick: refreshBinding }, 'Refresh'),
+            React.createElement('div', { className: 'liveopt-solutions-heading' }, t('Solutions')),
+            React.createElement('button', { className: 'liveopt-secondary-button', type: 'button', onClick: refreshBinding }, t('Refresh')),
           ),
           state.phase === 'error' ? React.createElement('div', { className: 'liveopt-solutions-empty' }, state.message) : null,
-          state.phase === 'loading' && !timeline ? React.createElement('div', { className: 'liveopt-solutions-empty' }, 'Loading optimization history...') : null,
-          !selected && state.phase !== 'loading' ? React.createElement('div', { className: 'liveopt-solutions-empty' }, 'This conversation has no MAPLE solution history yet.') : null,
+          state.phase === 'loading' && !timeline ? React.createElement('div', { className: 'liveopt-solutions-empty' }, t('Loading optimization history...')) : null,
+          !selected && state.phase !== 'loading' ? React.createElement('div', { className: 'liveopt-solutions-empty' }, t('This conversation has no MAPLE solution history yet.')) : null,
           session ? React.createElement(React.Fragment, null,
             React.createElement('div', { className: 'liveopt-session-meta' },
               React.createElement('span', null, session.task_id || session.session_id),
-              React.createElement('span', null, `${(timeline.turns || []).length} accepted optimization turns`),
-              React.createElement('span', null, `${session.search?.population_size || '-'} population · ${session.search?.generations || '-'} iterations`),
-              session.updated_at ? React.createElement('span', null, `Updated ${formatTimestamp(session.updated_at)}`) : null,
+              React.createElement('span', null, t('{count} accepted optimization turns', { count: (timeline.turns || []).length })),
+              React.createElement('span', null, t('{count} population · {generations} iterations', { count: session.search?.population_size || '-', generations: session.search?.generations || '-' })),
+              session.updated_at ? React.createElement('span', null, t('Updated {time}', { time: formatTimestamp(session.updated_at) })) : null,
             ),
-            (timeline.turns || []).map((turn) => React.createElement(SolutionTurn, { key: `${session.session_id}-${turn.turn}`, turn, latestTurn: session.turn })),
+            (timeline.turns || []).map((turn) => React.createElement(SolutionTurn, { key: `${session.session_id}-${turn.turn}`, turn, latestTurn: session.turn, sessionId: session.session_id })),
           ) : null,
         ),
       )
     }
 
-    const inject = ['slots', 'theme']
+    const inject = ['slots', 'theme', 'locale']
     function register(ctx, key, component) {
       ctx.slots.inject('tool.call.toolview', () => ctx.slots.register({
         name: 'tool.call.toolview',
         key,
-      }, component))
+      }, localized(component)))
     }
 
     function apply(ctx) {
+      localeService = ctx.get('locale')
+      ctx.effect(() => localeService.register('maple', { en: {}, zh: ZH }), 'maple: translations')
       ctx.effect(installDocumentBrand, 'liveopt: document brand')
       ctx.effect(installFixedApplicationSurface, 'liveopt: fixed application surface')
+      ctx.effect(installRemoteDeliverableDownloads, 'liveopt: remote deliverable downloads')
       const theme = ctx.get('theme')
       const enforceLight = (snapshot = theme.getTheme()) => {
         if (snapshot?.preference !== 'light') theme.setTheme('light')
@@ -1101,31 +1407,35 @@ window.__ModuleLoader__.load({
       register(ctx, 'mcp__liveopt__liveopt_override_slots', SubmissionCard)
       register(ctx, 'mcp__liveopt__liveopt_prepare_data', DataCard)
       register(ctx, 'mcp__liveopt__liveopt_prepare_uploads', DataCard)
+      register(ctx, 'mcp__liveopt__liveopt_map_data', DataCard)
       register(ctx, 'mcp__liveopt__liveopt_export', ResultCard)
       ctx.slots.inject('conversation.input.left', () => ctx.slots.register({
         name: 'conversation.input.left',
         id: 'liveopt-document-upload',
         order: 80,
         label: 'Attach optimization documents',
-      }, DocumentUploadButton))
+        locale: 'maple',
+      }, localized(DocumentUploadButton)))
       ctx.slots.inject('sidebar.footer.action', () => ctx.slots.register({
         name: 'sidebar.footer.action',
         id: 'liveopt-about',
         order: 90,
         label: 'About MAPLE Harness',
-      }, LiveOptAbout))
+        locale: 'maple',
+      }, localized(LiveOptAbout)))
       ctx.slots.inject('settings.section', () => ctx.slots.register({
         name: 'settings.section',
         id: 'liveopt',
         order: 0,
         label: 'MAPLE Harness',
-      }, LiveOptSettings))
+      }, localized(LiveOptSettings)))
       ctx.slots.inject('conversation.view', () => ctx.slots.register({
         name: 'conversation.view',
         id: 'solutions',
         order: 20,
         label: 'Solutions',
-      }, SolutionsView))
+        locale: 'maple',
+      }, localized(SolutionsView)))
     }
 
     module.exports = { apply, inject }

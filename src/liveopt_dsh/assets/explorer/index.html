@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>MAPLE | Solution Explorer</title>
+    <link id="favicon" rel="icon" type="image/png" />
+    <link rel="stylesheet" href="./explorer.css" />
+    <script defer src="./echarts.min.js"></script>
+    <script defer src="./lucide.min.js"></script>
+    <script defer src="./solution-view.js"></script>
+    <script defer src="./explorer.js"></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <img id="brand" alt="MAPLE" width="36" height="36" /><strong
+          >MAPLE</strong
+        ><span class="divider"></span><span data-i18n="explorer">方案选择</span>
+      </div>
+      <div class="header-actions">
+        <label class="sr-only" for="turn" data-i18n="turn">优化批次</label
+        ><select id="turn" disabled></select
+        ><button
+          id="refresh"
+          class="icon-button"
+          data-tip="refresh"
+          aria-label="刷新"
+        >
+          <i data-lucide="refresh-cw"></i></button
+        ><select id="language" aria-label="Language">
+          <option value="zh">中文</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+    </header>
+    <main>
+      <section class="overview">
+        <div class="overline" id="session"></div>
+        <h1 id="title" data-i18n="explorer">方案选择</h1>
+        <div id="notice" role="status"></div>
+        <details class="request">
+          <summary data-i18n="request">本轮需求</summary>
+          <p id="requirement"></p>
+        </details>
+        <div class="stats">
+          <div>
+            <span data-i18n="retained">已保存方案</span
+            ><strong id="total">–</strong>
+          </div>
+          <div>
+            <span data-i18n="feasible">可行方案</span
+            ><strong id="feasible">–</strong>
+          </div>
+          <div>
+            <span data-i18n="pareto">帕累托方案</span
+            ><strong id="pareto">–</strong>
+          </div>
+          <div>
+            <span data-i18n="preference">已保存偏好</span
+            ><strong id="preferred">–</strong>
+          </div>
+        </div>
+      </section>
+      <div id="error" role="alert" hidden></div>
+      <div class="workspace" id="workspace" aria-busy="true">
+        <section class="analysis">
+          <div class="section-heading">
+            <h2 data-i18n="distribution">方案分布</h2>
+            <button
+              id="reset"
+              class="icon-button"
+              data-tip="reset"
+              aria-label="重置视图"
+            >
+              <i data-lucide="scan"></i>
+            </button>
+          </div>
+          <div class="chart-controls">
+            <label
+              ><span data-i18n="x">横轴</span
+              ><select id="x"></select></label
+            ><label
+              ><span data-i18n="y">纵轴</span
+              ><select id="y"></select
+            ></label>
+          </div>
+          <div
+            id="chart"
+            role="img"
+            aria-label="Candidate objective distribution"
+          ></div>
+          <div class="legend">
+            <span
+              ><b class="dot other"></b
+              ><span data-i18n="other">其他可行方案</span></span
+            ><span
+              ><b class="dot frontier"></b
+              ><span data-i18n="pareto">帕累托方案</span></span
+            ><span
+              ><b class="dot invalid"></b
+              ><span data-i18n="infeasible">不可行方案</span></span
+            ><span
+              ><b class="dot selected"></b
+              ><span data-i18n="selected">当前选中</span></span
+            >
+          </div>
+          <div class="list-toolbar">
+            <h2 data-i18n="candidates">候选方案</h2>
+            <div class="list-controls">
+              <label class="search"
+                ><i data-lucide="search"></i
+                ><input
+                  id="search"
+                  type="search"
+                  data-placeholder="search"
+                  aria-label="Search candidates" /></label
+              ><label class="checkbox"
+                ><input id="only-pareto" type="checkbox" /><span
+                  data-i18n="onlyPareto"
+                  >仅帕累托</span
+                ></label
+              ><button
+                id="download-all"
+                class="icon-button"
+                data-tip="exportAll"
+                aria-label="导出全部方案"
+              >
+                <i data-lucide="download"></i>
+              </button>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table id="candidate-table">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <span id="row-count"></span>
+            <div>
+              <button
+                id="prev"
+                class="icon-button"
+                data-tip="previous"
+                aria-label="上一页"
+              >
+                <i data-lucide="chevron-left"></i></button
+              ><span id="page"></span
+              ><button
+                id="next"
+                class="icon-button"
+                data-tip="next"
+                aria-label="下一页"
+              >
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          <section id="plan-visuals" hidden>
+            <div class="section-heading">
+              <h2 data-i18n="execution">所选方案执行安排</h2>
+              <span id="plan-label" class="badge"></span>
+            </div>
+            <div
+              id="schedule-chart"
+              role="img"
+              aria-label="Order schedule"
+            ></div>
+            <div
+              id="storage-chart"
+              role="img"
+              aria-label="Warehouse capacity"
+            ></div>
+          </section>
+        </section>
+        <aside class="selection" aria-labelledby="selection-title">
+          <div class="section-heading">
+            <h2 id="selection-title" data-i18n="detail">方案详情</h2>
+            <span id="selection-badge" class="badge"></span>
+          </div>
+          <h3 id="selected-label" data-i18n="choose">选择一个方案</h3>
+          <div id="objective-values"></div>
+          <div id="tradeoff" class="tradeoff"></div>
+          <div class="selection-actions">
+            <button id="save" class="primary" disabled>
+              <i data-lucide="bookmark"></i
+              ><span data-i18n="save">保存为偏好方案</span></button
+            ><button
+              id="download"
+              class="icon-button"
+              data-tip="exportSelected"
+              disabled
+              aria-label="导出所选方案"
+            >
+              <i data-lucide="download"></i>
+            </button>
+          </div>
+          <p id="save-status" role="status"></p>
+          <div id="solution-detail"></div>
+        </aside>
+      </div>
+      <footer>
+        <span data-i18n="scope"
+          >展示本轮保留的最终种群与归档，不包含搜索中已丢弃的候选解。</span
+        ><span data-i18n="saveScope">偏好单独保存，不改变求解状态。</span>
+      </footer>
+    </main>
+  </body>
+</html>

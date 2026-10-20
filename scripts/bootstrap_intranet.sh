@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/common.sh"
 
 CADDY_VERSION="${LIVEOPT_CADDY_VERSION:-2.11.4}"
 CADDY_SHA512="8220d1f013b6f27510247b2360c9e0ca9f018feebd82515f07635318b34ff9777ccc8fd0b6e6f2486ce3a33fe389fbb7db12d05baa474f4587509fb4f5ebf1c9"
-LOCAL_ROOT="${LIVEOPT_LOCAL_ROOT:-$HOME/.local/share/liveopt-dsh}"
+LOCAL_ROOT="$LIVEOPT_LOCAL_ROOT"
 CADDY_ROOT="$LOCAL_ROOT/caddy-${CADDY_VERSION}"
 
 if [[ "$(uname -m)" != "x86_64" ]]; then

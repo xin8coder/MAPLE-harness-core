@@ -212,13 +212,14 @@ def _checked_id(value: str) -> str:
 
 
 def _safe_filename(value: str) -> str:
-    name = Path(str(value or "")).name.strip()
+    name = Path(str(value or "").replace("\\", "/")).name.strip()
     if not name or name in {".", ".."}:
         raise ValueError("upload filename is required")
-    cleaned = re.sub(r"[^A-Za-z0-9._()\- ]+", "_", name).strip(" .")
+    cleaned = re.sub(r"[^\w.()\- ]+", "_", name).strip(" .")
     if not cleaned:
         raise ValueError("upload filename contains no usable characters")
-    return cleaned[:180]
+    suffix = Path(cleaned).suffix
+    return cleaned if len(cleaned) <= 180 else cleaned[:180 - len(suffix)] + suffix
 
 
 def _atomic_bytes(path: Path, payload: bytes) -> None:

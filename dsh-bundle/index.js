@@ -1,7 +1,21 @@
 import { readFileSync } from 'node:fs'
 
 export const name = 'liveopt-skill'
-export const inject = ['skills']
+export const inject = ['skills', 'systemPrompt', 'settings']
+
+export function responseLanguageInstruction(preference) {
+  const language = String(preference || '').toLowerCase().split('-')[0]
+  const fallback = ['zh', 'en'].includes(language)
+    ? `Use ${language === 'zh' ? 'Simplified Chinese' : 'English'} when the current request is language-neutral (for example, only a file or a number). `
+    : 'For language-neutral requests, follow the recent user conversation or uploaded document language. '
+  return 'Respond in the language of the user\'s latest request without requiring a language instruction. '
+    + 'Chinese user input means Chinese replies, clarification questions, objective labels, and result summaries, even if the UI is English. '
+    + 'English table keys, tool output, and quoted code do not change the conversation language. '
+    + fallback
+    + 'Keep code identifiers, tool names, JSON keys, file paths, and original data values unchanged. '
+    + 'Honor explicit requests to translate or quote content in another language. '
+    + 'Remain silent while the optimization progress component is active.'
+}
 
 const skillDefinitions = [
   {
@@ -31,6 +45,12 @@ function bodyAfterFrontmatter(text) {
 }
 
 export function apply(ctx) {
+  ctx.effect(() => ctx.systemPrompt.section({
+    name: 'maple:response-language',
+    order: 90,
+    // Re-read the durable host preference on every model step, including tools.
+    text: () => responseLanguageInstruction(ctx.settings.describe({ redactSecrets: true }).find(row => row.ns === 'locale')?.value?.preference),
+  }), 'maple: response language')
   return skillDefinitions.map((definition) => ctx.skills.register({
     name: definition.name,
     description: definition.description,

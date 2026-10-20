@@ -1,21 +1,25 @@
 services:
   liveopt-dsh:
     build:
-      context: ../..
-      dockerfile: integrations/deepseek-harness-liveopt/Dockerfile
+      context: .
+      dockerfile: Dockerfile
     environment:
       DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
-      DEEPSEEK_MODEL: deepseek-v4-flash
-      LIVEOPT_MCP_DEFAULT_MODEL: deepseek-v4-flash
+      DEEPSEEK_MODEL: deepseek-flash
+      LIVEOPT_MCP_DEFAULT_MODEL: deepseek-flash
       KIMI_API_KEY: ${KIMI_API_KEY:-}
       KIMI_MODEL: ${KIMI_MODEL:-k3}
       LLM_PROVIDER: ${LLM_PROVIDER:-deepseek}
+      DSH_HOME: /data/maple/dsh-home
+      LIVEOPT_MCP_STATE_DIR: /data/maple/state
+      LIVEOPT_DSH_HOST: 0.0.0.0
+      LIVEOPT_MCP_WORKSPACE_ROOT: /workspace
       LIVEOPT_MCP_CACHE_MODE: ${LIVEOPT_MCP_CACHE_MODE:-read_write}
     ports:
       - "${LIVEOPT_DSH_PORT:-3000}:3000"
     volumes:
-      - liveopt-state:/data/liveopt
-      - ${LIVEOPT_WORKSPACE:-../..}:/workspace:ro
+      - liveopt-state:/data/maple
+      - ${LIVEOPT_WORKSPACE:-./public-data}:/workspace:ro
 
 volumes:
   liveopt-state:

@@ -8,6 +8,7 @@ import subprocess
 
 SUFFIXES = {'.tex', '.bib', '.sty', '.bst', '.ppt', '.pptx', '.pdf', '.zip', '.tar', '.tgz', '.cff'}
 PREFIXES = ('paper/', 'paper_outputs/', 'release_artifacts/', 'logs/', 'outputs/', 'anonymous-demo/', 'site/', 'docs/maple', 'docs/iclr')
+PRIVATE_NAMES = {'.env', '.credentials.yaml', 'connection.json', 'provider.env', 'service.env'}
 PATTERNS = {
     'personal project URL': re.compile(rb'https?://(?:github\.com/[A-Za-z0-9_.-]+/MAPLE(?:[/.#?\-]|\b)|[A-Za-z0-9_.-]+\.github\.io/MAPLE(?:[/.#?\-]|\b))', re.I),
     'machine-specific home path': re.compile(rb'/(?:home|Users)/[A-Za-z0-9_.-]+/'),
@@ -18,6 +19,8 @@ def check_files(root, paths):
     failures = []
     for rel in paths:
         path = root / rel
+        if path.name in PRIVATE_NAMES or path.name.endswith('.key'):
+            failures.append(f'private deployment configuration: {rel}')
         if Path(rel).suffix.lower() in SUFFIXES or rel.endswith('.tar.gz') or rel.startswith(PREFIXES):
             failures.append(f'excluded release material: {rel}')
         content = path.read_bytes()
@@ -39,7 +42,7 @@ def main():
     parser.add_argument('--files-only', action='store_true', help='Check staged files before creating a commit.')
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
-    paths = subprocess.check_output(['git', 'ls-files', '--cached'], cwd=root, text=True).splitlines()
+    paths = [path for path in subprocess.check_output(['git', 'ls-files', '--cached', '-z'], cwd=root).decode().split('\0') if path]
     check_files(root, paths)
     if not args.files_only:
         history = subprocess.check_output(['git', 'log', '--all', '--format=%an%x00%ae%x00%cn%x00%ce'], cwd=root, text=True)

@@ -33,10 +33,11 @@ def main() -> None:
                 self.rfile.read(int(self.headers.get("content-length", "0"))) or b"{}"
             )
             tools = [
-                item.get("function", {}).get("name") for item in body.get("tools", [])
+                item.get("name") or item.get("function", {}).get("name")
+                for item in body.get("tools", [])
             ]
             roles = [item.get("role") for item in body.get("messages", [])]
-            message_text = "\n".join(
+            message_text = str(body.get("system", "")) + "\n" + "\n".join(
                 str(item.get("content") or "") for item in body.get("messages", [])
             )
             with args.requests.open("a", encoding="utf-8") as handle:
@@ -56,6 +57,29 @@ def main() -> None:
             self.send_response(200)
             self.send_header("Content-Type", "text/event-stream")
             self.end_headers()
+            if self.path.rstrip("/").endswith("/messages"):
+                tool_returned = any(
+                    isinstance(item.get("content"), list)
+                    and any(block.get("type") == "tool_result" for block in item["content"])
+                    for item in body.get("messages", [])
+                )
+                call_tool = "mcp__liveopt__liveopt_cancel" in tools and not tool_returned
+                block = (
+                    {"type": "tool_use", "id": "call_liveopt", "name": "mcp__liveopt__liveopt_cancel", "input": {"job_id": "missing-smoke-job"}}
+                    if call_tool else
+                    {"type": "text", "text": "LiveOpt MCP tool-call path completed."}
+                )
+                events = [
+                    {"type": "message_start", "message": {"id": "maple-smoke", "model": "deepseek-flash", "usage": {"input_tokens": 1, "output_tokens": 0}}},
+                    {"type": "content_block_start", "index": 0, "content_block": block},
+                    {"type": "content_block_stop", "index": 0},
+                    {"type": "message_delta", "delta": {"stop_reason": "tool_use" if call_tool else "end_turn"}, "usage": {"output_tokens": 1}},
+                    {"type": "message_stop"},
+                ]
+                for event in events:
+                    self.wfile.write(("data: " + json.dumps(event) + "\n\n").encode())
+                self.wfile.flush()
+                return
             if "tool" in roles:
                 chunks = [
                     _chunk({"role": "assistant", "content": "LiveOpt MCP tool-call path completed."}),

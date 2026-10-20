@@ -369,7 +369,7 @@ def test_production_service_rejects_non_flash_model(tmp_path: Path):
         ServiceConfig(state_dir=tmp_path / "state", workspace_root=tmp_path)
     )
     try:
-        with pytest.raises(ValueError, match="deepseek-v4-flash"):
+        with pytest.raises(ValueError, match="deepseek-flash"):
             service.submit_start(
                 problem=PROBLEM,
                 public_context=CONTEXT,

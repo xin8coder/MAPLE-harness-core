@@ -68,6 +68,7 @@ def prepare_public_data(
             )
             tables[table_name] = normalized
             dictionary[table_name] = {
+                "source_name": source_name,
                 "source": str(path.relative_to(workspace_root.resolve())),
                 "row_count": len(normalized),
                 **metadata,
@@ -89,6 +90,7 @@ def prepare_public_data(
         )
         tables[table_name] = normalized
         dictionary[table_name] = {
+            "source_name": raw_name,
             "source": "inline_public_data",
             "row_count": len(normalized),
             **metadata,
@@ -115,9 +117,12 @@ def prepare_public_data(
         "public_context": public_context,
     }
     artifact = store.save_prepared_data(data_id, record)
+    from .localization import mapping_summary
+
     return {
         "prepared_data_id": data_id,
         "artifact": str(artifact.relative_to(store.root)),
+        **mapping_summary(public_context),
         "tables": [
             {
                 "name": name,
@@ -341,7 +346,9 @@ def _normalize_records(
     normalized_columns: dict[str, list[Any]] = {}
     types: dict[str, str] = {}
     requested_id_alias = aliases.get(id_column, id_column if id_column in used else "")
-    inferred_id = requested_id_alias or _infer_id_column(list(columns))
+    inferred_id = requested_id_alias or _infer_id_column(list(columns)) or next(
+        (aliases[name] for name in source_columns if name.endswith("编号") or name == "标识"), ""
+    )
     for name, values in columns.items():
         converted, type_name = _infer_values(
             values,
@@ -425,7 +432,7 @@ def _has_leading_zero(value: str) -> bool:
 def _safe_name(value: str) -> str:
     cleaned = _SAFE_NAME.sub("_", str(value).strip()).strip("_").lower()
     if not cleaned:
-        cleaned = "table"
+        cleaned = "field_" + hashlib.sha256(str(value).strip().encode("utf-8")).hexdigest()[:10]
     if cleaned[0].isdigit():
         cleaned = f"field_{cleaned}"
     return cleaned

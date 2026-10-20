@@ -7,8 +7,9 @@ After=network-online.target
 Type=simple
 WorkingDirectory="@PLUGIN_ROOT@"
 Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
-Environment=LIVEOPT_ENV_FILE=%h/.config/liveopt-dsh/provider.env
-EnvironmentFile=-%h/.config/liveopt-dsh/service.env
+Environment="MAPLE_HOME=@MAPLE_HOME@"
+EnvironmentFile=-"@CONFIG_ROOT@/provider.env"
+EnvironmentFile=-"@CONFIG_ROOT@/service.env"
 ExecStart="@PLUGIN_ROOT@/scripts/start_intranet.sh"
 Restart=on-failure
 RestartSec=5s

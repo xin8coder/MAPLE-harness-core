@@ -342,6 +342,7 @@ def test_browser_api_serves_live_jobs_and_only_state_artifacts(tmp_path: Path):
         },
     )
     store.save_session_bytes("session1", "exports/t000/solutions.csv", b"x\n1\n")
+    store.save_session_bytes("session1", "exports/t000/中文方案.csv", "订单,数量\n甲单,3\n".encode())
     server = ThreadingHTTPServer(("127.0.0.1", 0), make_handler(store))
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
@@ -355,9 +356,56 @@ def test_browser_api_serves_live_jobs_and_only_state_artifacts(tmp_path: Path):
             timeout=2,
         ) as response:
             assert response.read() == b"x\n1\n"
+            assert response.headers.get_content_type() == "text/csv"
+            assert response.headers["Content-Disposition"] == (
+                'attachment; filename="solutions.csv"'
+            )
         with pytest.raises(urllib.error.HTTPError) as caught:
             urllib.request.urlopen(f"{base}/artifacts/../outside", timeout=2)
         assert caught.value.code == 404
+        path = urllib.parse.quote("sessions/session1/exports/t000/中文方案.csv", safe="/")
+        with urllib.request.urlopen(f"{base}/artifacts/{path}", timeout=2) as response:
+            assert response.status == 200
+            assert "filename*=UTF-8''" in response.headers["Content-Disposition"]
+            assert "甲单" in response.read().decode()
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
+
+
+def test_browser_api_downloads_safe_workspace_artifacts(tmp_path: Path):
+    store = StateStore(tmp_path / "state")
+    workspace = tmp_path / "workspace"
+    output = workspace / "results" / "夜间充电方案.xlsx"
+    output.parent.mkdir(parents=True)
+    output.write_bytes(b"xlsx-placeholder")
+    (workspace / ".env").write_text("SECRET=not-public\n", encoding="utf-8")
+    (workspace / "script.py").write_text("print('private source')\n", encoding="utf-8")
+
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0), make_handler(store, workspace_root=workspace)
+    )
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        base = f"http://127.0.0.1:{server.server_port}"
+        encoded = urllib.parse.quote("results/夜间充电方案.xlsx", safe="")
+        with urllib.request.urlopen(
+            f"{base}/workspace-files/{encoded}", timeout=2
+        ) as response:
+            assert response.read() == b"xlsx-placeholder"
+            disposition = response.headers["Content-Disposition"]
+            assert "attachment" in disposition
+            assert "filename*=UTF-8''" in disposition
+
+        for rejected in (".env", "script.py", "../outside.xlsx"):
+            encoded = urllib.parse.quote(rejected, safe="")
+            with pytest.raises(urllib.error.HTTPError) as exc_info:
+                urllib.request.urlopen(
+                    f"{base}/workspace-files/{encoded}", timeout=2
+                )
+            assert exc_info.value.code == 404
     finally:
         server.shutdown()
         server.server_close()

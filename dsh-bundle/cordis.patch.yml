@@ -4,7 +4,7 @@
 - id: agent-default-model
   config:
     provider: deepseek-official
-    model: deepseek-v4-flash
+    model: deepseek-flash
 
 - id: ui-model-selection
   disabled: true
@@ -31,6 +31,9 @@
 - id: ui-settings-plugins
   disabled: true
 
+- id: ui-plugin-manager
+  disabled: true
+
 # LiveOpt owns the application identity. DeepSeek Harness attribution remains
 # available from the About dialog instead of occupying the primary brand slots.
 - id: ui-brand-official
@@ -48,7 +51,7 @@
         env:
           PYTHONUNBUFFERED: '1'
           DEEPSEEK_API_KEY: !!js process.env.DEEPSEEK_API_KEY ?? ''
-          DEEPSEEK_MODEL: 'deepseek-v4-flash'
+          DEEPSEEK_MODEL: 'deepseek-flash'
           DEEPSEEK_BASE_URL: !!js process.env.DEEPSEEK_BASE_URL ?? 'https://api.deepseek.com/v1'
           KIMI_API_KEY: !!js process.env.KIMI_API_KEY ?? ''
           KIMI_MODEL: !!js process.env.KIMI_MODEL ?? 'k3[1m]'
@@ -59,7 +62,7 @@
           LIVEOPT_MCP_CACHE_MODE: !!js process.env.LIVEOPT_MCP_CACHE_MODE ?? 'read_write'
           LIVEOPT_MCP_NETWORK_MODE: !!js process.env.LIVEOPT_MCP_NETWORK_MODE ?? 'auto'
           LIVEOPT_MCP_MAX_WORKERS: !!js process.env.LIVEOPT_MCP_MAX_WORKERS ?? '2'
-          LIVEOPT_MCP_DEFAULT_MODEL: 'deepseek-v4-flash'
+          LIVEOPT_MCP_DEFAULT_MODEL: 'deepseek-flash'
           LIVEOPT_MCP_SOLVER_TIME_LIMIT_SECONDS: !!js process.env.LIVEOPT_MCP_SOLVER_TIME_LIMIT_SECONDS ?? '30'
         # liveopt_wait intentionally holds one tool call while the browser card
         # reads progress from the local sidecar API. The model remains silent.
@@ -73,4 +76,7 @@
 
     - id: liveopt-skill
       name: liveopt-dsh-bundle
-      inject: [skills]
+      inject: [skills, systemPrompt, settings]
+
+    - id: maple-web-bridge
+      name: liveopt-dsh-bundle/web-bridge

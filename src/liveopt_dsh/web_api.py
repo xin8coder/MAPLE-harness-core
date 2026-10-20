@@ -10,7 +10,7 @@ import re
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import parse_qs, unquote, urlsplit
+from urllib.parse import parse_qs, quote, unquote, urlsplit
 
 from .app_settings import (
     credential_status,
@@ -20,29 +20,67 @@ from .app_settings import (
 )
 from .documents import SUPPORTED_UPLOAD_SUFFIXES, TABULAR_SUFFIXES
 from .exports import export_session
+from .explorer import solution_options, save_preference
 from .solutions import list_solution_sessions, solution_timeline
 from .store import StateStore
 
 
 _JOB_PATH = re.compile(r"^/jobs/([A-Za-z0-9][A-Za-z0-9_.-]{0,127})$")
 _ARTIFACT_PATH = re.compile(r"^/artifacts/(.+)$")
+_WORKSPACE_FILE_PATH = re.compile(r"^/workspace-files/(.+)$")
 _RESULT_PATH = re.compile(r"^/results/([A-Za-z0-9][A-Za-z0-9_.-]{0,127})$")
 _SOLUTION_PATH = re.compile(
     r"^/solution-sessions/([A-Za-z0-9][A-Za-z0-9_.-]{0,127})$"
 )
 _BRAND_PATH = re.compile(r"^/brand/((?:liveopt-mark-(?:64|256|512)|maple-logo)\.png)$")
 _BRAND_DIR = Path(__file__).resolve().parent / "assets"
+_EXPLORER_DIR = _BRAND_DIR / "explorer"
+_OPTIONS_PATH = re.compile(r"^/solution-options/([A-Za-z0-9][A-Za-z0-9_.-]{0,127})$")
+_PREFERENCE_PATH = re.compile(r"^/solution-preferences/([A-Za-z0-9][A-Za-z0-9_.-]{0,127})$")
+_EXPLORER_FILES = {"index.html", "explorer.css", "explorer.js", "solution-view.js", "echarts.min.js", "lucide.min.js", "external-link.svg"}
+
+_DOWNLOADABLE_WORKSPACE_SUFFIXES = frozenset(
+    {
+        ".csv",
+        ".docx",
+        ".gif",
+        ".gz",
+        ".jpeg",
+        ".jpg",
+        ".json",
+        ".jsonl",
+        ".md",
+        ".pdf",
+        ".png",
+        ".pptx",
+        ".svg",
+        ".tar",
+        ".tgz",
+        ".tsv",
+        ".txt",
+        ".webp",
+        ".xls",
+        ".xlsx",
+        ".zip",
+    }
+)
 
 
 def make_handler(
     store: StateStore,
     *,
     max_upload_bytes: int | None = None,
+    workspace_root: Path | None = None,
 ) -> type[BaseHTTPRequestHandler]:
     upload_limit = int(
         max_upload_bytes
         if max_upload_bytes is not None
         else os.getenv("LIVEOPT_MCP_MAX_UPLOAD_BYTES", str(25 * 1024 * 1024))
+    )
+    resolved_workspace_root = (
+        workspace_root.expanduser().resolve(strict=True)
+        if workspace_root is not None
+        else None
     )
 
     class LiveOptWebHandler(BaseHTTPRequestHandler):
@@ -55,13 +93,47 @@ def make_handler(
             if path == "/health":
                 self._json({"status": "ok"})
                 return
+            if path == "/explorer" or path.startswith("/explorer/"):
+                if path == "/explorer":
+                    self.send_response(307)
+                    self.send_header("Location", "explorer/" + ("?" + request_url.query if request_url.query else ""))
+                    self.end_headers()
+                    return
+                filename = "index.html" if path in {"/explorer", "/explorer/"} else path.removeprefix("/explorer/")
+                asset = _EXPLORER_DIR / filename
+                if filename not in _EXPLORER_FILES or not asset.is_file():
+                    self._json({"error": "not found"}, status=404)
+                    return
+                data = asset.read_bytes()
+                self.send_response(200)
+                self.send_header("Content-Type", (mimetypes.guess_type(filename)[0] or "application/octet-stream") + "; charset=utf-8")
+                self.send_header("Content-Length", str(len(data)))
+                self.send_header("Cache-Control", "no-cache")
+                self.send_header("X-Content-Type-Options", "nosniff")
+                self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'none'")
+                self.end_headers()
+                self.wfile.write(data)
+                return
+            match = _OPTIONS_PATH.fullmatch(path)
+            if match:
+                try:
+                    requested = query.get("turn", [None])[0]
+                    payload = solution_options(store, match.group(1), int(requested) if requested is not None else None)
+                except KeyError:
+                    self._json({"error": "session or turn not found"}, status=404)
+                    return
+                except ValueError as exc:
+                    self._json({"error": str(exc)}, status=400)
+                    return
+                self._json(payload)
+                return
             if path == "/settings":
                 self._json(
                     {
                         **load_application_settings(store.root),
                         "api": credential_status(),
                         "provider": "DeepSeek",
-                        "model": "deepseek-v4-flash",
+                        "model": "deepseek-flash",
                         "endpoint": "https://api.deepseek.com/v1",
                         "theme": "light",
                     }
@@ -146,9 +218,43 @@ def make_handler(
                 self.send_response(200)
                 self.send_header("Content-Type", content_type)
                 self.send_header("Content-Length", str(len(payload)))
+                safe_name = re.sub(r"[^A-Za-z0-9._() -]+", "_", artifact.name)
+                disposition = f'attachment; filename="{safe_name}"'
+                if safe_name != artifact.name:
+                    disposition += "; filename*=UTF-8''" + quote(artifact.name, safe="")
                 self.send_header(
-                    "Content-Disposition", f'attachment; filename="{artifact.name}"'
+                    "Content-Disposition", disposition
                 )
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(payload)
+                return
+            match = _WORKSPACE_FILE_PATH.fullmatch(path)
+            if match:
+                try:
+                    artifact = _resolve_workspace_download(
+                        unquote(match.group(1)), resolved_workspace_root
+                    )
+                except (FileNotFoundError, ValueError):
+                    self._json({"error": "downloadable file not found"}, status=404)
+                    return
+                content_type = (
+                    mimetypes.guess_type(artifact.name)[0]
+                    or "application/octet-stream"
+                )
+                payload = artifact.read_bytes()
+                fallback_name = re.sub(
+                    r"[^A-Za-z0-9._-]+", "_", artifact.name
+                ).strip("._") or "liveopt-download"
+                encoded_name = quote(artifact.name, safe="")
+                self.send_response(200)
+                self.send_header("Content-Type", content_type)
+                self.send_header("Content-Length", str(len(payload)))
+                self.send_header(
+                    "Content-Disposition",
+                    f'attachment; filename="{fallback_name}"; filename*=UTF-8\'\'{encoded_name}',
+                )
+                self.send_header("Cache-Control", "no-store")
                 self.send_header("Access-Control-Allow-Origin", "*")
                 self.end_headers()
                 self.wfile.write(payload)
@@ -157,6 +263,26 @@ def make_handler(
 
         def do_POST(self) -> None:  # noqa: N802 - stdlib handler contract
             parsed = urlsplit(self.path)
+            match = _PREFERENCE_PATH.fullmatch(parsed.path)
+            if match:
+                try:
+                    if "application/json" not in self.headers.get("Content-Type", ""):
+                        raise ValueError("preference requires application/json")
+                    size = int(self.headers.get("Content-Length") or "0")
+                    if not 0 < size <= 4096:
+                        raise ValueError("invalid preference request")
+                    payload = json.loads(self.rfile.read(size))
+                    if not isinstance(payload, dict):
+                        raise ValueError("preference must be an object")
+                    saved = save_preference(store, match.group(1), payload.get("turn"), str(payload.get("candidate_id") or ""))
+                except KeyError:
+                    self._json({"error": "session, turn or candidate not found"}, status=404)
+                    return
+                except (TypeError, ValueError) as exc:
+                    self._json({"error": str(exc)}, status=400)
+                    return
+                self._json(saved)
+                return
             if parsed.path == "/settings":
                 try:
                     content_length = int(self.headers.get("Content-Length") or "0")
@@ -190,7 +316,7 @@ def make_handler(
                         **settings,
                         "api": credential_status(),
                         "provider": "DeepSeek",
-                        "model": "deepseek-v4-flash",
+                        "model": "deepseek-flash",
                         "endpoint": "https://api.deepseek.com/v1",
                         "theme": "light",
                     }
@@ -273,6 +399,30 @@ def make_handler(
     return LiveOptWebHandler
 
 
+def _resolve_workspace_download(raw_path: str, workspace_root: Path | None) -> Path:
+    if workspace_root is None:
+        raise ValueError("workspace downloads are disabled")
+    candidate_path = Path(str(raw_path or ""))
+    if not candidate_path.parts or any(
+        part in {".", ".."} or part.startswith(".") for part in candidate_path.parts
+    ):
+        raise ValueError("hidden and traversal paths are not downloadable")
+    candidate = (
+        candidate_path
+        if candidate_path.is_absolute()
+        else workspace_root / candidate_path
+    ).resolve(strict=True)
+    try:
+        candidate.relative_to(workspace_root)
+    except ValueError as exc:
+        raise ValueError("download path escapes the workspace") from exc
+    if not candidate.is_file():
+        raise FileNotFoundError(candidate)
+    if candidate.suffix.lower() not in _DOWNLOADABLE_WORKSPACE_SUFFIXES:
+        raise ValueError("file type is not downloadable")
+    return candidate
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="LiveOpt browser progress API")
     parser.add_argument("--host", default="127.0.0.1")
@@ -281,7 +431,13 @@ def main() -> None:
     state_dir = Path(
         os.getenv("LIVEOPT_MCP_STATE_DIR", "~/.local/share/liveopt-dsh/state")
     ).expanduser()
-    server = ThreadingHTTPServer((args.host, args.port), make_handler(StateStore(state_dir)))
+    workspace_root = Path(
+        os.getenv("LIVEOPT_MCP_WORKSPACE_ROOT", os.getcwd())
+    ).expanduser()
+    server = ThreadingHTTPServer(
+        (args.host, args.port),
+        make_handler(StateStore(state_dir), workspace_root=workspace_root),
+    )
     try:
         server.serve_forever(poll_interval=0.25)
     except KeyboardInterrupt:

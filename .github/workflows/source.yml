@@ -11,3 +11,23 @@ jobs:
         with:
           python-version: '3.11'
       - run: python scripts/check_release_contents.py
+      - run: python scripts/build_release.py --output dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-release
+          path: dist/*
+  runtime:
+    runs-on: ubuntu-latest
+    env:
+      MAPLE_HOME: ${{ github.workspace }}/.test-runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: ./scripts/bootstrap_local.sh
+      - run: .test-runtime/runtime/venv/bin/pip install pytest
+      - run: .test-runtime/runtime/venv/bin/python -m pytest -q
+      - run: .test-runtime/bin/node --test tests/*.test.mjs tests/*.test.cjs desktop/tests/*.test.cjs
+      - run: python scripts/smoke_web.py
+      - run: PATH="$MAPLE_HOME/bin:$PATH" ./scripts/smoke_dsh.sh

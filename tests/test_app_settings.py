@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import stat
+import yaml
+import pytest
 from pathlib import Path
 
 from demo.fake_client import fake_client_factory
@@ -84,3 +86,35 @@ def test_omitted_generations_use_application_setting(tmp_path: Path):
         assert event["segments"]
     finally:
         service.close()
+
+
+def test_versioned_credentials_preserve_other_records(tmp_path: Path, monkeypatch):
+    path = tmp_path / ".credentials.yaml"
+    monkeypatch.setenv("LIVEOPT_DSH_CREDENTIAL_FILE", str(path))
+    original = {"version": 1, "refs": {"OTHER_KEY": "other-example"}, "records": {"example": {"kind": "opaque"}}}
+    path.write_text(yaml.safe_dump(original))
+    save_deepseek_api_key("sk-test-new")
+    saved = yaml.safe_load(path.read_text())
+    assert saved["version"] == 1
+    assert saved["records"] == original["records"]
+    assert saved["refs"] == {"OTHER_KEY": "other-example", "DEEPSEEK_API_KEY": "sk-test-new"}
+    assert load_deepseek_api_key() == "sk-test-new"
+
+
+def test_legacy_credentials_migrate_without_losing_other_keys(tmp_path: Path, monkeypatch):
+    path = tmp_path / ".credentials.yaml"
+    monkeypatch.setenv("LIVEOPT_DSH_CREDENTIAL_FILE", str(path))
+    path.write_text(yaml.safe_dump({"DEEPSEEK_API_KEY": "sk-test-old", "OTHER_KEY": "keep"}))
+    assert load_deepseek_api_key() == "sk-test-old"
+    save_deepseek_api_key("sk-test-new")
+    assert yaml.safe_load(path.read_text()) == {"version": 1, "refs": {"DEEPSEEK_API_KEY": "sk-test-new", "OTHER_KEY": "keep"}}
+
+
+def test_unknown_credential_version_is_not_overwritten(tmp_path: Path, monkeypatch):
+    path = tmp_path / ".credentials.yaml"
+    monkeypatch.setenv("LIVEOPT_DSH_CREDENTIAL_FILE", str(path))
+    original = "version: 2\nrefs: {}\n"
+    path.write_text(original)
+    with pytest.raises(ValueError, match="version"):
+        save_deepseek_api_key("sk-test-new")
+    assert path.read_text() == original
