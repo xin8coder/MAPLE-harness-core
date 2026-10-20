@@ -7,7 +7,7 @@
     "commit": "687f282e8625c6b8d11ff58211a90524be2e4317"
   },
   "core_sha256": "57aa6171c52bc6f9d76d368c435294ea44282740563f5005a780191f055dcf78",
-  "file_count": 222,
+  "file_count": 227,
   "files": [
     {
       "path": ".github/workflows/desktop.yml",
@@ -41,8 +41,13 @@
     },
     {
       "path": "README.md",
-      "sha256": "d733f5432d18cc49f796828474fb1a86a8d534a55f6d9817a7b91dda835ac36e",
-      "bytes": 7957
+      "sha256": "4fc5c5a432dabc7ef9e1f7f40f53151c9231cbb9f1a88e995057e4a503693286",
+      "bytes": 7290
+    },
+    {
+      "path": "README.zh-CN.md",
+      "sha256": "61bfa57fcdcff31fea7f961b34543345995664ca924a75cf7b93c05c7713b854",
+      "bytes": 5403
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -140,9 +145,24 @@
       "bytes": 1863
     },
     {
+      "path": "docs/releases/v0.2.0.md",
+      "sha256": "cd5e8aad81213cc7a8d14d22c072207b7060ff56daf2990259e09e66f5f0bfa2",
+      "bytes": 3716
+    },
+    {
       "path": "docs/solution-explorer.md",
       "sha256": "32def6f005b1029d30144df921024d07996dd3ef76c0c20e1979d251d998d173",
       "bytes": 2519
+    },
+    {
+      "path": "docs/user-guide.md",
+      "sha256": "3b363eee73b64f54fabc928d6cfcba0bfde77585b24d98efe7633a885100e133",
+      "bytes": 7373
+    },
+    {
+      "path": "docs/user-guide.zh-CN.md",
+      "sha256": "eab46ae4d0e0da709e7e53c2f26a746298afe9b4404e56979521849625cf8a7a",
+      "bytes": 7513
     },
     {
       "path": "dsh-bundle/client.js",
@@ -316,8 +336,8 @@
     },
     {
       "path": "scripts/check_release_contents.py",
-      "sha256": "d103d9762daad54cf8e85cfa29e7023ca3db6bbe240945126e0b7b0ad1f629a6",
-      "bytes": 2748
+      "sha256": "731573675b35babf5af329862a3ceba869367fe25ceb6756c3e9398ca6f8e14a",
+      "bytes": 3319
     },
     {
       "path": "scripts/common.sh",
@@ -618,6 +638,11 @@
       "path": "tests/test_offline_requirement_matrix.py",
       "sha256": "a79db7056730cb4bcfe5a6a70f90db6cee3e45cae694f09ae79b387b44d83c92",
       "bytes": 12261
+    },
+    {
+      "path": "tests/test_release_contents.py",
+      "sha256": "f5079d7860aff11533ed93eb0f4cc67a7c66a22100fcb02058126038acc7145f",
+      "bytes": 2108
     },
     {
       "path": "tests/test_serialization.py",

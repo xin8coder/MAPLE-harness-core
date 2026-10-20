@@ -1,122 +1,140 @@
 <div align="center">
 
+<img src="src/liveopt_dsh/assets/maple-logo.png" width="80" alt="MAPLE Harness logo">
+
 # MAPLE Harness
 
-**A workspace for optimization that continues across requests.**
+**Describe a plan. Compare solutions. Update it in conversation.**
 
-Bring your data, inspect a solution, and revise the same problem in conversation.
+[Download v0.2.0](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.0) · [User guide](docs/user-guide.md) · [中文指南](docs/user-guide.zh-CN.md) · [Recorded demo](https://xin8coder.github.io/MAPLE-harness/)
 
-[Try the demo](https://anonymous.4open.science/w/MAPLE-demo-review-F98B/) · [Optimization runtime](https://anonymous.4open.science/r/MAPLE00) · [Quick start](#quick-start) · [Operations guide](docs/operations.md)
-
-![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Interface MCP](https://img.shields.io/badge/Interface-MCP-334B60)
+![Windows and Linux](https://img.shields.io/badge/Platforms-Windows%20%7C%20Linux-087e8b)
+![DSH](https://img.shields.io/badge/DSH-0.2.1--rc.2-334B60)
 ![License ISC](https://img.shields.io/badge/License-ISC-39857D)
+
+English | [简体中文](README.zh-CN.md)
 
 </div>
 
-MAPLE stands for **Memory-Augmented Planning with Language and Evolution**. Recorded walkthroughs and runtime identifiers retain the earlier LiveOpt name.
+MAPLE Harness turns natural-language requirements and uploaded data into numerical
+optimization tasks. Compare single-objective or Pareto solutions, select a plan,
+then revise the same task when orders, resources, deadlines, or objectives change.
+Examples include production scheduling, warehouse allocation, staffing, delivery,
+and other planning tasks.
 
-MAPLE Harness connects a conversational application to the MAPLE optimization runtime. Each accepted turn retains the executable Workbench, public data, solution, search population, and event history. A later request revises that session and produces an updated solution with visible progress and downloadable results.
+The application uses the official DeepSeek Harness host and a separately installed
+MAPLE optimization runtime. Code and examples retain some earlier `LiveOpt` names.
 
-## From request to revised solution
+## Download and Start
 
-| | In the workspace |
-|---|---|
-| **1 · Bring the problem** | Describe objectives and constraints, then attach tables or documents. Prepared data is visible before solving. |
-| **2 · Choose a search route** | Use exact LP/MILP, evolutionary GA/NSGA-II, or automatic selection for the formulation. |
-| **3 · Follow the solve** | Progress cards show the current phase, generations, feasibility, and archive size. |
-| **4 · Inspect the result** | Explore objective traces, population distributions, Pareto solutions, and the accepted plan in **Solutions**. |
-| **5 · Continue in context** | Change a parameter, resource, or requirement in the same conversation. Inspect the restart decision and updated accepted state. |
-| **6 · Take the outputs** | Export CSV, JSON, and ZIP artifacts for further analysis. |
+Download a package from [Releases](https://github.com/xin8coder/MAPLE-harness-core/releases/latest) and **extract it completely** before starting.
 
-## Quick start
+| Platform | Recommended package | Start |
+|---|---|---|
+| Windows 10/11 x64 | `MAPLE-Harness-0.2.0-source.zip` | Double-click `start.cmd`. |
+| Linux x64 | `MAPLE-Harness-0.2.0-source.tar.gz` | Run `bash start.sh` in the extracted folder. |
 
-Download and extract the source release. **Python and Node.js do not need to be preinstalled.** The native launchers install private, verified runtimes and **DeepSeek Harness 0.2.1-rc.2** under your user account. A DeepSeek API key is required for real solves.
+The same packages contain the **complete web application and backend**. Python
+and Node.js are downloaded automatically into a private application directory.
+No administrator privileges, Docker, WSL, or preinstalled Python/Node are required.
+Linux needs `curl`, `tar`, CA certificates, and a glibc-based distribution such as
+Ubuntu or Debian. Linux arm64 is supported by the launcher but is not in the
+native CI matrix. macOS retains the manual installation path in the operations guide.
 
-Download this anonymous repository as a source archive and extract it into a directory named `MAPLE-harness-core`.
+The first installation needs Internet access and can take several minutes.
+Later launches reuse the installed dependencies. The browser opens a paired local
+page automatically. Keep the terminal open while using the application and press
+Ctrl+C to stop it. On a headless server, use the printed link through an SSH tunnel
+or the documented intranet deployment.
+
+## First Session
+
+1. Open **Settings → MAPLE Harness** and enter your DeepSeek API key. Real model calls use your account and may incur charges. All application roles use `deepseek-flash`, not Pro.
+2. Choose a workspace, start a conversation, and describe your objectives and hard constraints. Use **Document** to attach Excel, CSV, JSON, or supported documents.
+3. Ask the agent to inspect the data first. Choose an exact or evolutionary solver when prompted. You can also ask it to select a route automatically.
+4. Follow the progress card. In **Solutions**, inspect the objective curves, final population, and Pareto alternatives. Open the solution explorer to highlight and select a feasible plan.
+5. Send an update in the **same conversation**. MAPLE retains the accepted task and search state, reports its restart action, and produces a new result.
+6. Download the generated CSV, JSON, or ZIP files from the result view.
+
+English and Simplified Chinese are supported. Chinese questions receive Chinese
+replies without an extra language instruction. Chinese spreadsheet headers can be
+mapped with LLM assistance; original labels are retained for localized results.
+
+The default evolutionary budget is **100 iterations**, configurable in Settings.
+There is no application username/password prompt. The launch link pairs your
+browser with the local host, so keep its token private.
+
+## Try the Included Example
+
+The [Chinese garment-export example](examples/garment_export/inputs/chinese/)
+includes an Excel workbook and ready-to-use requests. It covers orders, team
+assignments, work sequence, warehouse zones, costs, and late deliveries.
+
+> We have six export orders to pack tomorrow. Please assign teams, decide the
+> order of work, and choose warehouse zones. I want lower costs and fewer late
+> deliveries. Show several alternatives, and follow the rules in the workbook.
+> Inspect the data first and do not start solving yet.
+
+After accepting a solve, continue with a deadline or staffing change. See the
+[English guide](docs/user-guide.md) or [中文操作指南](docs/user-guide.zh-CN.md) for
+the exact included requests and how to compare accepted turns.
+
+## Web App or Desktop Client?
+
+**Use the source ZIP/tar.gz for one-click local web deployment.** It installs the
+backend and opens the browser. The optional [`desktop/`](desktop/) package is an
+Electron **remote client** for an already running MAPLE server. It does not bundle
+the optimizer, Python, or a local backend. Native client packages, when attached to
+a release, are labeled separately from the recommended web deployment packages.
+
+## Settings, Storage, and Updates
+
+The preferred local port is **3000**. If it is occupied, the native launcher
+selects a free port. Advanced options:
 
 ```bash
-cd MAPLE-harness-core
-./start.sh
+# Linux: install without starting, or start without opening a browser.
+bash start.sh --install-only
+bash start.sh --no-browser
+
+# Optional isolated installation and preferred port.
+MAPLE_HOME=/path/to/maple MAPLE_PORT=3002 bash start.sh
 ```
 
-On **Windows 10/11 x64**, extract the ZIP and double-click **`start.cmd`**. On **Linux x64/arm64**, run **`./start.sh`**. Both install the backend and open its webpage, not an Electron remote client. Keep the terminal open while using the application. Press Ctrl+C to stop. The first installation needs Internet access and can take several minutes; later launches reuse the installation.
+On Windows use `start.cmd -InstallOnly` or `start.cmd -NoBrowser`.
 
-The browser opens the paired launch link automatically. On a headless Linux server, use the link printed in the terminal through an appropriate tunnel. Enter your key in **MAPLE Settings**. The preferred port is **3000**; if busy, a free port is selected. There is no account/password prompt. Keep the private launch link confidential. The application uses Flash models only, with **100** evolutionary iterations by default. To explore without a key, open the [recorded demo](https://anonymous.4open.science/w/MAPLE-demo-review-F98B/).
+State lives under `~/.local/share/maple-harness` on Linux or
+`%LOCALAPPDATA%\MAPLEHarness` on Windows, not in the extracted source folder.
+Back up this directory before upgrading. Stop the old launcher, extract the new
+release, and start it under the same application home. The installer refreshes
+the runtime when the release manifest changes. Older `liveopt-dsh` installations
+are not imported automatically.
 
-The new installation uses `~/.local/share/maple-harness` on Linux or `%LOCALAPPDATA%\MAPLEHarness` on Windows. It does not overwrite an existing `~/.local/share/liveopt-dsh` deployment. Set `MAPLE_HOME` for a separate installation or `MAPLE_PORT` for a preferred port. Existing sessions are not migrated automatically. Python is not registered globally and the system PATH is not changed.
+For shared access, network/proxy configuration, persistent services, recovery,
+and security boundaries, read the [operations guide](docs/operations.md).
+Generated Workbench code runs with the server user's permissions. Use trusted
+data and users, or provide appropriate isolation before exposing the application.
 
-For unattended setup use `./start.sh --install-only` or `start.cmd -InstallOnly`. Use `--no-browser` on Linux or `-NoBrowser` on Windows to suppress browser opening. macOS retains the manual `./maple` installation path described in the operations guide.
+## Validation and Development
 
-### Desktop client
-
-[`desktop/`](desktop/) contains an Electron client for an existing server. Connect using its HTTPS address or official launch link. Optimization runs on that server; the client does not bundle the Python backend. Linux packages can be built locally, while the release workflow builds Windows and macOS packages on their respective runners. See [Desktop and language](docs/desktop-and-language.md).
-
-Already have the required Node.js and host tools? Use [`scripts/install.sh`](scripts/install.sh). See the [operations guide](docs/operations.md) for pinned versions, Docker, SSH forwarding, private-network deployment, and persistent services.
-
-### Try two consecutive requests
-
-**Start with public data:**
-
-> Select items to maximize total value. Capacity is 8. Items are I1 (value 10, weight 4), I2 (8, 5), I3 (6, 3), and I4 (5, 2). Return selected item IDs, total value, and total weight.
-
-**Then update the same conversation:**
-
-> Capacity is now 6. Keep the item records unchanged and revise the current solution.
-
-The second request continues the accepted session. **Solutions** exposes the request, public-data patch, selected search action, objective traces, and resulting plan for each accepted turn.
-
-## What is retained
-
-| State | Purpose |
-|---|---|
-| Public tables and requests | Define the current task and its update history |
-| TSS Workbench | Holds the executable decision declarations and evaluation functions |
-| Accepted solutions | Supply the current plan and historical decision references |
-| Population and archive | Supply reusable candidates for subsequent search |
-| Validation and artifacts | Record accepted transitions and downloadable outputs |
-
-The sidecar saves accepted state atomically and reconstructs the Workbench after a restart. The launcher uses `~/.local/share/maple-harness/state`; [`docs/operations.md`](docs/operations.md#persistence-and-cache-behavior) explains recovery and cache modes.
-
-## Architecture
-
-```text
-Conversation + uploaded public data
-                 │
-       MAPLE Harness workspace
-          Chat · Solutions · Trajectory
-                 │
-           MAPLE MCP sidecar
-                 │
-    Workbench · TSS · LSM · numerical solvers
-                 │
-      Accepted state + exported artifacts
-```
-
-The standalone source repository vendors its core dependency in `vendor/liveopt-core/`, with provenance in `vendor/liveopt-core/SOURCE_REVISION` and file hashes in `RELEASE_MANIFEST.json`. `LIVEOPT_CORE_ROOT` selects an explicit alternative checkout. Application state is stored in its own persistent directory.
-
-| Directory | Role |
-|---|---|
-| [`src/liveopt_dsh/`](src/liveopt_dsh/) | MCP tools, persistent sessions, data preparation, and result endpoints |
-| [`dsh-bundle/`](dsh-bundle/) | Browser cards, settings, and application skills |
-| [`scripts/`](scripts/) | Installation, startup, deployment, and smoke checks |
-| [`tests/`](tests/) | Sidecar, state, data, and interface checks |
-
-## Deployment and development
-
-Workbench slots execute Python. Run the application within an isolation boundary suited to its users and data; keep credentials in the host credential store. The [operations guide](docs/operations.md) documents state directories, supported uploads, network settings, recovery, and deployment commands.
-
-Run the sidecar checks from a standalone checkout:
+The native [Windows/Linux workflow](.github/workflows/source.yml) installs the
+application from scratch, runs the Python suite, checks authenticated web routes
+and Chinese CSV uploads, and exercises the real DSH-to-MCP boundary with a local
+provider mock. Tests do not spend model API credits. The vendored core and source
+files are recorded in `RELEASE_MANIFEST.json`; release archives include checksums.
 
 ```bash
 python -m pip install -e vendor/liveopt-core -e . pytest
-python -m pytest tests -q
+python -m pytest -q
 node --test tests/*.test.mjs tests/*.test.cjs desktop/tests/*.test.cjs
 python scripts/smoke_web.py
+python scripts/smoke_mcp_host.py
 ```
 
-The smoke check boots a temporary web profile, verifies uploads and authenticated result routes, and shuts it down without contacting an LLM. The [online demo](https://anonymous.4open.science/w/MAPLE-demo-review-F98B/) is a recorded preview, not a live server.
+The executable application is separate from the research experiment entrypoints
+and caches. [Implementation notes](docs/dsh-upgrade.md) describe the DSH migration.
 
 ## License
 
-MAPLE Harness is released under the [ISC License](LICENSE). The DeepSeek Harness host retains its MIT license and upstream notices.
+MAPLE Harness is released under the [ISC License](LICENSE). DeepSeek Harness keeps
+its upstream MIT license and attribution. Bundled third-party notices are retained.

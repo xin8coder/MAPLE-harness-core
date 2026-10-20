@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check anonymous source releases for manuscript files and identity metadata."""
+"""Keep private material out of source releases and preserve source attribution."""
 from pathlib import Path
 import argparse
 import gzip
@@ -9,6 +9,15 @@ import subprocess
 SUFFIXES = {'.tex', '.bib', '.sty', '.bst', '.ppt', '.pptx', '.pdf', '.zip', '.tar', '.tgz', '.cff'}
 PREFIXES = ('paper/', 'paper_outputs/', 'release_artifacts/', 'logs/', 'outputs/', 'anonymous-demo/', 'site/', 'docs/maple', 'docs/iclr')
 PRIVATE_NAMES = {'.env', '.credentials.yaml', 'connection.json', 'provider.env', 'service.env'}
+PUBLIC_LINK_DOCUMENTS = {
+    'README.md', 'README.zh-CN.md', 'docs/user-guide.md',
+    'docs/user-guide.zh-CN.md', 'docs/releases/v0.2.0.md',
+}
+# Published installation guides intentionally link to the application and demo.
+PUBLIC_PRODUCT_URLS = re.compile(
+    rb'https://(?:github\.com/xin8coder/MAPLE-harness-core|'
+    rb'xin8coder\.github\.io/MAPLE-harness)(?=[/#?\s)"<>]|$)'
+)
 PATTERNS = {
     'personal project URL': re.compile(rb'https?://(?:github\.com/[A-Za-z0-9_.-]+/MAPLE(?:[/.#?\-]|\b)|[A-Za-z0-9_.-]+\.github\.io/MAPLE(?:[/.#?\-]|\b))', re.I),
     'machine-specific home path': re.compile(rb'/(?:home|Users)/[A-Za-z0-9_.-]+/'),
@@ -27,7 +36,10 @@ def check_files(root, paths):
         if path.suffix == '.gz':
             content = gzip.decompress(content)
         for label, pattern in PATTERNS.items():
-            if pattern.search(content):
+            checked = content
+            if label == 'personal project URL' and rel in PUBLIC_LINK_DOCUMENTS:
+                checked = PUBLIC_PRODUCT_URLS.sub(b'', content)
+            if pattern.search(checked):
                 failures.append(f'{label}: {rel}')
     license_lines = (root / 'LICENSE').read_text().splitlines()
     copyright_lines = [line for line in license_lines if line.startswith('Copyright ')]
@@ -50,7 +62,7 @@ def main():
         for line in history.splitlines():
             if line.split('\0') != expected:
                 raise SystemExit('Commit authors and committers must be anonymous.')
-    print(f'Checked {len(paths)} files: anonymous source content verified.')
+    print(f'Checked {len(paths)} files: release boundaries and attribution verified.')
 
 
 if __name__ == '__main__':
