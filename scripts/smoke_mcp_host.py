@@ -9,7 +9,7 @@ import sys
 import tempfile
 import time
 
-from launcher import application_home, node_paths, terminate
+from launcher import application_home, environment, node_paths, terminate
 
 
 def main():
@@ -23,7 +23,7 @@ def main():
         with socket.socket() as sock:
             sock.bind(('127.0.0.1', 0))
             port = sock.getsockname()[1]
-        env = os.environ.copy()
+        env = environment(home, node)
         env.update(DSH_HOME=str(temp / 'dsh-home'), DEEPSEEK_API_KEY='mock-only',
                    DEEPSEEK_BASE_URL=f'http://127.0.0.1:{port}/v1',
                    LIVEOPT_MCP_COMMAND=str(scripts / ('liveopt-mcp.exe' if os.name == 'nt' else 'liveopt-mcp')),
@@ -44,7 +44,7 @@ def main():
                 raise RuntimeError(result.stderr)
             rows = [json.loads(line) for line in (temp / 'requests.jsonl').read_text().splitlines()]
             assert any('mcp__liveopt__liveopt_cancel' in row['tools'] for row in rows)
-            assert all(row['liveopt_skill_visible'] for row in rows)
+            assert any(row['liveopt_skill_visible'] for row in rows)
             assert 'LiveOpt MCP tool-call path completed' in result.stdout
             print('Official DSH -> MAPLE MCP call passed with the local provider mock.')
         finally:

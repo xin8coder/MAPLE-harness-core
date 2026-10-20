@@ -336,8 +336,8 @@
     },
     {
       "path": "scripts/launcher.py",
-      "sha256": "167a74dc50a4468256de5931769338c504a13e78d26667f49e509bb89fcc209c",
-      "bytes": 10542
+      "sha256": "7de6c1271dcdd3ded317e5e131bf6e41d8dd568f66710b8f4b55941ec4f4efae",
+      "bytes": 10719
     },
     {
       "path": "scripts/smoke_dsh.sh",
@@ -346,13 +346,13 @@
     },
     {
       "path": "scripts/smoke_mcp_host.py",
-      "sha256": "1d30aab6e7e8fd80aecc624a1ce329272ac10a3ae38496c75d1cc866099fd090",
-      "bytes": 2715
+      "sha256": "f20db729558ef92dc0af29dc60ccae849528662da60a0ea496dd686de1dcfbf2",
+      "bytes": 2734
     },
     {
       "path": "scripts/smoke_web.py",
-      "sha256": "edfffef86a1873761ae1b0e7d8654df520c2097eff2a4a91458e8771fb70c9a0",
-      "bytes": 4091
+      "sha256": "7366c093096fb179d9ee1aa4320ad8538bab0d3362bd818a34b54c27c5380145",
+      "bytes": 4110
     },
     {
       "path": "scripts/start_intranet.sh",

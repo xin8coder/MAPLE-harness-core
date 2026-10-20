@@ -13,7 +13,7 @@ import tempfile
 import time
 from urllib.error import HTTPError
 from urllib.request import build_opener, HTTPCookieProcessor, ProxyHandler, Request
-from launcher import application_home, node_paths, terminate
+from launcher import application_home, environment, node_paths, terminate
 
 
 def main():
@@ -23,7 +23,7 @@ def main():
     dsh = [str(node), str(home / 'dsh-runtime/node_modules/@deepseek-ai/dsh/lib/bin.js')]
     with tempfile.TemporaryDirectory(prefix='maple-web-smoke-') as temp:
         temp = Path(temp)
-        env = os.environ.copy()
+        env = environment(home, node)
         for name in ('DEEPSEEK_API_KEY', 'KIMI_API_KEY', 'LIVEOPT_ENV_FILE', 'LIVEOPT_DSH_PUBLIC_URL'):
             env.pop(name, None)
         env.update(MAPLE_HOME=str(home), DSH_HOME=str(temp / 'dsh-home'),

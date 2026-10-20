@@ -97,6 +97,7 @@ def install(home, node, corepack, env):
     host.mkdir(parents=True, exist_ok=True)
     for name in ('package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml'):
         shutil.copy2(ROOT / 'runtime' / name, host / name)
+    run([node, corepack, 'enable', '--install-directory', node.parent], env, host)
     run([node, corepack, 'prepare', f'pnpm@{PINS["pnpm_version"]}', '--activate'], env, host)
     run([node, corepack, 'pnpm', '--dir', host, 'install', '--frozen-lockfile'], env, host)
     print('[4/5] Installing Python optimization and document tools...', flush=True)
@@ -127,12 +128,12 @@ def install(home, node, corepack, env):
     bindir = home / 'bin'
     bindir.mkdir(exist_ok=True)
     if WINDOWS:
-        (bindir / 'dsh.cmd').write_text(f'@echo off\r\n"{node}" "{entry}" %*\r\n')
+        (bindir / 'dsh.cmd').write_text(f'@echo off\r\nset "PATH={node.parent};%PATH%"\r\n"{node}" "{entry}" %*\r\n')
     else:
         import shlex
         for name, command in [('dsh', [node, entry]), ('liveopt-mcp', [mcp])]:
             wrapper = bindir / name
-            wrapper.write_text('#!/bin/sh\nexec ' + shlex.join(map(str, command)) + ' "$@"\n')
+            wrapper.write_text('#!/bin/sh\nexport PATH=' + shlex.quote(str(node.parent)) + ':"$PATH"\nexec ' + shlex.join(map(str, command)) + ' "$@"\n')
             wrapper.chmod(0o755)
     marker.write_bytes(manifest)
     return python, mcp, entry
