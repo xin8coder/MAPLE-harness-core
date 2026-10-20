@@ -63,3 +63,21 @@ The intranet launcher also passed an HTTPS check on separate test ports. The
 client verified the private CA, paired through the official launch link, loaded
 settings and explorer assets through the proxy, and rejected an untrusted Origin.
 The production service was left running on its original port throughout testing.
+
+## Native one-click web deployment
+
+`start.cmd` (Windows x64) and `start.sh` (Linux x64/arm64) prepare a private Python,
+Node, host, and backend, then hand the paired page to the default browser. They
+do not require Python or Node to be installed globally. Python download/install
+uses pinned UV with `--no-bin --no-registry`; archives are verified before use.
+
+The application core has three portability changes relative to its snapshot:
+use FileLock rather than POSIX-only `fcntl`, use Windows process spawning for
+optional hard timeouts, and avoid Unix-only alarm/file-mode calls on Windows.
+The optimization operators, evaluation contracts, and restart decisions are
+unchanged by these portability changes.
+
+The source workflow installs from scratch on native Ubuntu and Windows runners,
+runs the Python suite, opens the authenticated web endpoints, uploads a Chinese
+CSV, loads the installed explorer, and calls MCP through a local provider mock.
+The Linux job also runs the Node UI/policy tests. No paid model is used by CI.

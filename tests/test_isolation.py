@@ -11,6 +11,7 @@ PLUGIN_ROOT = Path(__file__).resolve().parents[1]
 def test_default_runtime_state_is_outside_research_checkout(monkeypatch, tmp_path: Path):
     monkeypatch.delenv("LIVEOPT_MCP_STATE_DIR", raising=False)
     monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.setenv("USERPROFILE", str(tmp_path))
     config = ServiceConfig.from_env()
     assert config.state_dir == tmp_path / ".local/share/liveopt-dsh/state"
 

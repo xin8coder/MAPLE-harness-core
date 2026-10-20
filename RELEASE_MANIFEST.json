@@ -121,8 +121,8 @@
     },
     {
       "path": "docs/dsh-upgrade.md",
-      "sha256": "91c04cc12f847c0c860c4dbc838d15976533ef7b64c9cecf154763b3a7217ed0",
-      "bytes": 3573
+      "sha256": "8bf75da8abcf35d41679bd512b90d6aff8941297b4e488d074e3c1a61194a482",
+      "bytes": 4605
     },
     {
       "path": "docs/native-language-data.md",
@@ -596,8 +596,8 @@
     },
     {
       "path": "tests/test_isolation.py",
-      "sha256": "5639ee3f6aa8923ae7cc71f969c70622337f803102e592498524eebf21910894",
-      "bytes": 3793
+      "sha256": "e1454e766c8d0d5773cd177ee7654c50986ae7019c29c21796b02f7270353207",
+      "bytes": 3846
     },
     {
       "path": "tests/test_launcher.py",
