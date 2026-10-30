@@ -72,7 +72,10 @@ def check_password(user, password):
 
 def safe_next(value):
     # Only same-site relative paths, never another host.
-    return value if value.startswith("/") and not value.startswith("//") else "/"
+    if (not value.startswith("/") or value.startswith("//") or "\\" in value
+            or any(ord(char) < 32 or ord(char) == 127 for char in value)):
+        return "/"
+    return value
 
 
 class Handler(BaseHTTPRequestHandler):

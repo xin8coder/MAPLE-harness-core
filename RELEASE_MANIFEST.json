@@ -71,8 +71,8 @@
     },
     {
       "path": "deploy/sandbox/auth.py",
-      "sha256": "f5d23750708d78fae066c0b6c22d630454df5936baee86fd3399ddc0f8e08c24",
-      "bytes": 6212
+      "sha256": "8663e49b904e216c798170d274bbba317cd56f9f6a5a1cdb2b737d5f5c7e6edc",
+      "bytes": 6318
     },
     {
       "path": "deploy/sandbox/common.sh",
@@ -101,8 +101,8 @@
     },
     {
       "path": "deploy/sandbox/setup.py",
-      "sha256": "43a2e6a585cff80fb3e1987c046902d8e59ccc3fbd6c72d0d95e943dd12e7971",
-      "bytes": 13029
+      "sha256": "ce559f67737571e7ab276bd1ffbdafe056685e450d07ab5d460745bd369bd1b5",
+      "bytes": 13448
     },
     {
       "path": "deploy/sandbox/start-auth.sh",
@@ -736,8 +736,8 @@
     },
     {
       "path": "tests/test_sandbox_deployment.py",
-      "sha256": "fdf12b93db85e44548123898071ca7585f20b1d6cff88a914a472de2db72bb89",
-      "bytes": 4789
+      "sha256": "dba2c347f0815c1595bf964f4123dc85e20876fc3154e315e078b8f6c1e39ddc",
+      "bytes": 5597
     },
     {
       "path": "tests/test_serialization.py",

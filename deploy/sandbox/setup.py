@@ -36,6 +36,14 @@ def validate_values(values):
     if origin and (parsed.scheme != 'https' or not parsed.hostname or parsed.username or parsed.password
                    or parsed.path or parsed.query or parsed.fragment or any(char.isspace() for char in origin)):
         raise ValueError('Public origin must be a plain HTTPS origin, without a path or credentials')
+    if origin:
+        hostname = parsed.hostname.encode('idna').decode('ascii')
+        if not re.fullmatch(r'[A-Za-z0-9.-]+', hostname):
+            raise ValueError('Invalid public hostname')
+        port = parsed.port
+        if port is not None and not 1 <= port <= 65535:
+            raise ValueError('Invalid public port')
+        values['MAPLE_PUBLIC_ORIGIN'] = 'https://'+hostname+(f':{port}' if port else '')
     if values['MAPLE_TUNNEL'] == 'named' and not origin:
         raise ValueError('Named tunnels require --public-origin')
     values['MAPLE_INTRANET_ORIGIN'] = f"https://{address}:{values['MAPLE_PORT']}"

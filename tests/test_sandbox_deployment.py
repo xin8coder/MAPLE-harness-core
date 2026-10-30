@@ -27,7 +27,9 @@ def values(tmp_path):
 @pytest.mark.parametrize('key,value', [('MAPLE_BIND', '0.0.0.0'), ('MAPLE_BIND', '8.8.8.8'),
     ('MAPLE_PORT', 3101), ('MAPLE_PORT', 80), ('MAPLE_SERVICE_PREFIX', 'name\nExecStart=bad'),
     ('MAPLE_PUBLIC_ORIGIN', 'https://example.com/path'),
-    ('MAPLE_PUBLIC_ORIGIN', 'https://user:password@example.com')])
+    ('MAPLE_PUBLIC_ORIGIN', 'https://user:password@example.com'),
+    ('MAPLE_PUBLIC_ORIGIN', "https://example.com'"),
+    ('MAPLE_PUBLIC_ORIGIN', 'https://example.com:invalid')])
 def test_invalid_deployment_settings_are_rejected(tmp_path, key, value):
     with pytest.raises(ValueError):
         setup.validate_values({**values(tmp_path), key: value})
@@ -96,3 +98,16 @@ def test_new_instance_cannot_overwrite_another_instances_services(tmp_path):
     with pytest.raises(ValueError, match='another installation'):
         setup.validate_unit_ownership(tmp_path, tmp_path/'server', setup.unit_texts(tmp_path/'server', config))
     assert '/other-instance/' in path.read_text()
+
+
+def test_login_return_path_cannot_escape_the_current_site(monkeypatch):
+    monkeypatch.setenv('MAPLE_FRONT_USER', 'example')
+    monkeypatch.setenv('MAPLE_FRONT_SALT', bytes(24).hex())
+    monkeypatch.setenv('MAPLE_FRONT_PBKDF2', bytes(32).hex())
+    monkeypatch.setenv('MAPLE_SESSION_SECRET', bytes(32).hex())
+    spec = importlib.util.spec_from_file_location('sandbox_auth_test', ROOT/'deploy/sandbox/auth.py')
+    auth = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(auth)
+    for path in ['//outside.invalid', '/\\outside.invalid', '/\r\nX-Injected: bad']:
+        assert auth.safe_next(path) == '/'
+    assert auth.safe_next('/?view=solutions') == '/?view=solutions'
