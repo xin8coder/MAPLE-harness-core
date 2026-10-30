@@ -1,0 +1,49 @@
+# Host-side model proxy for the sandbox. The sandbox only holds a placeholder
+# key; this proxy replaces it with the real key and reaches DeepSeek only.
+{
+	admin off
+	auto_https off
+	persist_config off
+}
+
+(deepseek) {
+	reverse_proxy https://api.deepseek.com {
+		header_up Host api.deepseek.com
+		header_up -X-Forwarded-For
+		header_up -X-Forwarded-Host
+		header_up -X-Forwarded-Proto
+		flush_interval -1
+		transport http {
+			response_header_timeout 15m
+		}
+	}
+}
+
+http:// {
+	bind unix/{$MAPLE_SANDBOX_ROOT}/run/llm/llm.sock
+	request_body {
+		max_size 64MB
+	}
+
+	# DSH host agent: Anthropic-compatible Messages / Files API.
+	@anthropic path /v1/messages /v1/messages/* /v1/files /v1/files/*
+	handle @anthropic {
+		rewrite * /anthropic{uri}
+		request_header -Authorization
+		request_header X-Api-Key {env.MAPLE_LLM_KEY}
+		import deepseek
+	}
+
+	# MAPLE sidecar: OpenAI-compatible chat completions.
+	@openai path /chat/completions /v1/chat/completions
+	handle @openai {
+		rewrite * /v1/chat/completions
+		request_header -X-Api-Key
+		request_header Authorization "Bearer {env.MAPLE_LLM_KEY}"
+		import deepseek
+	}
+
+	handle {
+		respond "blocked by sandbox policy" 403
+	}
+}

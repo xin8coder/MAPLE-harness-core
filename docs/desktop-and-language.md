@@ -52,11 +52,20 @@ artifact downloads use the native save dialog.
 
 ## Language and data mapping
 
-English and Simplified Chinese are supported. The MAPLE settings control shares
+Simplified Chinese is the default. English remains available in Settings.
+The MAPLE settings control shares
 official DSH's durable locale preference. The language instruction is read anew
 for each model step: the latest user message determines response language, with
 the UI preference used for language-neutral messages. Chinese input therefore
 does not require an extra instruction asking for Chinese output.
+
+The application preset is a MAPLE optimization assistant, not the host's coding
+assistant. It exposes MAPLE data, solve/update, inspection, and export tools,
+along with skill lookup and clarification questions. Shell execution, source
+editing, web browsing, subagents, and repository instruction discovery are not
+part of this preset. Existing conversations keep their `standard` preset id
+and use the updated composition when reopened. The `liveopt` spelling in MCP
+identifiers is kept for API and saved-session compatibility, not product branding.
 
 The UI translates its own labels and charts, not historical chat, code, raw data,
 or entity identifiers. `liveopt_map_data` uses the LLM for reversible schema

@@ -49,3 +49,19 @@ def test_public_guides_still_reject_machine_paths(tmp_path):
 def test_private_deployment_files_remain_excluded(tmp_path):
     with pytest.raises(SystemExit, match='private deployment configuration'):
         check_content(tmp_path, 'provider.env', 'PRIVATE_CONFIG=example')
+
+
+@pytest.mark.parametrize('filename', ['front.env', 'llm.env', 'config.env', 'cloudflare-token',
+                                     'deploy/secrets/example.txt', '.env.production'])
+def test_sandbox_private_files_are_never_publishable(tmp_path, filename):
+    with pytest.raises(SystemExit, match='private deployment configuration'):
+        check_content(tmp_path, filename, 'example')
+
+
+@pytest.mark.parametrize('label,prefix,length', [('provider API key', 'sk-', 32),
+    ('GitHub access token', 'ghp_', 36), ('Hugging Face access token', 'hf_', 34)])
+def test_token_checks_report_only_the_file_not_the_secret(tmp_path, label, prefix, length):
+    value = prefix+'a'*length
+    with pytest.raises(SystemExit, match=label) as error:
+        check_content(tmp_path, 'example.py', value)
+    assert value not in str(error.value)

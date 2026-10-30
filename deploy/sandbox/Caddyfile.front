@@ -1,0 +1,60 @@
+{
+	admin off
+	auto_https disable_redirects
+	persist_config off
+	skip_install_trust
+}
+
+(harness) {
+	header_up Host 127.0.0.1:{$MAPLE_WEB_PORT}
+	header_up Origin "^.+$" "http://127.0.0.1:{$MAPLE_WEB_PORT}"
+	header_up -Authorization
+	header_up -X-Forwarded-Host
+	flush_interval -1
+}
+
+(maple-app) {
+	request_body {
+		max_size 30MB
+	}
+	route {
+		@foreign-origin expression `{http.request.header.Origin} != '' && {http.request.header.Origin} != '{$MAPLE_INTRANET_ORIGIN}' && {http.request.header.Origin} != '{$MAPLE_PUBLIC_ORIGIN}'`
+		respond @foreign-origin "Origin not allowed" 403
+		reverse_proxy /maple-login* 127.0.0.1:{$MAPLE_AUTH_PORT}
+		reverse_proxy /maple-logout 127.0.0.1:{$MAPLE_AUTH_PORT}
+		forward_auth 127.0.0.1:{$MAPLE_AUTH_PORT} {
+			uri /verify
+		}
+		@unpaired {
+			path /
+			not query token=*
+			not header_regexp Cookie dsh-auth-
+		}
+		redir @unpaired /?token={$DSH_TOKEN} 302
+		@entry {
+			path /
+			not query token=*
+		}
+		reverse_proxy @entry unix/{$MAPLE_SANDBOX_ROOT}/run/web/web.sock {
+			import harness
+			@stale status 401
+			handle_response @stale {
+				redir * /?token={$DSH_TOKEN} 302
+			}
+		}
+		reverse_proxy unix/{$MAPLE_SANDBOX_ROOT}/run/web/web.sock {
+			import harness
+		}
+	}
+}
+
+http://:{$MAPLE_GATEWAY_PORT} {
+	bind 127.0.0.1
+	import maple-app
+}
+
+{$MAPLE_INTRANET_ORIGIN} {
+	bind {$MAPLE_BIND}
+	tls internal
+	import maple-app
+}

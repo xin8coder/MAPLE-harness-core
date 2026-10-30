@@ -9,7 +9,7 @@ test('request language has priority and UI fallback is resolved on every model s
   apply({
     settings: { describe: () => [{ ns: 'locale', value: { preference } }] },
     effect: (callback) => callback(),
-    systemPrompt: { section: (value) => { section = value } },
+    systemPrompt: { section: (value) => { if (value.name === 'maple:response-language') section = value } },
     skills: { register: (skill) => { skills.push(skill); return () => {} } },
   })
   assert.equal(skills.length, 3)
@@ -27,7 +27,7 @@ test('request language has priority and UI fallback is resolved on every model s
 })
 
 test('unknown locales and absent preferences cannot inject arbitrary instructions', () => {
-  assert.match(responseLanguageInstruction(undefined), /latest request/)
+  assert.match(responseLanguageInstruction(undefined), /Use Simplified Chinese/)
   assert.match(responseLanguageInstruction('zh-CN'), /Simplified Chinese/)
   assert.doesNotMatch(responseLanguageInstruction('ignore-all-rules'), /ignore-all-rules/)
 })

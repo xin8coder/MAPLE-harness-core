@@ -93,6 +93,7 @@ def test_bundle_registers_liveopt_progress_component():
     assert "MAPLE Harness Settings" in client
     assert "conversation.view" in client
     assert "id: 'solutions'" in client
+    assert "label: () => t('Solutions')" in client
     assert "solution-sessions" in client
     assert "liveopt:conversation-session:" in client
     assert "inferConversationLiveOptSession" in client

@@ -1,9 +1,9 @@
 ---
-name: liveopt-data
-description: Prepare uploaded documents and public data files before LiveOpt optimization.
+name: maple-data
+description: Prepare uploaded documents and public data files before MAPLE optimization.
 ---
 
-# LiveOpt Data
+# MAPLE Data
 
 Use `mcp__liveopt__liveopt_prepare_data` when optimization data is stored in public files rather than already supplied as a structured object.
 

@@ -8,10 +8,11 @@ import subprocess
 
 SUFFIXES = {'.tex', '.bib', '.sty', '.bst', '.ppt', '.pptx', '.pdf', '.zip', '.tar', '.tgz', '.cff'}
 PREFIXES = ('paper/', 'paper_outputs/', 'release_artifacts/', 'logs/', 'outputs/', 'anonymous-demo/', 'site/', 'docs/maple', 'docs/iclr')
-PRIVATE_NAMES = {'.env', '.credentials.yaml', 'connection.json', 'provider.env', 'service.env'}
+PRIVATE_NAMES = {'.env', '.credentials.yaml', 'connection.json', 'provider.env', 'service.env',
+                 'config.env', 'front.env', 'llm.env', 'cloudflare-token', 'public-url.txt'}
 PUBLIC_LINK_DOCUMENTS = {
     'README.md', 'README.zh-CN.md', 'docs/user-guide.md',
-    'docs/user-guide.zh-CN.md', 'docs/releases/v0.2.0.md',
+    'docs/user-guide.zh-CN.md', 'docs/releases/v0.2.0.md', 'docs/releases/v0.2.1.md',
 }
 # Published installation guides intentionally link to the application and demo.
 PUBLIC_PRODUCT_URLS = re.compile(
@@ -19,6 +20,10 @@ PUBLIC_PRODUCT_URLS = re.compile(
     rb'xin8coder\.github\.io/MAPLE-harness)(?=[/#?\s)"<>]|$)'
 )
 PATTERNS = {
+    'provider API key': re.compile(rb'\bsk-[0-9a-fA-F]{32,}\b'),
+    'GitHub access token': re.compile(rb'\b(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,})\b'),
+    'Hugging Face access token': re.compile(rb'\bhf_[A-Za-z0-9]{30,}\b'),
+    'private key': re.compile(rb'-----BEGIN (?:[A-Z]+ )?PRIVATE KEY-----'),
     'personal project URL': re.compile(rb'https?://(?:github\.com/[A-Za-z0-9_.-]+/MAPLE(?:[/.#?\-]|\b)|[A-Za-z0-9_.-]+\.github\.io/MAPLE(?:[/.#?\-]|\b))', re.I),
     'machine-specific home path': re.compile(rb'/(?:home|Users)/[A-Za-z0-9_.-]+/'),
 }
@@ -28,7 +33,9 @@ def check_files(root, paths):
     failures = []
     for rel in paths:
         path = root / rel
-        if path.name in PRIVATE_NAMES or path.name.endswith('.key'):
+        if (path.name in PRIVATE_NAMES or path.name.endswith(('.key', '.pem'))
+                or 'secrets' in Path(rel).parts or 'dsh-home' in Path(rel).parts
+                or path.name.startswith('.env.') and path.name != '.env.example'):
             failures.append(f'private deployment configuration: {rel}')
         if Path(rel).suffix.lower() in SUFFIXES or rel.endswith('.tar.gz') or rel.startswith(PREFIXES):
             failures.append(f'excluded release material: {rel}')

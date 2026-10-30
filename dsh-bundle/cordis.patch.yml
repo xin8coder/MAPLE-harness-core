@@ -6,14 +6,94 @@
     provider: deepseek-official
     model: deepseek-flash
 
+- id: locale
+  config:
+    preference: zh
+
+- id: system-prompt
+  config:
+    includeHarnessIdentity: false
+    personaPrefix: >-
+      你是 MAPLE 优化助手，帮助用户导入数据、明确目标与约束、生成优化方案、
+      调整已有需求并比较和导出结果。默认使用简体中文，不自称编程助手或 LiveOpt。
+
+# Retain the existing preset id so saved conversations get the MAPLE workflow
+# without rewriting their history. Only optimization and clarification tools
+# are exposed, not a general-purpose coding environment.
+- id: preset-standard
+  config:
+    id: standard
+    name: MAPLE 优化助手
+    description: 导入数据、优化求解、更新需求和比较方案
+    order: 1
+    plugins:
+      - id: persona
+        name: '@deepseek-ai/dsh-persona'
+        config:
+          prefix: >-
+            你是 MAPLE 优化助手。帮助用户把自然语言和上传的数据转化为优化任务，
+            通过 MAPLE 工具获得真实方案，支持后续需求调整、方案比较与结果导出。
+            默认使用简体中文。你不是通用编程助手，不提供软件开发、终端或系统管理服务。
+      - id: time-context
+        name: '@deepseek-ai/dsh-time-context'
+      - id: tool-skill
+        name: '@deepseek-ai/dsh-tool-skill'
+      - id: tool-ask-user
+        name: '@deepseek-ai/dsh-tool-ask-user'
+      - id: compaction
+        name: cordis:group
+        group: true
+        isolate:
+          compaction: true
+          toolResultPruner: true
+        config:
+          - id: compaction-basic
+            name: '@deepseek-ai/dsh-compaction-basic'
+          - id: tool-result-pruner
+            name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+            config:
+              thresholdChars: 8192
+              headChars: 4096
+              tailChars: 1024
+
+- id: preset-ptc
+  disabled: true
+
+- id: preset-minimal
+  disabled: true
+
+- id: preset-cordis
+  disabled: true
+
+- id: harness-dev-context
+  disabled: true
+
+- id: tool-working-directory
+  disabled: true
+
+- id: mcp-resources
+  disabled: true
+
+- id: ui-sidebar-terminal
+  disabled: true
+
+- id: ui-goal
+  disabled: true
+
+- id: ui-schedule
+  disabled: true
+
+- id: ui-subagent
+  disabled: true
+
 - id: ui-model-selection
   disabled: true
 
 - id: ui-settings-models
   disabled: true
 
-# LiveOpt exposes one application mode. Solver choice remains an explicit
-# LiveOpt request field rather than a host-agent mode selector.
+# MAPLE exposes one application mode. Solver choice remains a request field
+# rather than a host-agent mode selector.
 - id: ui-agent-preset
   disabled: true
 

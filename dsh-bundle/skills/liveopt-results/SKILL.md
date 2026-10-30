@@ -1,11 +1,11 @@
 ---
-name: liveopt-results
-description: Export and present an accepted LiveOpt solution set and iteration history as CSV, JSON, and ZIP files.
+name: maple-results
+description: Export and present an accepted MAPLE solution set and iteration history as CSV, JSON, and ZIP files.
 ---
 
-# LiveOpt Results
+# MAPLE Results
 
-Use `mcp__liveopt__liveopt_export` after a LiveOpt start or update has completed successfully.
+Use `mcp__liveopt__liveopt_export` after a MAPLE start or update has completed successfully.
 
 - Pass the accepted `session_id`; do not reconstruct results from chat text.
 - Let the dedicated result card present per-objective iteration traces, the final population distribution, highlighted Pareto solutions, the solution-set preview, and download actions.

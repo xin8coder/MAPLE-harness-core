@@ -6,7 +6,7 @@
 
 **Describe a plan. Compare solutions. Update it in conversation.**
 
-[Download v0.2.0](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.0) · [User guide](docs/user-guide.md) · [中文指南](docs/user-guide.zh-CN.md) · [Recorded demo](https://xin8coder.github.io/MAPLE-harness/)
+[Download v0.2.1](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.1) · [Sandbox server](deploy/sandbox/README.md) · [User guide](docs/user-guide.md) · [中文指南](docs/user-guide.zh-CN.md) · [Recorded demo](https://xin8coder.github.io/MAPLE-harness/)
 
 ![Windows and Linux](https://img.shields.io/badge/Platforms-Windows%20%7C%20Linux-087e8b)
 ![DSH](https://img.shields.io/badge/DSH-0.2.1--rc.2-334B60)
@@ -31,8 +31,8 @@ Download a package from [Releases](https://github.com/xin8coder/MAPLE-harness-co
 
 | Platform | Recommended package | Start |
 |---|---|---|
-| Windows 10/11 x64 | `MAPLE-Harness-0.2.0-source.zip` | Double-click `start.cmd`. |
-| Linux x64 | `MAPLE-Harness-0.2.0-source.tar.gz` | Run `bash start.sh` in the extracted folder. |
+| Windows 10/11 x64 | `MAPLE-Harness-0.2.1-source.zip` | Double-click `start.cmd`. |
+| Linux x64 | `MAPLE-Harness-0.2.1-source.tar.gz` | Run `bash start.sh` in the extracted folder. |
 
 The same packages contain the **complete web application and backend**. Python
 and Node.js are downloaded automatically into a private application directory.
@@ -56,13 +56,28 @@ or the documented intranet deployment.
 5. Send an update in the **same conversation**. MAPLE retains the accepted task and search state, reports its restart action, and produces a new result.
 6. Download the generated CSV, JSON, or ZIP files from the result view.
 
-English and Simplified Chinese are supported. Chinese questions receive Chinese
+Simplified Chinese is the default; English remains available in Settings. Chinese questions receive Chinese
 replies without an extra language instruction. Chinese spreadsheet headers can be
 mapped with LLM assistance; original labels are retained for localized results.
 
 The default evolutionary budget is **100 iterations**, configurable in Settings.
-There is no application username/password prompt. The launch link pairs your
+Local native launches have no application username/password prompt. The launch link pairs your
 browser with the local host, so keep its token private.
+
+## Shared Sandbox Server
+
+For a shared Linux server, [the sandbox deployment](deploy/sandbox/README.md)
+adds bubblewrap isolation, an account/password gateway, and an external
+DeepSeek-only model proxy. The sandbox has no direct Internet access and keeps
+only a placeholder API key. Intranet and optional Cloudflare entrances can share
+one application and its data. Windows users can connect through their browser
+or remote desktop client; the bubblewrap server itself requires Linux.
+
+The assistant is configured for MAPLE data preparation, optimization, updates,
+and result comparison. Its web preset does not expose general shell, source
+editing, repository instruction discovery, or subagent tools. Internal MCP names
+remain compatible with saved sessions. Credentials are created locally during
+deployment and are not included in this repository or release packages.
 
 ## Try the Included Example
 

@@ -1,6 +1,6 @@
 {
   "name": "liveopt-dsh-bundle",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "MAPLE Harness application bundle",
   "type": "module",
   "main": "index.js",

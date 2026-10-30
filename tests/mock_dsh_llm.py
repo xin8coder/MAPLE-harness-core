@@ -50,6 +50,12 @@ def main() -> None:
                                 "<available_skills>" in message_text
                                 and "liveopt" in message_text.lower()
                             ),
+                            "maple_persona_visible": "MAPLE 优化助手" in message_text,
+                            "coding_persona_visible": (
+                                "You are a coding agent" in message_text
+                                or "You are a helpful software engineer assistant" in message_text
+                            ),
+                            "maple_workflow_visible": "Never invent completed runs" in message_text,
                         }
                     )
                     + "\n"

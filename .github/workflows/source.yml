@@ -52,3 +52,4 @@ jobs:
           exit $LASTEXITCODE
       - run: python scripts/smoke_web.py
       - run: python scripts/smoke_mcp_host.py
+      - run: python scripts/smoke_maple_assistant.py

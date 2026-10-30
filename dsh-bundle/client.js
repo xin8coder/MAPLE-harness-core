@@ -1413,14 +1413,14 @@ window.__ModuleLoader__.load({
         name: 'conversation.input.left',
         id: 'liveopt-document-upload',
         order: 80,
-        label: 'Attach optimization documents',
+        label: () => t('Attach optimization documents'),
         locale: 'maple',
       }, localized(DocumentUploadButton)))
       ctx.slots.inject('sidebar.footer.action', () => ctx.slots.register({
         name: 'sidebar.footer.action',
         id: 'liveopt-about',
         order: 90,
-        label: 'About MAPLE Harness',
+        label: () => t('About MAPLE Harness'),
         locale: 'maple',
       }, localized(LiveOptAbout)))
       ctx.slots.inject('settings.section', () => ctx.slots.register({
@@ -1433,7 +1433,7 @@ window.__ModuleLoader__.load({
         name: 'conversation.view',
         id: 'solutions',
         order: 20,
-        label: 'Solutions',
+        label: () => t('Solutions'),
         locale: 'maple',
       }, localized(SolutionsView)))
     }

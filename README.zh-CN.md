@@ -6,7 +6,7 @@
 
 **用自然语言提出需求，比较优化方案，在对话中持续调整。**
 
-[下载 v0.2.0](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.0) · [中文使用指南](docs/user-guide.zh-CN.md) · [产品演示](https://xin8coder.github.io/MAPLE-harness/) · [English](README.md)
+[下载 v0.2.1](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.1) · [沙盒部署](deploy/sandbox/README.md) · [中文使用指南](docs/user-guide.zh-CN.md) · [产品演示](https://xin8coder.github.io/MAPLE-harness/) · [English](README.md)
 
 </div>
 
@@ -18,8 +18,8 @@ MAPLE Harness 将自然语言需求和上传的数据转成可计算的优化任
 
 | 平台 | 推荐文件 | 启动方式 |
 |---|---|---|
-| Windows 10/11 x64 | `MAPLE-Harness-0.2.0-source.zip` | 双击 `start.cmd`。 |
-| Linux x64 | `MAPLE-Harness-0.2.0-source.tar.gz` | 在解压目录执行 `bash start.sh`。 |
+| Windows 10/11 x64 | `MAPLE-Harness-0.2.1-source.zip` | 双击 `start.cmd`。 |
+| Linux x64 | `MAPLE-Harness-0.2.1-source.tar.gz` | 在解压目录执行 `bash start.sh`。 |
 
 这两个包都包含**完整网页版和后端**。启动器会自动下载私有的 Python、Node 和依赖，无需预装 Python/Node，也不需要管理员权限、WSL 或 Docker。Linux 需要 `curl`、`tar`、CA 证书和 glibc 环境，例如 Ubuntu/Debian。启动器也提供 Linux arm64 路径，但原生 CI 目前验证的是 x64。
 
@@ -34,9 +34,17 @@ MAPLE Harness 将自然语言需求和上传的数据转成可计算的优化任
 5. 在**同一个对话**中提交更新，例如提前交期、减少人员或修改资源条件。系统会基于已接受的任务继续求解，并显示重启和解复用情况。
 6. 从结果中下载 CSV、JSON 和 ZIP 等产物。
 
-应用支持中文和英文。中文提问会得到中文回复，不需要额外加“请用中文回答”。中文表头可由 LLM 辅助做字段映射，并保留原始名称用于结果展示。默认遗传算法迭代上限为 **100**，可在设置中调整。
+应用默认使用简体中文，可在设置中切换英文。中文提问会得到中文回复，不需要额外加“请用中文回答”。中文表头可由 LLM 辅助做字段映射，并保留原始名称用于结果展示。默认遗传算法迭代上限为 **100**，可在设置中调整。
 
-浏览器不要求注册账号或输入应用用户名/密码。启动链接用于配对本机服务，包含访问令牌，请不要公开转发。
+本机原生启动不要求注册账号或输入应用用户名/密码。启动链接用于配对本机服务，包含访问令牌，请不要公开转发。共享沙盒部署则使用账号和密码保护入口。
+
+## 共享沙盒服务端
+
+[沙盒部署指南](deploy/sandbox/README.md)提供 Linux 服务端的 bubblewrap 隔离、登录网关、外置模型代理和 systemd 后台服务。内网与可选的 Cloudflare 公网入口共用同一套应用和数据。真实 API 密钥保留在宿主模型代理中，沙盒内只有占位凭据，不能直接访问互联网、宿主用户目录或论文数据。
+
+助手仅提供 MAPLE 的数据处理、优化求解、需求更新和方案展示，不再加载通用编程助手的终端、代码编辑、仓库指令或子代理工具。MCP 接口中的旧名称保留用于兼容历史会话。
+
+沙盒服务端需要 Linux；Windows 用户可以通过浏览器或远程客户端连接。Windows/Linux 的普通本机启动方式仍然保留。部署时自行设置账号密码和密钥，仓库和下载包不包含任何现有服务器的凭据、会话或结果数据。
 
 ## 直接试用中文 Excel 示例
 
