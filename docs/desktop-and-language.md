@@ -6,19 +6,19 @@ This application targets official DSH **0.2.1-rc.2**, upstream commit
 `687f282e8625c6b8d11ff58211a90524be2e4317`:
 [release](https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-rc.2).
 The host is installed from its official npm distribution with a committed pnpm
-lockfile. MAPLE uses public plugin, MCP, settings, conversation, and web-server
+lockfile. lanchou uses public plugin, MCP, settings, conversation, and web-server
 interfaces. It does not patch installed upstream JavaScript files.
 
 The official DSH Desktop bundles its own host. Its plugin compatibility must be
 checked against that host's version rather than inferred from an Electron version.
-The client here is a separate **remote MAPLE client**, not a build of the official
+The client here is a separate **remote lanchou client**, not a build of the official
 desktop application and not a self-contained local optimizer.
 
-## MAPLE remote desktop
+## lanchou remote desktop
 
 The `desktop/` package uses Electron **44.7.0** and electron-builder **26.17.0**.
 Chat, uploads, progress, solution selection, downloads, and state live on the
-connected MAPLE server. Closing the window does not stop optimization on that
+connected lanchou server. Closing the window does not stop optimization on that
 server. A running server with a configured API key is required.
 
 Build on the target platform with Node.js 22.19+ or 24+:
@@ -53,14 +53,14 @@ artifact downloads use the native save dialog.
 ## Language and data mapping
 
 Simplified Chinese is the default. English remains available in Settings.
-The MAPLE settings control shares
+The lanchou settings control shares
 official DSH's durable locale preference. The language instruction is read anew
 for each model step: the latest user message determines response language, with
 the UI preference used for language-neutral messages. Chinese input therefore
 does not require an extra instruction asking for Chinese output.
 
-The application preset is a MAPLE optimization assistant, not the host's coding
-assistant. It exposes MAPLE data, solve/update, inspection, and export tools,
+The application preset is a lanchou optimization assistant powered by MAPLE, not the host's coding
+assistant. It exposes data preparation, solve/update, inspection, and export tools,
 along with skill lookup and clarification questions. Shell execution, source
 editing, web browsing, subagents, and repository instruction discovery are not
 part of this preset. Existing conversations keep their `standard` preset id

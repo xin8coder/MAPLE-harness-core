@@ -113,7 +113,7 @@ def main():
                     'skill', 'ask_user_question',
                     *[tool for tool in row['tools'] if tool.startswith('mcp__liveopt__')],
                 }, row['tools']
-            print('Official web preset: MAPLE identity, no coding tools, and MCP round trip passed (no real API).')
+            print('Official web preset: lanchou identity, MAPLE algorithm, no coding tools, and MCP round trip passed (no real API).')
         finally:
             if process is not None:
                 terminate(process)

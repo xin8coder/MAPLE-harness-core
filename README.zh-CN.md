@@ -1,16 +1,20 @@
 <div align="center">
 
-<img src="src/liveopt_dsh/assets/maple-logo.png" width="80" alt="MAPLE Harness 标识">
+<img src="src/liveopt_dsh/assets/maple-logo.png" width="80" alt="lanchou 标识">
 
-# MAPLE Harness
+# 澜筹（lanchou）
 
 **用自然语言提出需求，比较优化方案，在对话中持续调整。**
 
-[下载 v0.2.1](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.1) · [沙盒部署](deploy/sandbox/README.md) · [中文使用指南](docs/user-guide.zh-CN.md) · [产品演示](https://xin8coder.github.io/MAPLE-harness/) · [English](README.md)
+[下载 v0.2.2](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.2) · [沙盒部署](deploy/sandbox/README.md) · [中文使用指南](docs/user-guide.zh-CN.md) · [产品演示](https://xin8coder.github.io/MAPLE-harness/) · [English](README.md)
 
 </div>
 
-MAPLE Harness 将自然语言需求和上传的数据转成可计算的优化任务，展示求解进度、目标变化和备选方案，并在后续需求变化时继续修改同一个任务。可用于生产安排、仓储分配、人员排班、配送等规划场景，不限于示例中的服装行业。
+澜筹将自然语言需求和上传的数据转成可计算的优化任务，展示求解进度、目标变化和备选方案，并在后续需求变化时继续修改同一个任务。可用于生产安排、仓储分配、人员排班、配送等规划场景，不限于示例中的服装行业。
+
+**澜筹（lanchou）是应用名称，MAPLE 是底层优化算法名称，不作更改。** 应用原名为 MAPLE Harness。为兼容现有安装和历史会话，仓库地址、工具接口、数据目录与服务标识继续沿用旧名称。
+
+[打开澜筹](https://ai.lanchou.cloud)（共享部署需要已有账号）。
 
 ## 下载与启动
 
@@ -18,8 +22,8 @@ MAPLE Harness 将自然语言需求和上传的数据转成可计算的优化任
 
 | 平台 | 推荐文件 | 启动方式 |
 |---|---|---|
-| Windows 10/11 x64 | `MAPLE-Harness-0.2.1-source.zip` | 双击 `start.cmd`。 |
-| Linux x64 | `MAPLE-Harness-0.2.1-source.tar.gz` | 在解压目录执行 `bash start.sh`。 |
+| Windows 10/11 x64 | `lanchou-0.2.2-source.zip` | 双击 `start.cmd`。 |
+| Linux x64 | `lanchou-0.2.2-source.tar.gz` | 在解压目录执行 `bash start.sh`。 |
 
 这两个包都包含**完整网页版和后端**。启动器会自动下载私有的 Python、Node 和依赖，无需预装 Python/Node，也不需要管理员权限、WSL 或 Docker。Linux 需要 `curl`、`tar`、CA 证书和 glibc 环境，例如 Ubuntu/Debian。启动器也提供 Linux arm64 路径，但原生 CI 目前验证的是 x64。
 
@@ -27,7 +31,7 @@ MAPLE Harness 将自然语言需求和上传的数据转成可计算的优化任
 
 ## 第一次使用
 
-1. 在 **Settings → MAPLE Harness** 中填写 DeepSeek API Key。真实调用使用你的账户额度；应用各角色固定使用 `deepseek-flash`，不调用 Pro。
+1. 在 **设置 → 澜筹** 中填写 DeepSeek API Key。真实调用使用你的账户额度；应用各角色固定使用 `deepseek-flash`，不调用 Pro。
 2. 选择工作区并新建对话。用自然语言说明要做什么、想优化什么、哪些条件不能违反，用 **Document** 上传 Excel、CSV、JSON 或支持的文档。
 3. 可以先要求智能体检查数据，不要立即求解。需要时选择精确求解或遗传算法，也可以交给智能体判断。
 4. 求解中查看进度组件。完成后在 **Solutions（方案）** 查看各目标曲线、最终种群和帕累托解；打开独立方案窗口可高亮查看并选择可行方案。

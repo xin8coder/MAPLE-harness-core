@@ -1,13 +1,13 @@
 {
   "schema_version": 2,
-  "source_revision": "maple-harness-0.2.1",
+  "source_revision": "lanchou-0.2.2",
   "upstream": {
     "package": "@deepseek-ai/dsh",
     "version": "0.2.1-rc.2",
     "commit": "687f282e8625c6b8d11ff58211a90524be2e4317"
   },
   "core_sha256": "57aa6171c52bc6f9d76d368c435294ea44282740563f5005a780191f055dcf78",
-  "file_count": 246,
+  "file_count": 248,
   "files": [
     {
       "path": ".github/workflows/desktop.yml",
@@ -41,13 +41,13 @@
     },
     {
       "path": "README.md",
-      "sha256": "4d7195f0113144fd25839a90f228d505f2a10b3ddc536688c9450234cf0f0215",
-      "bytes": 8255
+      "sha256": "85898d78330d9382a2b8892274b443d18f1e8429cb5618d40b0c89051cc033f8",
+      "bytes": 8585
     },
     {
       "path": "README.zh-CN.md",
-      "sha256": "2680e07fbc3f0f505a0a426ccc6805b3a0c23b882b11f9353db129baadfb092e",
-      "bytes": 6461
+      "sha256": "2aef4ce7c0f098f6c16f65304486bce6dd34ef8f5390f96a8a2681e1be6609ad",
+      "bytes": 6760
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -66,13 +66,13 @@
     },
     {
       "path": "deploy/sandbox/README.md",
-      "sha256": "5ea858ec8d4357f0161f364a2175f0f2f3a611388d7628768ff036c8e143d591",
-      "bytes": 5275
+      "sha256": "df33677f072b326b0696657844a1bd9288cef05e5f0ab79bc243f784882a1f3b",
+      "bytes": 5314
     },
     {
       "path": "deploy/sandbox/auth.py",
-      "sha256": "8663e49b904e216c798170d274bbba317cd56f9f6a5a1cdb2b737d5f5c7e6edc",
-      "bytes": 6318
+      "sha256": "3858cab7fb02b817981739281b3019640c39661f4592dde2fc84e7dad8228846",
+      "bytes": 6325
     },
     {
       "path": "deploy/sandbox/common.sh",
@@ -96,13 +96,13 @@
     },
     {
       "path": "deploy/sandbox/sandbox.sh",
-      "sha256": "0e0739e4f9b677b92315146c90200ae0fa83125c7534822a95c27811167e8413",
-      "bytes": 3448
+      "sha256": "a2c5df4597fb53b4a26cd26ccbb78e9dd80404515df541b92a56accff7b39809",
+      "bytes": 3442
     },
     {
       "path": "deploy/sandbox/setup.py",
-      "sha256": "ce559f67737571e7ab276bd1ffbdafe056685e450d07ab5d460745bd369bd1b5",
-      "bytes": 13448
+      "sha256": "fabc7c278f849384677f65b423c65860146ef56a8ba36d2d8f98f57f0c32f560",
+      "bytes": 13456
     },
     {
       "path": "deploy/sandbox/start-auth.sh",
@@ -121,8 +121,8 @@
     },
     {
       "path": "deploy/sandbox/start-tunnel.sh",
-      "sha256": "5081534098c96dcf2792157781e92b6eb667fe4424a6688be1ef50b6b3c4d4fd",
-      "bytes": 875
+      "sha256": "e8cc456cb136ed4967a37b1c75c3b7761322e5be833b6e2b8a582836540cc7d8",
+      "bytes": 1371
     },
     {
       "path": "desktop/.gitignore",
@@ -141,13 +141,13 @@
     },
     {
       "path": "desktop/connection.html",
-      "sha256": "08a84b9ddbe4c935376b302d603adfffdd08a47d3b56ad0c9714794acf392048",
-      "bytes": 1138
+      "sha256": "ad67c2b3c90daabb8a7a05415bd9a797f2d0e86a998f7d1010f96da9834c4b53",
+      "bytes": 1200
     },
     {
       "path": "desktop/connection.js",
-      "sha256": "cc539802af54aa6a2e61ede580158a0e19e8064fe0dd7f2e2d24ab61e04749ed",
-      "bytes": 1494
+      "sha256": "55c89f8cad09c6a8279047052292e39341cb64fa1764dcd347228c2b293aed8c",
+      "bytes": 1637
     },
     {
       "path": "desktop/icon.png",
@@ -156,23 +156,23 @@
     },
     {
       "path": "desktop/main.cjs",
-      "sha256": "532a256844146e593ce06b6d9ec23f0b13fe3299928409de2e76620bb4767179",
-      "bytes": 8486
+      "sha256": "a29476d8fe06811e4d3031328496410f516666bfdde07742184037a67d016d2f",
+      "bytes": 8771
     },
     {
       "path": "desktop/package-lock.json",
-      "sha256": "30b054bd12a5867f304c25ae967509935d7836c0e6999f414b24d5a7493abe97",
+      "sha256": "abb4a7476213494e4dd696edfa1574b5e6d061d9eabc73742678e6b54d6e6f09",
       "bytes": 127196
     },
     {
       "path": "desktop/package.json",
-      "sha256": "75fff11d57f285ccdbe1bbfc1baa6764841138a991f10bdecea679a69610a2d0",
-      "bytes": 1153
+      "sha256": "7a92f564835da80415618f557dcb9a43f5cf2e065a048620b57866ec8c70c22d",
+      "bytes": 1135
     },
     {
       "path": "desktop/policy.cjs",
-      "sha256": "0fd1aad95e7836073aaed42b5c9e0b2c090a905d5ae0c8f0b434916e4dbbe46b",
-      "bytes": 1244
+      "sha256": "8e5341476d1f8459b7566810539ca9cf1e45ef01cccb48786bc445f86454f1d0",
+      "bytes": 1246
     },
     {
       "path": "desktop/preload.cjs",
@@ -191,13 +191,13 @@
     },
     {
       "path": "docs/cloudflare-tunnel.zh-CN.md",
-      "sha256": "df55cbe3d2050d342c6db254f4c20b3435d5a767f4cc2a75a1f507179e23bde2",
-      "bytes": 2237
+      "sha256": "9c870562898bc81efa1929f4b11ef4037e43aa9385dfd7dcc4ec63fb437850cc",
+      "bytes": 2235
     },
     {
       "path": "docs/desktop-and-language.md",
-      "sha256": "5540763266bf03cc01f82a12c839b80b8ed586468c3fa9a42a3c7d9e1f87b2f1",
-      "bytes": 4171
+      "sha256": "d3d8ab6e6c494dcc085d716c944bbbb906b5909935432ee53a577b875d2f06ad",
+      "bytes": 4206
     },
     {
       "path": "docs/dsh-upgrade.md",
@@ -211,8 +211,8 @@
     },
     {
       "path": "docs/operations.md",
-      "sha256": "19ed248d855581767477024a07f9935c1e0454008f7bce0d42527c2ab8c8d48f",
-      "bytes": 10362
+      "sha256": "2712f46e73a5ed69a4cb4fde49e08931ef43bceefc89134df1733ee3605f7dfa",
+      "bytes": 10358
     },
     {
       "path": "docs/recording-garment-demo.md",
@@ -230,59 +230,64 @@
       "bytes": 1704
     },
     {
+      "path": "docs/releases/v0.2.2.md",
+      "sha256": "7a2c23f492c13ef7bf68a16ef262a7f5e8ab2c1d38eb5b4e45cc62a9c5a4ecb0",
+      "bytes": 1170
+    },
+    {
       "path": "docs/solution-explorer.md",
       "sha256": "32def6f005b1029d30144df921024d07996dd3ef76c0c20e1979d251d998d173",
       "bytes": 2519
     },
     {
       "path": "docs/user-guide.md",
-      "sha256": "3b363eee73b64f54fabc928d6cfcba0bfde77585b24d98efe7633a885100e133",
-      "bytes": 7373
+      "sha256": "3f391f38f4cbca99534f69918dbd23e45cabb8dd7094778daa1abf0c50741c4a",
+      "bytes": 7361
     },
     {
       "path": "docs/user-guide.zh-CN.md",
-      "sha256": "eab46ae4d0e0da709e7e53c2f26a746298afe9b4404e56979521849625cf8a7a",
-      "bytes": 7513
+      "sha256": "151edd14df7b3979a8e4a0016b2ecccbc75bf05592f0a60fdcc5a97e84b3e565",
+      "bytes": 7509
     },
     {
       "path": "dsh-bundle/client.js",
-      "sha256": "65015912cd0632ad75811447853ffdfedf3544de6766dd2607d82b7fa3338bb2",
-      "bytes": 84814
+      "sha256": "3a1e2eff1c7a17217949132b90ee01e77732517e4cacbaf0e4b2e49e259a9fde",
+      "bytes": 85252
     },
     {
       "path": "dsh-bundle/cordis.patch.yml",
-      "sha256": "20d4c50088e9e81c5cd1954dada96ab21e747916d5631f9019182bc08ffd9189",
-      "bytes": 5468
+      "sha256": "aa9d9b2a9f3af18ae06979dd5549ce7a05ea09cc9a92b483c3ef86b4ec6ade06",
+      "bytes": 5584
     },
     {
       "path": "dsh-bundle/index.js",
-      "sha256": "1a9d7fbd7aade61c145c1da0ccd8eddc9a152e120320459f2c94cded3f25cfda",
-      "bytes": 5082
+      "sha256": "cf5372f79af3016883754215678dca0e6af4315172a5b3f2fdf60761202bf5d6",
+      "bytes": 5218
     },
     {
       "path": "dsh-bundle/package.json",
-      "sha256": "42a64c0b57833993a651fc5264a39ae77ebe54749b6138523aba5e4f8e08ad91",
-      "bytes": 1048
+      "sha256": "868f42f7cb919ece771c979810d46c78be3e3698a82fc0867ee8e173f2377d40",
+      "bytes": 1042
     },
     {
       "path": "dsh-bundle/skills/liveopt-data/SKILL.md",
-      "sha256": "b71ca91b73406237e1b37fab8c71458e9d4d434dc5399d49cb960dbf96ad252b",
-      "bytes": 4184
+      "sha256": "0f59c71f5a9c0c022d6033f71136f91802c0cfdc00bc08117a71d68d1ab58d19",
+      "bytes": 4186
     },
     {
       "path": "dsh-bundle/skills/liveopt-results/SKILL.md",
-      "sha256": "8260d43cd5d3e90c88ee919cc7fa6a4f88bcd530355cee77cca93610a3951a58",
-      "bytes": 1738
+      "sha256": "6d92b849cc5b787f20fd9d397c62654c0eb61d6fc1fa2b045907b3e27207fc07",
+      "bytes": 1740
     },
     {
       "path": "dsh-bundle/skills/liveopt/SKILL.md",
-      "sha256": "9a4abd8fb39ce1161cd1cc414166087e4d591cb4f9fcf309216337f1486b8590",
-      "bytes": 4817
+      "sha256": "230c4f578a1ef8ff4723105a1a149041ceb5d39a773b306424f12f9111b60425",
+      "bytes": 4867
     },
     {
       "path": "dsh-bundle/web-bridge.js",
-      "sha256": "4b76a1b1702cb3617341598973003d2df76f87e55dc6cd6914d2ce1a6a566ebc",
-      "bytes": 1854
+      "sha256": "4a6cb7bdba7a3cf323bc0977c25ac2cfa4fc37ee6aa581846373038a8afd2143",
+      "bytes": 1851
     },
     {
       "path": "examples/garment_export/README.md",
@@ -376,8 +381,8 @@
     },
     {
       "path": "pyproject.toml",
-      "sha256": "de165e948f83e3c51bbf0b09950259f7a92a5851d7b1519b7b9ea22b889467c3",
-      "bytes": 971
+      "sha256": "738537ca220cb5c3057cd2973a4124da4576aef2a5fdc112a57df64b6b5c79e0",
+      "bytes": 965
     },
     {
       "path": "runtime/bootstrap.json",
@@ -386,7 +391,7 @@
     },
     {
       "path": "runtime/package.json",
-      "sha256": "bd0ef3447a6e79330ecd9638e9504bf30fc726197957003a029acbf569d241cd",
+      "sha256": "58c6b9873dbdaefbd074f0d29538248729fb627e484d3cdf8e356952deb5ae13",
       "bytes": 220
     },
     {
@@ -406,18 +411,18 @@
     },
     {
       "path": "scripts/bootstrap_local.sh",
-      "sha256": "2032d3bb98a0b9224a80446c1e8214883943083ffabf59faf4d7182fc84fe182",
-      "bytes": 2348
+      "sha256": "b0ecdb758c6f361f7a6f3baa6db088e3a887bd135cf6f0b1dd3c3ee9039aa95b",
+      "bytes": 2352
     },
     {
       "path": "scripts/build_release.py",
-      "sha256": "be7afcb51e8e44f7c4ed07a883f3526c279486f908764b405e26f8929999f7df",
-      "bytes": 3344
+      "sha256": "abf1ddf15fe373bf18db15f220fdcd8d451ddd36a85957ae7f15d973b967b9e8",
+      "bytes": 3304
     },
     {
       "path": "scripts/check_release_contents.py",
-      "sha256": "7cffd68a7bcb463a047aa6974d584773be85b1129512de145a3cd0ec37540f64",
-      "bytes": 3936
+      "sha256": "85d267fbd117e97da23631f794882cfb4d694168758c61ebf918937033101312",
+      "bytes": 4042
     },
     {
       "path": "scripts/common.sh",
@@ -436,8 +441,8 @@
     },
     {
       "path": "scripts/launcher.py",
-      "sha256": "7de6c1271dcdd3ded317e5e131bf6e41d8dd568f66710b8f4b55941ec4f4efae",
-      "bytes": 10719
+      "sha256": "8114a28de0691f49fbb0cac385167db96eaae8a2bdfa82ba12c48776de3cf7b2",
+      "bytes": 10731
     },
     {
       "path": "scripts/smoke_dsh.sh",
@@ -446,8 +451,8 @@
     },
     {
       "path": "scripts/smoke_maple_assistant.py",
-      "sha256": "cdb36c4101f0e0f7ccce1fb1faa3cdf72279bb7072f5f1ac653aa0fe8c9e270e",
-      "bytes": 6556
+      "sha256": "10d1acc7adf4ee5fd0cdc20a58a2537757f9490b4c98f11264b86a11056548ac",
+      "bytes": 6575
     },
     {
       "path": "scripts/smoke_mcp_host.py",
@@ -456,18 +461,18 @@
     },
     {
       "path": "scripts/smoke_web.py",
-      "sha256": "7366c093096fb179d9ee1aa4320ad8538bab0d3362bd818a34b54c27c5380145",
-      "bytes": 4110
+      "sha256": "993011aa09dabba407ab02fa46f951bb8c3787817caf937d4a75f390007ad8a7",
+      "bytes": 4111
     },
     {
       "path": "scripts/start_intranet.sh",
-      "sha256": "f9a18b175e8b6709c5debc699cf1758e689fac6ee64833717b2aa390e21be3d8",
-      "bytes": 2833
+      "sha256": "791c3d4bee611fca3c99991bd18f3fe9c190186a7c272b717a2c49ca5effca93",
+      "bytes": 2825
     },
     {
       "path": "scripts/start_local.sh",
-      "sha256": "fb431609f1f084fcb42a0dc2dd42d3a7e05c54a86ed533ab303644cd471e5baf",
-      "bytes": 1865
+      "sha256": "fbc8bcc7f4cc783ea543f599c44bc143a4125cf7356f02c656e15d39b1249e1b",
+      "bytes": 1867
     },
     {
       "path": "scripts/start_windows.ps1",
@@ -476,13 +481,13 @@
     },
     {
       "path": "src/liveopt_dsh/__init__.py",
-      "sha256": "21f1e4bf3df0839b4f32dd0062b67b10169694dafeef65e1d158e943fcf4556c",
+      "sha256": "2f0a0cd6b6f3ef73c6d908cda1ba35c383e0a8505ff1356b8784d21ab3f01ec8",
       "bytes": 219
     },
     {
       "path": "src/liveopt_dsh/app_settings.py",
-      "sha256": "3667a9c56d8f90630146d7d05308f6d9880925f499343d5d4acd7570494b226f",
-      "bytes": 6259
+      "sha256": "32e0130d59d398f06be64a6018cf38bc8d56bc55061ec873ccf85aab194313bc",
+      "bytes": 6251
     },
     {
       "path": "src/liveopt_dsh/assets/explorer/ECHARTS-LICENSE",
@@ -516,8 +521,8 @@
     },
     {
       "path": "src/liveopt_dsh/assets/explorer/explorer.js",
-      "sha256": "6fe2e9ca01183cce51749c8e955cfe44fdd48963e468d2d34c148819da4d5124",
-      "bytes": 30213
+      "sha256": "aaf763f0b14b4654517335b0da04918277055d75e01c4826230c3b7d2f2fdff0",
+      "bytes": 30286
     },
     {
       "path": "src/liveopt_dsh/assets/explorer/external-link.svg",
@@ -526,8 +531,8 @@
     },
     {
       "path": "src/liveopt_dsh/assets/explorer/index.html",
-      "sha256": "5c26f6432014d70e91364069808f6c283c3416af7cee0a36621f5da419a2252b",
-      "bytes": 7483
+      "sha256": "aa24897fdf7630c3bd443f8fc367fa3043af2b9270588b2a70cb5db87082dd88",
+      "bytes": 7499
     },
     {
       "path": "src/liveopt_dsh/assets/explorer/lucide.min.js",
@@ -601,8 +606,8 @@
     },
     {
       "path": "src/liveopt_dsh/mcp_server.py",
-      "sha256": "e0645251164d84d207f8d25d983f1ebc29d8274c20528c5750f7904686440884",
-      "bytes": 6503
+      "sha256": "2def816c24066cec2fe8f853ba9ed437e6355bb55e844fa1e832c21e30188c4f",
+      "bytes": 6501
     },
     {
       "path": "src/liveopt_dsh/serialization.py",
@@ -611,7 +616,7 @@
     },
     {
       "path": "src/liveopt_dsh/service.py",
-      "sha256": "3b7957855ac4daf37339173f668916881b859d71652328bf534bf8352b371873",
+      "sha256": "b1d47c1881c45b2880f7ab2d533b012fea7e9a55a6837c1996b809a4e1e53e18",
       "bytes": 40272
     },
     {
@@ -631,8 +636,8 @@
     },
     {
       "path": "start.cmd",
-      "sha256": "3c6a64511c9caf68de6cc92045cf2c7c9b0d673880098423303fb1ed8933830e",
-      "bytes": 239
+      "sha256": "3e4d6b968400bca58415dc175ee57393215a11115fb487c48c3c8e904187e0bb",
+      "bytes": 241
     },
     {
       "path": "start.sh",
@@ -641,8 +646,13 @@
     },
     {
       "path": "systemd/maple-intranet.service",
-      "sha256": "fc0fbc83a92fdecc9c860725b89358c10cbae6097fe7c8266b8745a07bf84281",
-      "bytes": 528
+      "sha256": "d50bca7a9fbe3d00d7f5da297a2b1d0a19a157253224c4b833bc18553f926d71",
+      "bytes": 522
+    },
+    {
+      "path": "tests/brand.test.cjs",
+      "sha256": "efddd7594e0f7a08e8f3f2a16c8f756eeed98e59c3ecd76acb42315532a48802",
+      "bytes": 3901
     },
     {
       "path": "tests/language-dsh.test.mjs",
@@ -656,13 +666,13 @@
     },
     {
       "path": "tests/mock_dsh_llm.py",
-      "sha256": "952a16cdfc234c74b413d8a0ddf02d384205312da01561dc86525ec8a8cd1d9f",
-      "bytes": 5824
+      "sha256": "660beda0fa1a05f6809803447043f2da10b4d8dcd9b708bd71741871d7ca6245",
+      "bytes": 5837
     },
     {
       "path": "tests/persona.test.mjs",
-      "sha256": "40a6607c630c4134fa1d17cfc214910b2ebeeca486c79371448dbf5e79133f03",
-      "bytes": 1799
+      "sha256": "f03fdc661e27c19365cd80d4a7ab6cdd21a39a588f5f0b86015eb34939771aad",
+      "bytes": 2173
     },
     {
       "path": "tests/simulated_deepseek.py",
@@ -681,8 +691,8 @@
     },
     {
       "path": "tests/test_bundle.py",
-      "sha256": "717b7976536d03480a6cc46a1016f1354db6327722f283c5de2e8936a65d2537",
-      "bytes": 5971
+      "sha256": "868840be27834f59c32dec2efbb491c2fbc3244878dc1efcfaa558ba714c5385",
+      "bytes": 6018
     },
     {
       "path": "tests/test_compat.py",
@@ -736,8 +746,8 @@
     },
     {
       "path": "tests/test_sandbox_deployment.py",
-      "sha256": "dba2c347f0815c1595bf964f4123dc85e20876fc3154e315e078b8f6c1e39ddc",
-      "bytes": 5597
+      "sha256": "4c1061138d76cef5c3bbaf17cb40d90da137547a78b0b23643e703965f5db61f",
+      "bytes": 7461
     },
     {
       "path": "tests/test_serialization.py",
@@ -751,8 +761,8 @@
     },
     {
       "path": "tests/web-bridge.test.mjs",
-      "sha256": "60b64ecdce3ea88adc531698f02b0ad99bf5e86e2e06b71a6c00d575e59e4c21",
-      "bytes": 2831
+      "sha256": "9574aaeb22f6fe41fdc92ca8305cd99a58c0f1fbc2f68b27d2954d2a5e7fd622",
+      "bytes": 2824
     },
     {
       "path": "vendor/liveopt-core/MANIFEST.in",

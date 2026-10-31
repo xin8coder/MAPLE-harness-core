@@ -1,5 +1,5 @@
 [Unit]
-Description=MAPLE Harness intranet application
+Description=lanchou intranet application
 Wants=network-online.target
 After=network-online.target
 

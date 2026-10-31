@@ -11,7 +11,7 @@ from mcp.server import MCPServer
 from .service import LiveOptService
 
 
-server = MCPServer("LiveOpt")
+server = MCPServer("lanchou")
 _service: LiveOptService | None = None
 
 
@@ -38,7 +38,7 @@ def liveopt_start(
     archive_limit: int = 200,
     max_repairs: int = 3,
 ) -> dict[str, Any]:
-    """Start one persistent LiveOpt problem; omitted generations use LiveOpt Settings (default 100)."""
+    """Start one persistent MAPLE problem; omitted generations use lanchou Settings (default 100)."""
 
     return get_service().submit_start(
         problem=problem,

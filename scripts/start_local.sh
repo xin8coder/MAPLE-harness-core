@@ -28,7 +28,7 @@ cleanup() {
 trap cleanup EXIT INT TERM
 for _ in $(seq 1 100); do
   curl --noproxy '*' --silent --fail "$LIVEOPT_WEB_API_URL/health" >/dev/null && break
-  kill -0 "$api_pid" 2>/dev/null || { echo "MAPLE service failed to start." >&2; exit 2; }
+  kill -0 "$api_pid" 2>/dev/null || { echo "lanchou service failed to start." >&2; exit 2; }
   sleep 0.1
 done
 curl --noproxy '*' --silent --fail "$LIVEOPT_WEB_API_URL/health" >/dev/null

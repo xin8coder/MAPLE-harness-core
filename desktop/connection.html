@@ -1,22 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
-  <title>MAPLE Harness</title>
+  <title>澜筹</title>
   <link rel="stylesheet" href="connection.css">
 </head>
 <body>
   <main>
-    <header><img src="icon.png" alt="" width="56" height="56"><div><h1>MAPLE Harness</h1><p id="subtitle">Desktop</p></div></header>
+    <header><img src="icon.png" alt="" width="56" height="56"><div><h1 id="brand-name">澜筹</h1><p id="subtitle">桌面客户端 · MAPLE</p></div></header>
     <form id="connection">
-      <label for="language" id="language-label">Language</label>
-      <select id="language"><option value="en">English</option><option value="zh">简体中文</option></select>
-      <label for="server" id="server-label">Server address</label>
+      <label for="language" id="language-label">启动窗口语言</label>
+      <select id="language"><option value="en">English</option><option value="zh" selected>简体中文</option></select>
+      <label for="server" id="server-label">服务器地址或首次连接链接</label>
       <input id="server" type="url" placeholder="https://192.168.1.100:3000" required autocomplete="url" autofocus>
       <p id="status" role="status" aria-live="polite"></p>
-      <button id="connect" type="submit">Connect</button>
+      <button id="connect" type="submit">连接</button>
     </form>
   </main>
   <script src="connection.js"></script>

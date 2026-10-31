@@ -3,9 +3,9 @@ name: maple
 description: Solve a natural-language optimization problem once, then adapt its accepted state through later natural-language updates.
 ---
 
-# MAPLE Optimization
+# lanchou Optimization
 
-Use MAPLE when the user asks for a concrete optimized solution or Pareto set and may later revise data, objectives, or constraints. The `liveopt` spelling in API identifiers is an internal compatibility name, not the user-facing product name.
+Use the MAPLE algorithm in 澜筹 (lanchou) when the user asks for a concrete optimized solution or Pareto set and may later revise data, objectives, or constraints. MAPLE is the algorithm, not the product name. The `liveopt` spelling in API identifiers is an internal compatibility name.
 
 ## Tool protocol
 
@@ -13,7 +13,7 @@ Use MAPLE when the user asks for a concrete optimized solution or Pareto set and
 2. Before starting, materialize every finite public entity collection and mutable entity parameter as public context. If the submitted question contains one or more `[LiveOpt upload: ...; id=...]` references, collect their ids in order and call `mcp__liveopt__liveopt_prepare_uploads` exactly once. It accepts CSV, TSV, JSON, JSONL, XLSX, TXT, Markdown, PDF, and DOCX. Pass any user-stated records in the same call through `inline_tables`, and use `column_groups` when repeated wide columns should become a relational association table. For workspace files without upload references, use `mcp__liveopt__liveopt_prepare_data` instead. Preserve the returned `prepared_data_id`; never copy uploaded document contents into chat or expose their server paths.
 3. If preparation returns `mapping_required`, use the maple-data skill and `mcp__liveopt__liveopt_map_data` to map native-language schema names, then use its new `prepared_data_id`. Start a new problem exactly once with `mcp__liveopt__liveopt_start`. Pass the complete natural-language objective and constraints together with exactly one public-data input. Match the user's language automatically, without asking for an explicit language command.
    - Omit `generations` unless the user explicitly overrides it. The application-level iteration setting (100 by default) is the source of truth.
-4. The start call returns `session_id` and `job_id` immediately. Call `mcp__liveopt__liveopt_wait` exactly once for that job, with no assistant text between the two tool calls. While it is running, emit no assistant text and do not call `mcp__liveopt__liveopt_inspect`: the dedicated MAPLE card refreshes progress without model polling. Speak again only after `liveopt_wait` returns.
+4. The start call returns `session_id` and `job_id` immediately. Call `mcp__liveopt__liveopt_wait` exactly once for that job, with no assistant text between the two tool calls. While it is running, emit no assistant text and do not call `mcp__liveopt__liveopt_inspect`: the dedicated lanchou card refreshes progress without model polling. Speak again only after `liveopt_wait` returns.
 5. Preserve `session_id`. Send every later natural-language change through `mcp__liveopt__liveopt_update`; never rebuild the problem with `liveopt_start` merely because requirements changed. Call `liveopt_wait` once and remain silent in the same way.
 6. After every successful solve, call `mcp__liveopt__liveopt_export` once so the result card can show the iteration process, solution set, and download files. Report the accepted solution, feasibility, objectives, Pareto archive size, and selected restart action. Use `mcp__liveopt__liveopt_inspect` only for explicit implementation or debugging requests.
 7. `liveopt_cancel` can cancel queued work. A running optimization is an atomic state transition and is intentionally not interrupted midway.

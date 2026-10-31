@@ -39,7 +39,7 @@ def main():
     version = json.loads((root / 'desktop/package.json').read_text())['version']
     manifest = {
         'schema_version': 2,
-        'source_revision': f'maple-harness-{version}',
+        'source_revision': f'lanchou-{version}',
         'upstream': {'package': '@deepseek-ai/dsh', 'version': '0.2.1-rc.2', 'commit': '687f282e8625c6b8d11ff58211a90524be2e4317'},
         'core_sha256': core_hash,
         'file_count': len(paths),
@@ -52,14 +52,14 @@ def main():
         raise SystemExit('Source manifest is out of date; refresh it before building a release.')
     if args.output:
         args.output.mkdir(parents=True, exist_ok=True)
-        archive = args.output / f'MAPLE-Harness-{version}-source.tar.gz'
+        archive = args.output / f'lanchou-{version}-source.tar.gz'
         with tarfile.open(archive, 'w:gz') as target:
             for name in paths + ['RELEASE_MANIFEST.json']:
-                target.add(root / name, arcname=f'MAPLE-harness-core/{name}', recursive=False)
-        zip_archive = args.output / f'MAPLE-Harness-{version}-source.zip'
+                target.add(root / name, arcname=f'lanchou/{name}', recursive=False)
+        zip_archive = args.output / f'lanchou-{version}-source.zip'
         with zipfile.ZipFile(zip_archive, 'w', compression=zipfile.ZIP_DEFLATED) as target:
             for name in paths + ['RELEASE_MANIFEST.json']:
-                target.write(root / name, arcname=f'MAPLE-harness-core/{name}')
+                target.write(root / name, arcname=f'lanchou/{name}')
         (args.output / 'SHA256SUMS').write_text(''.join(f'{digest(path)}  {path.name}\n' for path in [archive, zip_archive]))
         print(f'Built source ZIP and tar.gz: {len(paths) + 1} files, SHA-256 recorded in SHA256SUMS.')
     else:

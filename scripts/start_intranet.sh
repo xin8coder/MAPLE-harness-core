@@ -74,5 +74,5 @@ backend_ready || { echo "DSH backend did not become ready." >&2; exit 2; }
 
 "$CADDY" run --config "$PLUGIN_ROOT/intranet/Caddyfile" --adapter caddyfile &
 proxy_pid=$!
-echo "LiveOpt Harness intranet UI: https://${LIVEOPT_INTRANET_BIND}:${INTRANET_PORT}"
+echo "lanchou intranet UI: https://${LIVEOPT_INTRANET_BIND}:${INTRANET_PORT}"
 wait "$proxy_pid"

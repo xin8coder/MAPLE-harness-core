@@ -1,12 +1,12 @@
 <div align="center">
 
-<img src="src/liveopt_dsh/assets/maple-logo.png" width="80" alt="MAPLE Harness logo">
+<img src="src/liveopt_dsh/assets/maple-logo.png" width="80" alt="lanchou logo">
 
-# MAPLE Harness
+# 澜筹 · lanchou
 
 **Describe a plan. Compare solutions. Update it in conversation.**
 
-[Download v0.2.1](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.1) · [Sandbox server](deploy/sandbox/README.md) · [User guide](docs/user-guide.md) · [中文指南](docs/user-guide.zh-CN.md) · [Recorded demo](https://xin8coder.github.io/MAPLE-harness/)
+[Download v0.2.2](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.2) · [Sandbox server](deploy/sandbox/README.md) · [User guide](docs/user-guide.md) · [中文指南](docs/user-guide.zh-CN.md) · [Recorded demo](https://xin8coder.github.io/MAPLE-harness/)
 
 ![Windows and Linux](https://img.shields.io/badge/Platforms-Windows%20%7C%20Linux-087e8b)
 ![DSH](https://img.shields.io/badge/DSH-0.2.1--rc.2-334B60)
@@ -16,7 +16,7 @@ English | [简体中文](README.zh-CN.md)
 
 </div>
 
-MAPLE Harness turns natural-language requirements and uploaded data into numerical
+lanchou turns natural-language requirements and uploaded data into numerical
 optimization tasks. Compare single-objective or Pareto solutions, select a plan,
 then revise the same task when orders, resources, deadlines, or objectives change.
 Examples include production scheduling, warehouse allocation, staffing, delivery,
@@ -24,6 +24,11 @@ and other planning tasks.
 
 The application uses the official DeepSeek Harness host and a separately installed
 MAPLE optimization runtime. Code and examples retain some earlier `LiveOpt` names.
+**lanchou is the application; MAPLE (Memory-Augmented Planning with Language and Evolution)
+is its optimization algorithm.** The product was previously called MAPLE Harness.
+Repository URLs, tool identifiers, and storage paths remain unchanged for existing installations.
+
+[Open lanchou](https://ai.lanchou.cloud) (account required for the shared deployment).
 
 ## Download and Start
 
@@ -31,8 +36,8 @@ Download a package from [Releases](https://github.com/xin8coder/MAPLE-harness-co
 
 | Platform | Recommended package | Start |
 |---|---|---|
-| Windows 10/11 x64 | `MAPLE-Harness-0.2.1-source.zip` | Double-click `start.cmd`. |
-| Linux x64 | `MAPLE-Harness-0.2.1-source.tar.gz` | Run `bash start.sh` in the extracted folder. |
+| Windows 10/11 x64 | `lanchou-0.2.2-source.zip` | Double-click `start.cmd`. |
+| Linux x64 | `lanchou-0.2.2-source.tar.gz` | Run `bash start.sh` in the extracted folder. |
 
 The same packages contain the **complete web application and backend**. Python
 and Node.js are downloaded automatically into a private application directory.
@@ -49,7 +54,7 @@ or the documented intranet deployment.
 
 ## First Session
 
-1. Open **Settings → MAPLE Harness** and enter your DeepSeek API key. Real model calls use your account and may incur charges. All application roles use `deepseek-flash`, not Pro.
+1. Open **Settings → lanchou** and enter your DeepSeek API key. Real model calls use your account and may incur charges. All application roles use `deepseek-flash`, not Pro.
 2. Choose a workspace, start a conversation, and describe your objectives and hard constraints. Use **Document** to attach Excel, CSV, JSON, or supported documents.
 3. Ask the agent to inspect the data first. Choose an exact or evolutionary solver when prompted. You can also ask it to select a route automatically.
 4. Follow the progress card. In **Solutions**, inspect the objective curves, final population, and Pareto alternatives. Open the solution explorer to highlight and select a feasible plan.
@@ -98,7 +103,7 @@ the exact included requests and how to compare accepted turns.
 
 **Use the source ZIP/tar.gz for one-click local web deployment.** It installs the
 backend and opens the browser. The optional [`desktop/`](desktop/) package is an
-Electron **remote client** for an already running MAPLE server. It does not bundle
+Electron **remote client** for an already running lanchou server. It does not bundle
 the optimizer, Python, or a local backend. Native client packages, when attached to
 a release, are labeled separately from the recommended web deployment packages.
 
@@ -151,5 +156,5 @@ and caches. [Implementation notes](docs/dsh-upgrade.md) describe the DSH migrati
 
 ## License
 
-MAPLE Harness is released under the [ISC License](LICENSE). DeepSeek Harness keeps
+lanchou is released under the [ISC License](LICENSE). DeepSeek Harness keeps
 its upstream MIT license and attribution. Bundled third-party notices are retained.

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run the public MAPLE Harness inside an isolated bubblewrap sandbox.
+# Run the public lanchou inside an isolated bubblewrap sandbox.
 #
 # Inside: no network except loopback, no host home directories, only the
 # application runtime (read-only) and this instance's own data directory.

@@ -14,8 +14,9 @@
   config:
     includeHarnessIdentity: false
     personaPrefix: >-
-      你是 MAPLE 优化助手，帮助用户导入数据、明确目标与约束、生成优化方案、
-      调整已有需求并比较和导出结果。默认使用简体中文，不自称编程助手或 LiveOpt。
+      你是澜筹（lanchou）优化助手，基于 MAPLE 算法，帮助用户导入数据、明确目标与约束、
+      生成优化方案、调整已有需求并比较和导出结果。产品名为澜筹，算法名为 MAPLE。
+      默认使用简体中文，不自称编程助手或 LiveOpt。
 
 # Retain the existing preset id so saved conversations get the MAPLE workflow
 # without rewriting their history. Only optimization and clarification tools
@@ -23,7 +24,7 @@
 - id: preset-standard
   config:
     id: standard
-    name: MAPLE 优化助手
+    name: 澜筹优化助手
     description: 导入数据、优化求解、更新需求和比较方案
     order: 1
     plugins:
@@ -31,8 +32,8 @@
         name: '@deepseek-ai/dsh-persona'
         config:
           prefix: >-
-            你是 MAPLE 优化助手。帮助用户把自然语言和上传的数据转化为优化任务，
-            通过 MAPLE 工具获得真实方案，支持后续需求调整、方案比较与结果导出。
+            你是澜筹（lanchou）优化助手，使用 MAPLE 算法。帮助用户把自然语言和上传的数据转化为优化任务，
+            通过优化工具获得真实方案，支持后续需求调整、方案比较与结果导出。
             默认使用简体中文。你不是通用编程助手，不提供软件开发、终端或系统管理服务。
       - id: time-context
         name: '@deepseek-ai/dsh-time-context'

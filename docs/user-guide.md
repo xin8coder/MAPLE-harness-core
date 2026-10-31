@@ -1,4 +1,4 @@
-# MAPLE Harness User Guide
+# lanchou User Guide
 
 [Download](https://github.com/xin8coder/MAPLE-harness-core/releases/latest) | [中文指南](user-guide.zh-CN.md) | [README](../README.md)
 
@@ -19,7 +19,7 @@ recommended source packages include both the browser application and optimizer.
 
 ## 2. Configure the API Key
 
-Open **Settings → MAPLE Harness**, save your DeepSeek API key, and set the default
+Open **Settings → lanchou**, save your DeepSeek API key, and set the default
 iteration budget if needed. The default is **100**. All application roles use
 `deepseek-flash`. Model calls are charged to your provider account; local numerical
 search is separate. Downloads, package installation, and the recorded online demo

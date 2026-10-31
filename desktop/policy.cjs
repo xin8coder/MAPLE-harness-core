@@ -15,7 +15,7 @@ function connectionTarget(value) {
   const params = [...url.searchParams]
   if (url.username || url.password || url.hash || url.pathname !== '/' ||
       (params.length > 0 && (params.length !== 1 || params[0][0] !== 'token' || !params[0][1]))) {
-    throw new Error('Use the server origin or the launch link printed by MAPLE. Other paths and parameters are not supported.')
+    throw new Error('Use the server origin or the launch link printed by lanchou. Other paths and parameters are not supported.')
   }
   return { origin: url.origin, url: url.href }
 }

@@ -1,4 +1,4 @@
-# MAPLE Harness 中文使用指南
+# 澜筹（lanchou）中文使用指南
 
 [下载新版](https://github.com/xin8coder/MAPLE-harness-core/releases/latest) | [English](user-guide.md) | [返回首页](../README.zh-CN.md)
 
@@ -12,7 +12,7 @@ Windows 下载 source ZIP，Linux 下载 source tar.gz，先**完整解压**。W
 
 ## 2. 填写 API Key
 
-打开 **Settings → MAPLE Harness**，填写 DeepSeek API Key，按需调整默认迭代次数，默认值是 **100**。应用各角色使用 `deepseek-flash`，不调用 Pro。真实模型请求消耗你的服务商额度，本地数值搜索与模型调用是两部分开销。
+打开 **设置 → 澜筹**，填写 DeepSeek API Key，按需调整默认迭代次数，默认值是 **100**。应用各角色使用 `deepseek-flash`，不调用 Pro。真实模型请求消耗你的服务商额度，本地数值搜索与模型调用是两部分开销。
 
 应用不要求注册账号或输入用户名/密码，浏览器通过启动链接与本机服务配对。该链接包含访问令牌，请不要发到公开群、截图或 issue。API Key 也不要填进问题文本或上传的数据表。
 

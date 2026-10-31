@@ -153,16 +153,18 @@ window.__ModuleLoader__.load({
       "Configured ({key})": "已配置（{key}）",
       "Solutions": "方案",
       "Refresh": "刷新",
-      "About MAPLE Harness": "关于 MAPLE Harness",
+      "lanchou": "澜筹",
+      "About lanchou": "关于澜筹",
       "Close About dialog": "关闭关于窗口",
-      "MAPLE Harness Settings": "MAPLE Harness 设置",
+      "lanchou Settings": "澜筹设置",
       "Language": "语言",
       "Application": "应用",
+      "Algorithm": "优化算法",
       "Host": "宿主",
       "Attribution": "致谢",
       "Memory-Augmented Planning with Language and Evolution": "融合语言、进化与记忆的优化规划",
       "Built on the MIT-licensed DeepSeek Harness": "基于 MIT 许可的 DeepSeek Harness",
-      "MAPLE Harness turns public problem descriptions and data into exact or evolutionary optimization workflows, then adapts accepted state and search archives across natural-language updates.": "MAPLE Harness 将需求和数据转化为优化任务，使用精确或进化算法求解，并根据后续需求更新方案。",
+      "lanchou turns public problem descriptions and data into exact or evolutionary optimization workflows, then adapts accepted state and search archives across natural-language updates.": "澜筹基于 MAPLE 算法，将需求和数据转化为优化任务，并根据后续需求更新方案。",
       "Queued": "排队中",
       "Starting": "正在启动",
       "Building TSS Workbench": "正在构建 TSS 工作台",
@@ -176,9 +178,9 @@ window.__ModuleLoader__.load({
       "Failed": "失败",
       "Interrupted": "已中断",
       "Cancelled": "已取消",
-      "MAPLE job": "MAPLE 任务",
-      "MAPLE result": "MAPLE 结果",
-      "MAPLE progress": "MAPLE 进度",
+      "lanchou job": "澜筹任务",
+      "lanchou result": "澜筹结果",
+      "lanchou progress": "澜筹进度",
       "Full": "全量重启",
       "Warm": "热启动",
       "Transfer": "种群迁移",
@@ -192,7 +194,7 @@ window.__ModuleLoader__.load({
       "Population": "种群",
       "Submitted": "已提交",
       "Submitting": "正在提交",
-      "MAPLE data": "MAPLE 数据",
+      "lanchou data": "澜筹数据",
       "Prepared": "已准备",
       "Preparing public tables": "正在准备数据表",
       "Tables": "数据表",
@@ -214,13 +216,13 @@ window.__ModuleLoader__.load({
       "Band: population range": "色带：种群范围",
       "Plot shows objectives 1 and 2; all objectives are exported.": "图中展示目标 1 和 2，导出文件包含全部目标。",
       "Loading accepted result...": "正在加载结果…",
-      "MAPLE output": "MAPLE 输出",
+      "lanchou output": "澜筹输出",
       "Objective evolution": "各目标迭代曲线",
       "Final population and Pareto set": "最终种群与帕累托解集",
       "Solution set": "解集",
       "Saving settings...": "正在保存设置…",
       "Settings saved. New optimization jobs use these values.": "设置已保存。",
-      "MAPLE Harness uses one application mode, the DeepSeek Flash model, and a fixed light appearance.": "MAPLE Harness",
+      "lanchou uses one application mode, the DeepSeek Flash model, and a fixed light appearance.": "澜筹",
       "API": "API",
       "DeepSeek API key": "DeepSeek API 密钥",
       "Enter API key": "输入 API 密钥",
@@ -256,7 +258,7 @@ window.__ModuleLoader__.load({
       "Patch and validation summary": "补丁与验证摘要",
       "Representative solution": "代表性方案",
       "Loading optimization history...": "正在加载优化历史…",
-      "This conversation has no MAPLE solution history yet.": "当前会话暂无 MAPLE 优化记录。",
+      "This conversation has no lanchou solution history yet.": "当前会话暂无澜筹优化记录。",
       "Attach optimization documents": "添加优化文档",
       "Interface and agent replies": "界面与智能体回复",
       "Downloading...": "正在下载…",
@@ -277,7 +279,7 @@ window.__ModuleLoader__.load({
       }
     }
 
-    const LIVEOPT_APP_VERSION = '0.1.1'
+    const LIVEOPT_APP_VERSION = '0.2.2'
     const LIVEOPT_HOST_VERSION = '0.2.1-rc.2'
 
     function liveOptAssetUrl(filename) {
@@ -299,16 +301,16 @@ window.__ModuleLoader__.load({
             ...options,
           })
           const payload = await response.json().catch(() => null)
-          if (!response.ok) throw new Error(payload?.error || `MAPLE request failed (${response.status})`)
+          if (!response.ok) throw new Error(payload?.error || `lanchou request failed (${response.status})`)
           if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
-            throw new Error('MAPLE endpoint did not return a JSON object')
+            throw new Error('lanchou endpoint did not return a JSON object')
           }
           return payload
         } catch (error) {
           lastError = error
         }
       }
-      throw lastError || new Error('MAPLE application service is unavailable')
+      throw lastError || new Error('lanchou application service is unavailable')
     }
 
     function liveOptDownloadEndpoints(url) {
@@ -496,8 +498,8 @@ window.__ModuleLoader__.load({
       const enforceTitle = () => {
         const current = document.title.trim()
         const branded = current
-          ? current.replaceAll('DeepSeek Harness', 'MAPLE Harness').replaceAll('LiveOpt Harness', 'MAPLE Harness')
-          : 'MAPLE Harness'
+          ? current.replace(/(?:DeepSeek Harness|LiveOpt Harness|MAPLE Harness|lanchou|澜筹)$/u, t('lanchou'))
+          : t('lanchou')
         if (document.title !== branded) document.title = branded
       }
       enforceTitle()
@@ -507,22 +509,27 @@ window.__ModuleLoader__.load({
       icon.type = 'image/png'
       icon.sizes = '64x64'
       icon.dataset.liveoptBrand = 'icon'
-      icon.href = `${liveOptAssetUrl('maple-logo.png')}?brand=maple-v1`
+      icon.href = `${liveOptAssetUrl('maple-logo.png')}?brand=lanchou-v1`
       document.head.appendChild(icon)
       const observer = new MutationObserver(enforceTitle)
       observer.observe(document.head, { childList: true, characterData: true, subtree: true })
-      return () => observer.disconnect()
+      const unsubscribe = localeService.subscribe(enforceTitle)
+      return () => { observer.disconnect(); unsubscribe() }
     }
 
     function installFixedApplicationSurface() {
       if (typeof document === 'undefined') return () => {}
       let scheduled = false
+      const brandedNodes = new WeakSet()
       const synchronize = () => {
         scheduled = false
         const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
         for (let node = walker.nextNode(); node; node = walker.nextNode()) {
           const text = node.nodeValue?.trim()
-          if (text === 'Into the Unknown' || text === '探索未至之境') node.nodeValue = 'MAPLE Harness'
+          if (text === 'Into the Unknown' || text === '探索未至之境' || brandedNodes.has(node)) {
+            brandedNodes.add(node)
+            if (text !== t('lanchou')) node.nodeValue = t('lanchou')
+          }
           if (text === 'Preview' || text === '预览版') {
             const badge = node.parentElement
             if (badge) badge.dataset.liveoptHidden = 'true'
@@ -543,8 +550,9 @@ window.__ModuleLoader__.load({
       }
       const observer = new MutationObserver(requestSync)
       observer.observe(document.body, { childList: true, subtree: true })
+      const unsubscribe = localeService.subscribe(requestSync)
       requestSync()
-      return () => observer.disconnect()
+      return () => { observer.disconnect(); unsubscribe() }
     }
 
     function LiveOptBrandMark({ size = 24, className = '' }) {
@@ -559,7 +567,7 @@ window.__ModuleLoader__.load({
     }
 
     function LiveOptBrandName() {
-      return React.createElement('span', { className: 'liveopt-brand-name' }, 'MAPLE Harness')
+      return React.createElement('span', { className: 'liveopt-brand-name' }, t('lanchou'))
     }
 
     function LiveOptAbout({ wide }) {
@@ -575,12 +583,12 @@ window.__ModuleLoader__.load({
           type: 'button',
           className: 'liveopt-about-trigger',
           'data-wide': String(Boolean(wide)),
-          'aria-label': t('About MAPLE Harness'),
-          title: t('About MAPLE Harness'),
+          'aria-label': t('About lanchou'),
+          title: t('About lanchou'),
           onClick: () => setOpen(true),
         },
         React.createElement('span', { className: 'liveopt-about-icon', 'aria-hidden': true }, 'i'),
-        wide ? React.createElement('span', null, t('About MAPLE Harness')) : null),
+        wide ? React.createElement('span', null, t('About lanchou')) : null),
         open ? React.createElement('div', {
           className: 'liveopt-about-overlay',
           role: 'presentation',
@@ -594,7 +602,7 @@ window.__ModuleLoader__.load({
         React.createElement('div', { className: 'liveopt-about-head' },
           React.createElement(LiveOptBrandMark, { size: 48 }),
           React.createElement('div', null,
-            React.createElement('div', { id: 'liveopt-about-title', className: 'liveopt-about-heading' }, 'MAPLE Harness'),
+            React.createElement('div', { id: 'liveopt-about-title', className: 'liveopt-about-heading' }, t('lanchou')),
             React.createElement('div', { className: 'liveopt-about-subtitle' }, t('Memory-Augmented Planning with Language and Evolution'))),
           React.createElement('button', {
             type: 'button',
@@ -603,9 +611,10 @@ window.__ModuleLoader__.load({
             onClick: () => setOpen(false),
           }, '\u00d7')),
         React.createElement('p', { className: 'liveopt-about-copy' },
-          t('MAPLE Harness turns public problem descriptions and data into exact or evolutionary optimization workflows, then adapts accepted state and search archives across natural-language updates.')),
+          t('lanchou turns public problem descriptions and data into exact or evolutionary optimization workflows, then adapts accepted state and search archives across natural-language updates.')),
         React.createElement('dl', { className: 'liveopt-about-meta' },
-          React.createElement('dt', null, t('Application')), React.createElement('dd', null, `MAPLE Harness ${LIVEOPT_APP_VERSION}`),
+          React.createElement('dt', null, t('Application')), React.createElement('dd', null, `${t('lanchou')} ${LIVEOPT_APP_VERSION}`),
+          React.createElement('dt', null, t('Algorithm')), React.createElement('dd', null, 'MAPLE'),
           React.createElement('dt', null, t('Host')), React.createElement('dd', null, `DeepSeek Harness ${LIVEOPT_HOST_VERSION}`),
           React.createElement('dt', null, t('Attribution')), React.createElement('dd', null,
             React.createElement('a', {
@@ -655,7 +664,7 @@ window.__ModuleLoader__.load({
         interrupted: t('Interrupted'),
         cancelled: t('Cancelled'),
       }
-      return labels[phase] || phase || t('MAPLE job')
+      return labels[phase] || phase || t('lanchou job')
     }
 
     function formatElapsed(seconds) {
@@ -723,7 +732,7 @@ window.__ModuleLoader__.load({
       const total = Number(progress.total_generations)
       const hasGeneration = Number.isFinite(generation) && Number.isFinite(total) && total > 0
       const percent = hasGeneration ? Math.max(0, Math.min(100, Number(progress.percent) || generation * 100 / total)) : 0
-      const title = status === 'succeeded' ? t('MAPLE result') : t('MAPLE progress')
+      const title = status === 'succeeded' ? t('lanchou result') : t('lanchou progress')
       let message = progress.message || (settled && !payload ? textResult(block).split('\n')[0] : '')
       if (phase === 'restart_selected' && Number.isFinite(Number(progress.reused_solution_count))) {
         const count = progress.reused_solution_count
@@ -773,7 +782,7 @@ window.__ModuleLoader__.load({
       return React.createElement('section', { className: 'liveopt-card' },
         React.createElement('div', { className: 'liveopt-head' },
           React.createElement('span', { className: 'liveopt-dot', 'data-state': 'queued' }),
-          React.createElement('span', { className: 'liveopt-title' }, t('MAPLE job')),
+          React.createElement('span', { className: 'liveopt-title' }, t('lanchou job')),
           React.createElement('span', { className: 'liveopt-phase' }, payload ? t('Submitted') : t('Submitting')),
           payload?.job_id ? React.createElement('span', { className: 'liveopt-elapsed' }, payload.job_id) : null,
         ),
@@ -787,7 +796,7 @@ window.__ModuleLoader__.load({
       return React.createElement('section', { className: 'liveopt-card' },
         React.createElement('div', { className: 'liveopt-head' },
           React.createElement('span', { className: 'liveopt-dot' }),
-          React.createElement('span', { className: 'liveopt-title' }, t('MAPLE data')),
+          React.createElement('span', { className: 'liveopt-title' }, t('lanchou data')),
           React.createElement('span', { className: 'liveopt-phase' }, payload ? t('Prepared') : t('Preparing public tables')),
         ),
         payload ? React.createElement('div', { className: 'liveopt-metrics' },
@@ -1071,7 +1080,7 @@ window.__ModuleLoader__.load({
       return React.createElement('section', { className: 'liveopt-card' },
         React.createElement('div', { className: 'liveopt-head' },
           React.createElement('span', { className: 'liveopt-dot' }),
-          React.createElement('span', { className: 'liveopt-title' }, t('MAPLE output')),
+          React.createElement('span', { className: 'liveopt-title' }, t('lanchou output')),
           React.createElement('span', { className: 'liveopt-phase' }, t('Turn {turn} · {count} accepted solutions', { turn: payload.turn, count: payload.solution_count })),
         ),
         React.createElement('div', { className: 'liveopt-section' },
@@ -1142,7 +1151,7 @@ window.__ModuleLoader__.load({
       }
 
       return React.createElement('form', { className: 'liveopt-settings', onSubmit: save },
-        React.createElement('h2', null, t('MAPLE Harness Settings')),
+        React.createElement('h2', null, t('lanchou Settings')),
         React.createElement('section', { className: 'liveopt-settings-group' },
           React.createElement('label', { className: 'liveopt-settings-field' },
             React.createElement('span', { className: 'liveopt-settings-label' }, t('Interface and agent replies')),
@@ -1358,7 +1367,7 @@ window.__ModuleLoader__.load({
           ),
           state.phase === 'error' ? React.createElement('div', { className: 'liveopt-solutions-empty' }, state.message) : null,
           state.phase === 'loading' && !timeline ? React.createElement('div', { className: 'liveopt-solutions-empty' }, t('Loading optimization history...')) : null,
-          !selected && state.phase !== 'loading' ? React.createElement('div', { className: 'liveopt-solutions-empty' }, t('This conversation has no MAPLE solution history yet.')) : null,
+          !selected && state.phase !== 'loading' ? React.createElement('div', { className: 'liveopt-solutions-empty' }, t('This conversation has no lanchou solution history yet.')) : null,
           session ? React.createElement(React.Fragment, null,
             React.createElement('div', { className: 'liveopt-session-meta' },
               React.createElement('span', null, session.task_id || session.session_id),
@@ -1395,7 +1404,7 @@ window.__ModuleLoader__.load({
       ctx.on('theme/change', enforceLight)
       ctx.slots.inject('sidebar.brand.mark', () => ctx.slots.inject('sidebar.brand.name', () => ctx.slots.inject('conversation.hero.brand.mark', function* () {
         yield ctx.slots.register({ name: 'sidebar.brand.mark' }, LiveOptBrandMark)
-        yield ctx.slots.register({ name: 'sidebar.brand.name' }, LiveOptBrandName)
+        yield ctx.slots.register({ name: 'sidebar.brand.name' }, localized(LiveOptBrandName))
         yield ctx.slots.register({ name: 'conversation.hero.brand.mark' }, LiveOptBrandMark)
       })))
       for (const key of [
@@ -1420,14 +1429,15 @@ window.__ModuleLoader__.load({
         name: 'sidebar.footer.action',
         id: 'liveopt-about',
         order: 90,
-        label: () => t('About MAPLE Harness'),
+        label: () => t('About lanchou'),
         locale: 'maple',
       }, localized(LiveOptAbout)))
       ctx.slots.inject('settings.section', () => ctx.slots.register({
         name: 'settings.section',
         id: 'liveopt',
         order: 0,
-        label: 'MAPLE Harness',
+        label: () => t('lanchou'),
+        locale: 'maple',
       }, localized(LiveOptSettings)))
       ctx.slots.inject('conversation.view', () => ctx.slots.register({
         name: 'conversation.view',

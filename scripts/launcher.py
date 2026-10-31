@@ -184,7 +184,7 @@ def serve(home, node, python, mcp, entry, env, no_browser):
         opener = build_opener(ProxyHandler({}))
         for _ in range(100):
             if api.poll() is not None:
-                raise RuntimeError('MAPLE application service failed to start.')
+                raise RuntimeError('lanchou application service failed to start.')
             try:
                 with opener.open(env['LIVEOPT_WEB_API_URL'] + '/health', timeout=1) as response:
                     if response.status == 200:
@@ -192,8 +192,8 @@ def serve(home, node, python, mcp, entry, env, no_browser):
             except OSError:
                 time.sleep(0.1)
         else:
-            raise RuntimeError('MAPLE application service did not become ready.')
-        print(f'[5/5] Starting MAPLE on port {port}. Keep this window open. Press Ctrl+C to stop.', flush=True)
+            raise RuntimeError('lanchou application service did not become ready.')
+        print(f'[5/5] Starting lanchou on port {port}. Keep this window open. Press Ctrl+C to stop.', flush=True)
         args = [str(node), str(entry), '--profile', 'web', '--host', '127.0.0.1', '--port', str(port)]
         if no_browser or env.get('MAPLE_OPEN_BROWSER') == '0':
             args.append('--no-open')
@@ -201,7 +201,7 @@ def serve(home, node, python, mcp, entry, env, no_browser):
         children.append(host)
         while host.poll() is None:
             if api.poll() is not None:
-                raise RuntimeError('MAPLE application service stopped unexpectedly.')
+                raise RuntimeError('lanchou application service stopped unexpectedly.')
             time.sleep(0.2)
         return host.returncode
     finally:
@@ -220,7 +220,7 @@ def main():
     env = environment(home, node)
     python, mcp, entry = install(home, node, corepack, env)
     if args.install_only:
-        print('MAPLE installation complete. Run start.cmd or ./start.sh to open the application.')
+        print('lanchou installation complete. Run start.cmd or ./start.sh to open the application.')
         return 0
     return serve(home, node, python, mcp, entry, env, args.no_browser)
 
@@ -231,5 +231,5 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         sys.exit(0)
     except Exception as error:
-        print(f'MAPLE: {error}', file=sys.stderr)
+        print(f'lanchou: {error}', file=sys.stderr)
         sys.exit(1)

@@ -3,7 +3,7 @@ name: maple-data
 description: Prepare uploaded documents and public data files before MAPLE optimization.
 ---
 
-# MAPLE Data
+# lanchou Data
 
 Use `mcp__liveopt__liveopt_prepare_data` when optimization data is stored in public files rather than already supplied as a structured object.
 

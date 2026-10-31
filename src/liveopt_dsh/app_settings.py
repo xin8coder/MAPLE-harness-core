@@ -176,7 +176,7 @@ def _atomic_text(path: Path, payload: str, *, mode: int) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Configure the LiveOpt Harness application")
+    parser = argparse.ArgumentParser(description="Configure the lanchou application")
     parser.add_argument("--api-key")
     parser.add_argument("--generations", type=int)
     parser.add_argument(

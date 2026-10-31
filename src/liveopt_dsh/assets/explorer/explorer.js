@@ -4,6 +4,7 @@ const query = new URLSearchParams(location.search);
 const base = location.pathname.includes("/liveopt-api/") ? "/liveopt-api" : "";
 let language = query.get("lang") === "en" ? "en" : "zh";
 const words = {
+  brand: ["澜筹", "lanchou"],
   explorer: ["方案选择", "Solution explorer"],
   turn: ["优化批次", "Optimization turn"],
   refresh: ["刷新", "Refresh"],
@@ -167,7 +168,8 @@ let data,
 const pageSize = 12;
 function localize() {
   document.documentElement.lang = language;
-  document.title = `MAPLE | ${tr("explorer")}`;
+  document.title = `${tr("brand")} | ${tr("explorer")}`;
+  $("brand").alt = tr("brand");
   document
     .querySelectorAll("[data-i18n]")
     .forEach((el) => (el.textContent = tr(el.dataset.i18n)));

@@ -6,11 +6,14 @@ const { pathToFileURL } = require('node:url')
 const { readFileSync, writeFileSync, renameSync } = require('node:fs')
 const { serverOrigin, connectionTarget, sameOrigin, externalLink } = require('./policy.cjs')
 
-app.setName('MAPLE Harness')
+// Keep the existing desktop profile when changing the display name.
+const previousUserData = join(app.getPath('appData'), 'MAPLE Harness')
+app.setName('lanchou')
+app.setPath('userData', previousUserData)
 const connectionPage = pathToFileURL(join(__dirname, 'connection.html')).href
 let launcher
 let workspace
-let config = { server: '', language: 'en' }
+let config = { server: '', language: 'zh' }
 let quitting = false
 const trustedCertificates = new Map()
 const explorerWindows = new Set()
@@ -18,7 +21,7 @@ const explorerWindows = new Set()
 function openExplorer(url, origin) {
   const view = new BrowserWindow({
     width: 1340, height: 900, minWidth: 420, minHeight: 560, backgroundColor: '#ffffff',
-    title: 'MAPLE | Solution Explorer',
+    title: text('lanchou | Solution Explorer', '澜筹 | 方案选择'),
     webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true, partition: 'persist:maple-workspace' },
   })
   explorerWindows.add(view)
@@ -28,7 +31,7 @@ function openExplorer(url, origin) {
   }
   view.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
   view.webContents.on('will-attach-webview', event => event.preventDefault())
-  view.loadURL(url).catch(error => { dialog.showErrorBox('MAPLE', error.message); view.destroy() })
+  view.loadURL(url).catch(error => { dialog.showErrorBox(text('lanchou', '澜筹'), error.message); view.destroy() })
 }
 
 function text(en, zh) { return config.language === 'zh' ? zh : en }
@@ -48,7 +51,7 @@ function connectionWindow() {
   if (launcher && !launcher.isDestroyed()) { launcher.show(); launcher.focus(); return }
   launcher = new BrowserWindow({
     width: 520, height: 490, minWidth: 380, minHeight: 430, backgroundColor: '#ffffff',
-    title: 'MAPLE Harness', autoHideMenuBar: true,
+    title: text('lanchou', '澜筹'), autoHideMenuBar: true,
     webPreferences: { preload: join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true },
   })
   launcher.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
@@ -59,7 +62,7 @@ function connectionWindow() {
 
 function installMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate([
-    { label: 'MAPLE Harness', submenu: [
+    { label: text('lanchou', '澜筹'), submenu: [
       { label: text('Server connection', '服务器连接'), click: connectionWindow },
       { label: text('Show workspace', '显示工作区'), click: () => workspace?.show() },
       { label: text('Reload', '重新加载'), click: () => workspace?.reload() },
@@ -67,10 +70,10 @@ function installMenu() {
         if (config.server) shell.openExternal(config.server)
       } },
       { type: 'separator' },
-      { label: text('About MAPLE Harness', '关于 MAPLE Harness'), click: () => dialog.showMessageBox({
-        message: 'MAPLE Harness Desktop',
-        detail: text('Remote client for MAPLE Harness, built on DeepSeek Harness. Optimization runs on the connected server.',
-          'MAPLE Harness 的远程桌面客户端，应用基于 DeepSeek Harness。优化任务在所连接的服务器运行。'),
+      { label: text('About lanchou', '关于澜筹'), click: () => dialog.showMessageBox({
+        message: text('lanchou Desktop', '澜筹桌面客户端'),
+        detail: text('Remote client for lanchou, powered by MAPLE and built on DeepSeek Harness. Optimization runs on the connected server.',
+          '澜筹的远程桌面客户端，基于 MAPLE 算法与 DeepSeek Harness。优化任务在所连接的服务器运行。'),
       }) },
       { label: text('Quit', '退出'), role: 'quit' },
     ] },
@@ -85,7 +88,7 @@ async function connect(value) {
   if (workspace && !workspace.isDestroyed()) workspace.destroy()
   const current = new BrowserWindow({
     width: 1360, height: 900, minWidth: 760, minHeight: 560, backgroundColor: '#ffffff',
-    title: 'MAPLE Harness',
+    title: text('lanchou', '澜筹'),
     webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true, partition: 'persist:maple-workspace' },
   })
   workspace = current

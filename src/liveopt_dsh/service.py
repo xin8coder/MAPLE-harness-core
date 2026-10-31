@@ -736,7 +736,7 @@ class LiveOptService:
             return self.client_factory(provider=provider, model=model, api_key=None, base_url=None)
         api_key = load_deepseek_api_key()
         if not api_key:
-            raise ValueError("DeepSeek API key is not configured; add it in LiveOpt Settings")
+            raise ValueError("DeepSeek API key is not configured; add it in lanchou Settings")
         return create_llm_client(model=model, provider=provider, api_key=api_key)
 
     def _load_public_context(

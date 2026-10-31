@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "liveopt-dsh-sidecar"
-version = "0.2.1"
-description = "Isolated MCP sidecar for the MAPLE Harness application"
+version = "0.2.2"
+description = "Isolated MCP sidecar for the lanchou application"
 requires-python = ">=3.10"
 dependencies = [
   "liveopt==0.1.0",

@@ -12,7 +12,7 @@ case "$(uname -m)" in
   aarch64|arm64) node_arch=arm64 ;;
   *) echo "Unsupported CPU architecture." >&2; exit 2 ;;
 esac
-command -v python3 >/dev/null || { echo "Install Python 3.10 or newer before starting MAPLE." >&2; exit 2; }
+command -v python3 >/dev/null || { echo "Install Python 3.10 or newer before starting lanchou." >&2; exit 2; }
 node_dist="node-v${NODE_VERSION}-${node_os}-${node_arch}"
 node_root="$LIVEOPT_LOCAL_ROOT/$node_dist"
 mkdir -p "$LIVEOPT_LOCAL_ROOT" "$LIVEOPT_DSH_BIN_DIR" "$LIVEOPT_MCP_WORKSPACE_ROOT"
@@ -48,4 +48,4 @@ exec "$node_root/bin/node" "$dsh_root/node_modules/@deepseek-ai/dsh/lib/bin.js" 
 EOF
 chmod 0755 "$LIVEOPT_DSH_BIN_DIR/dsh"
 "$MAPLE_SOURCE_ROOT/scripts/install.sh"
-echo "MAPLE is installed. Start it with: $MAPLE_SOURCE_ROOT/maple"
+echo "lanchou is installed. Start it with: $MAPLE_SOURCE_ROOT/maple"

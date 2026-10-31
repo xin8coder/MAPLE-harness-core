@@ -3,7 +3,7 @@ name: maple-results
 description: Export and present an accepted MAPLE solution set and iteration history as CSV, JSON, and ZIP files.
 ---
 
-# MAPLE Results
+# lanchou Results
 
 Use `mcp__liveopt__liveopt_export` after a MAPLE start or update has completed successfully.
 

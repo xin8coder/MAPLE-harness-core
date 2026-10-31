@@ -9,10 +9,12 @@ import subprocess
 SUFFIXES = {'.tex', '.bib', '.sty', '.bst', '.ppt', '.pptx', '.pdf', '.zip', '.tar', '.tgz', '.cff'}
 PREFIXES = ('paper/', 'paper_outputs/', 'release_artifacts/', 'logs/', 'outputs/', 'anonymous-demo/', 'site/', 'docs/maple', 'docs/iclr')
 PRIVATE_NAMES = {'.env', '.credentials.yaml', 'connection.json', 'provider.env', 'service.env',
-                 'config.env', 'front.env', 'llm.env', 'cloudflare-token', 'public-url.txt'}
+                 'config.env', 'front.env', 'llm.env', 'cloudflare-token', 'public-url.txt',
+                 'ngrok-authtoken', 'ngrok-url.txt', 'cloudflare-url.txt'}
 PUBLIC_LINK_DOCUMENTS = {
     'README.md', 'README.zh-CN.md', 'docs/user-guide.md',
     'docs/user-guide.zh-CN.md', 'docs/releases/v0.2.0.md', 'docs/releases/v0.2.1.md',
+    'docs/releases/v0.2.2.md',
 }
 # Published installation guides intentionally link to the application and demo.
 PUBLIC_PRODUCT_URLS = re.compile(

@@ -83,14 +83,15 @@ def test_bundle_registers_liveopt_progress_component():
     assert "sidebar.brand.name" in client
     assert "conversation.hero.brand.mark" in client
     assert "sidebar.footer.action" in client
-    assert "About MAPLE Harness" in client
+    assert "About lanchou" in client
     assert "Built on the MIT-licensed DeepSeek Harness" in client
     assert "const observer = new MutationObserver(enforceTitle)" in client
-    assert "replaceAll('DeepSeek Harness', 'MAPLE Harness')" in client
+    assert "DeepSeek Harness|LiveOpt Harness|MAPLE Harness|lanchou|澜筹" in client
+    assert '"lanchou": "澜筹"' in client
     assert "Memory-Augmented Planning with Language and Evolution" in client
     assert "/liveopt-api/brand/" in client
     assert "settings.section" in client
-    assert "MAPLE Harness Settings" in client
+    assert "lanchou Settings" in client
     assert "conversation.view" in client
     assert "id: 'solutions'" in client
     assert "label: () => t('Solutions')" in client
@@ -98,7 +99,7 @@ def test_bundle_registers_liveopt_progress_component():
     assert "liveopt:conversation-session:" in client
     assert "inferConversationLiveOptSession" in client
     assert "snapshot.views.get('chat')" in client
-    assert "This conversation has no MAPLE solution history yet." in client
+    assert "This conversation has no lanchou solution history yet." in client
     assert "function downloadLiveOptArtifact(item)" in client
     assert "response.blob()" in client
     assert "URL.createObjectURL(blob)" in client

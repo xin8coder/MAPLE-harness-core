@@ -1,4 +1,4 @@
-# MAPLE Harness Operations
+# lanchou Operations
 
 ## Supported installation
 
@@ -28,7 +28,7 @@ registry entries are added. Keep the launcher terminal open while using the app.
 Open the launch link printed by DSH. The default address uses port **3000**.
 The link pairs the browser with this installation using official DSH browser
 authentication. No username or password is needed. Do not publish the link or
-paste its token into an issue. Enter the DeepSeek API key in **MAPLE Settings**.
+paste its token into an issue. Enter the DeepSeek API key in **lanchou Settings**.
 The host and all optimization agent roles use **`deepseek-flash`**, never Pro.
 Evolutionary search defaults to **100** iterations and remains configurable.
 

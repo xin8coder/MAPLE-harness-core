@@ -1,8 +1,8 @@
 {
   "name": "maple-harness-desktop",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
-  "description": "Desktop client for an existing MAPLE Harness deployment",
+  "description": "Desktop client for an existing lanchou deployment",
   "author": "Anonymous Authors",
   "license": "ISC",
   "main": "main.cjs",
@@ -20,9 +20,9 @@
   },
   "build": {
     "appId": "org.maple.harness.desktop",
-    "productName": "MAPLE Harness",
+    "productName": "lanchou",
     "icon": "icon.png",
-    "artifactName": "MAPLE-Harness-${version}-${os}-${arch}.${ext}",
+    "artifactName": "lanchou-${version}-${os}-${arch}.${ext}",
     "files": ["*.cjs", "connection.html", "connection.js", "connection.css", "icon.png", "LICENSE"],
     "linux": { "target": ["AppImage", "tar.gz"], "category": "Office", "icon": "icon.png", "syncDesktopName": true },
     "win": { "target": "nsis" },

@@ -133,13 +133,13 @@ def unit_texts(root, values):
         if name == 'tunnel':
             dependencies = f'After={prefix}-front.service network-online.target\n'
         units[f'{prefix}-{name}.service'] = (
-            f'[Unit]\nDescription=MAPLE sandbox: {name}\nPartOf={prefix}.target\n{dependencies}\n'
+            f'[Unit]\nDescription=lanchou sandbox: {name}\nPartOf={prefix}.target\n{dependencies}\n'
             f'[Service]\nType=simple\nExecStart=/bin/bash {root}/app/{script}\n'
             f'StandardOutput=append:{root}/logs/{name}.log\nStandardError=append:{root}/logs/{name}.log\n'
             'Restart=on-failure\nRestartSec=5\nKillMode=control-group\nTimeoutStopSec=25\nUMask=0077\n\n'
             f'[Install]\nWantedBy={prefix}.target\n')
     wants = ' '.join(f'{prefix}-{name}.service' for name in names)
-    units[f'{prefix}.target'] = (f'[Unit]\nDescription=MAPLE sandbox application\nWants={wants}\n'
+    units[f'{prefix}.target'] = (f'[Unit]\nDescription=lanchou sandbox application\nWants={wants}\n'
                                 'After=network-online.target\n\n[Install]\nWantedBy=default.target\n')
     return units
 
@@ -226,7 +226,7 @@ def main():
             document = yaml.safe_load((home/'dsh-home/.credentials.yaml').read_text())
             key = document.get('refs', {}).get('DEEPSEEK_API_KEY', '')
         key = key or getpass.getpass('DeepSeek API key (stored outside the sandbox): ')
-        password = getpass.getpass('New MAPLE login password: ')
+        password = getpass.getpass('New lanchou login password: ')
         if password != getpass.getpass('Confirm login password: '):
             raise SystemExit('Passwords do not match')
         tunnel_token = args.tunnel_token_file.read_text() if args.tunnel_token_file else None
@@ -241,7 +241,7 @@ def main():
         subprocess.run(['systemctl', '--user', 'daemon-reload'], check=True)
         if args.start or active:
             subprocess.run(['systemctl', '--user', 'enable', '--now', target], check=True)
-    print('MAPLE sandbox prepared at '+str(root))
+    print('lanchou sandbox prepared at '+str(root))
     print('Intranet address: '+values['MAPLE_INTRANET_ORIGIN'])
     print('Back up this private directory; do not upload its secrets, data, or logs.')
 

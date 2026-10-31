@@ -6,6 +6,8 @@ import json
 import os
 from pathlib import Path
 import shlex
+import shutil
+import subprocess
 import sys
 
 import pytest
@@ -111,3 +113,42 @@ def test_login_return_path_cannot_escape_the_current_site(monkeypatch):
     for path in ['//outside.invalid', '/\\outside.invalid', '/\r\nX-Injected: bad']:
         assert auth.safe_next(path) == '/'
     assert auth.safe_next('/?view=solutions') == '/?view=solutions'
+
+
+@pytest.mark.skipif(sys.platform != 'linux', reason='The isolated server is Linux-only')
+@pytest.mark.parametrize('message,child_exit,expected', [
+    ('Unauthorized: Tunnel not found', None, 1),
+    ('connection reset by peer; retrying', 0, 0),
+    ('failed to start tunnel', 7, 7),
+])
+def test_quick_tunnel_recycles_deleted_registration_and_reaps_child(tmp_path, message, child_exit, expected):
+    root = tmp_path/'server'
+    app = root/'app'
+    app.mkdir(parents=True)
+    runtime = tmp_path/'runtime'
+    (runtime/'bin').mkdir(parents=True)
+    systemctl = runtime/'bin/systemctl'
+    systemctl.write_text('#!/bin/sh\nexit 0\n')
+    systemctl.chmod(0o755)
+    for name in ['common.sh', 'start-tunnel.sh']:
+        shutil.copyfile(ROOT/'deploy/sandbox'/name, app/name)
+    child = tmp_path/'mock-cloudflared'
+    child.write_text('#!/bin/sh\n'
+        'printf "%s" "$$" > "$MAPLE_TEST_CHILD_PID"\n'
+        'echo "https://mock-recovery.trycloudflare.com"\n'
+        f'echo {shlex.quote(message)}\n'
+        + ('exec sleep 60\n' if child_exit is None else f'exit {child_exit}\n'))
+    child.chmod(0o755)
+    setup.write_env(root/'config.env', {
+        **values(tmp_path), 'MAPLE_HOME': str(runtime),
+        'MAPLE_TUNNEL': 'quick', 'MAPLE_CLOUDFLARED': str(child),
+    })
+    pid_file = tmp_path/'child.pid'
+    result = subprocess.run(['bash', str(app/'start-tunnel.sh')],
+        env={**os.environ, 'MAPLE_TEST_CHILD_PID': str(pid_file)},
+        capture_output=True, text=True, timeout=10)
+    assert result.returncode == expected, result.stderr
+    assert (root/'public-url.txt').read_text().strip() == 'https://mock-recovery.trycloudflare.com'
+    with pytest.raises(ProcessLookupError):
+        os.kill(int(pid_file.read_text()), 0)
+    assert ('requesting a new public URL' in result.stderr) == (child_exit is None)

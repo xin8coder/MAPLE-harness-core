@@ -28,7 +28,7 @@ test('application routes retain DSH authentication and proxy streaming bodies', 
       },
     })
     assert.equal(route.path, '/liveopt-api')
-    assert.match(transform('<title>DeepSeek Harness</title>'), /MAPLE Harness/)
+    assert.match(transform('<title>DeepSeek Harness</title>'), /澜筹/)
     server = createServer(route.handler)
     await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
     const url = `http://127.0.0.1:${server.address().port}/liveopt-api/upload?turn=2`

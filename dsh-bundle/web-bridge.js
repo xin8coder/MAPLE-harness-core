@@ -7,7 +7,7 @@ export function apply(ctx) {
   const target = new URL(process.env.LIVEOPT_WEB_API_URL || `http://127.0.0.1:${process.env.LIVEOPT_WEB_API_PORT || '8766'}`)
   if (target.protocol !== 'http:' || !['127.0.0.1', '[::1]', 'localhost'].includes(target.hostname) ||
       target.username || target.password || target.pathname !== '/' || target.search || target.hash) {
-    throw new Error('The MAPLE sidecar endpoint must be a local HTTP service')
+    throw new Error('The lanchou sidecar endpoint must be a local HTTP service')
   }
   ctx.effect(() => ctx.webServer.register({
     kind: 'prefix',
@@ -31,11 +31,11 @@ export function apply(ctx) {
       })
       upstream.on('error', () => {
         if (!res.headersSent) res.writeHead(502, { 'content-type': 'application/json' })
-        res.end(JSON.stringify({ error: 'MAPLE application service is unavailable' }))
+        res.end(JSON.stringify({ error: 'lanchou application service is unavailable' }))
       })
       req.on('aborted', () => upstream.destroy())
       req.pipe(upstream)
     },
   }), 'maple: same-origin application routes')
-  ctx.effect(() => ctx.webServer.tapIndex(html => html.replace('<title>DeepSeek Harness</title>', '<title>MAPLE Harness</title>')))
+  ctx.effect(() => ctx.webServer.tapIndex(html => html.replace('<title>DeepSeek Harness</title>', '<title>澜筹</title>')))
 }
