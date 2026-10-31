@@ -125,7 +125,7 @@ class Handler(BaseHTTPRequestHandler):
                                            ("Set-Cookie", f"{COOKIE}=; Max-Age=0; Path=/; Secure; HttpOnly; SameSite=Lax")])
         prefix = "/maple-login/assets/"
         if path.path.startswith(prefix):
-            name = path.path.removeprefix(prefix)
+            name = path.path[len(prefix):]
             asset = public_asset(name)
             if asset is None:
                 return self.send(404)

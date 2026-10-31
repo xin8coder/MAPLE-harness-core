@@ -71,8 +71,8 @@
     },
     {
       "path": "deploy/sandbox/auth.py",
-      "sha256": "a7b0f180a57d0ae3b7b50e82fac4725a71477cd0a2af824b18f3d2d720ed0e69",
-      "bytes": 6945
+      "sha256": "92f1d23eb823ec43c2431cb7e0dd3a5c2e84d611e69c50c11026c00843ed4c5f",
+      "bytes": 6938
     },
     {
       "path": "deploy/sandbox/common.sh",
