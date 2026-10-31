@@ -1,13 +1,13 @@
 {
   "schema_version": 2,
-  "source_revision": "lanchou-0.2.2",
+  "source_revision": "lanchou-0.2.3",
   "upstream": {
     "package": "@deepseek-ai/dsh",
     "version": "0.2.1-rc.2",
     "commit": "687f282e8625c6b8d11ff58211a90524be2e4317"
   },
   "core_sha256": "57aa6171c52bc6f9d76d368c435294ea44282740563f5005a780191f055dcf78",
-  "file_count": 248,
+  "file_count": 251,
   "files": [
     {
       "path": ".github/workflows/desktop.yml",
@@ -41,13 +41,13 @@
     },
     {
       "path": "README.md",
-      "sha256": "85898d78330d9382a2b8892274b443d18f1e8429cb5618d40b0c89051cc033f8",
-      "bytes": 8585
+      "sha256": "4cc8b4f715565df6447d0bc9f435d9be7102dd1b6c00a000b5f03b4d51ba4bd1",
+      "bytes": 8599
     },
     {
       "path": "README.zh-CN.md",
-      "sha256": "2aef4ce7c0f098f6c16f65304486bce6dd34ef8f5390f96a8a2681e1be6609ad",
-      "bytes": 6760
+      "sha256": "02db3d283bfd062510980799a45139df74af38c260fbca880fd8bc2e7319863c",
+      "bytes": 6770
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -71,8 +71,8 @@
     },
     {
       "path": "deploy/sandbox/auth.py",
-      "sha256": "3858cab7fb02b817981739281b3019640c39661f4592dde2fc84e7dad8228846",
-      "bytes": 6325
+      "sha256": "b3678f1b6b020a1461f11b70968f498fed262248489110e9a4f2829dac3ef0cc",
+      "bytes": 6346
     },
     {
       "path": "deploy/sandbox/common.sh",
@@ -141,18 +141,18 @@
     },
     {
       "path": "desktop/connection.html",
-      "sha256": "ad67c2b3c90daabb8a7a05415bd9a797f2d0e86a998f7d1010f96da9834c4b53",
-      "bytes": 1200
+      "sha256": "0b8b8e5213ff11eb1c95c2ede1035b7f2eb93d4892a4270cb55397cec5a9a419",
+      "bytes": 1220
     },
     {
       "path": "desktop/connection.js",
-      "sha256": "55c89f8cad09c6a8279047052292e39341cb64fa1764dcd347228c2b293aed8c",
-      "bytes": 1637
+      "sha256": "e8d67e9e4c8d12a1a70d5ac3a63a6a8b53fbb2f020c46f8348be6834f13c315e",
+      "bytes": 1727
     },
     {
       "path": "desktop/icon.png",
-      "sha256": "71114cb4a3fe2df55d9e4c5a6c1cda577229c6004aabd6fd940cdd199796e294",
-      "bytes": 1068855
+      "sha256": "da29ab8cdb0c2b8683ad6105b93b751e6b7739e64901867b95b28ab8e80a1b1d",
+      "bytes": 94512
     },
     {
       "path": "desktop/main.cjs",
@@ -161,12 +161,12 @@
     },
     {
       "path": "desktop/package-lock.json",
-      "sha256": "abb4a7476213494e4dd696edfa1574b5e6d061d9eabc73742678e6b54d6e6f09",
+      "sha256": "8f4482f67c5febbb7c0c8aa77d0351e612057afec53dec734f3f389a81985599",
       "bytes": 127196
     },
     {
       "path": "desktop/package.json",
-      "sha256": "7a92f564835da80415618f557dcb9a43f5cf2e065a048620b57866ec8c70c22d",
+      "sha256": "e9fe200479b4e363e3fe2485b787465495d58b94aa90d09e8fc9c4f645e0f528",
       "bytes": 1135
     },
     {
@@ -188,6 +188,11 @@
       "path": "docker-compose.yml",
       "sha256": "7cc232b29b28e6045113523d11b301155c7f3754946782be5710a640fc6d1eee",
       "bytes": 763
+    },
+    {
+      "path": "docs/brand/lanchou-logo.prompt.md",
+      "sha256": "5d24aec99fdd32204f1c34aca9732f899d2bd991971ea4507aa1ae0d9b870741",
+      "bytes": 1958
     },
     {
       "path": "docs/cloudflare-tunnel.zh-CN.md",
@@ -235,6 +240,11 @@
       "bytes": 1170
     },
     {
+      "path": "docs/releases/v0.2.3.md",
+      "sha256": "287b701c9f9de97ae8675b055c3090017cbf8124cda667ee8ff57d31dbb8b887",
+      "bytes": 868
+    },
+    {
       "path": "docs/solution-explorer.md",
       "sha256": "32def6f005b1029d30144df921024d07996dd3ef76c0c20e1979d251d998d173",
       "bytes": 2519
@@ -251,8 +261,8 @@
     },
     {
       "path": "dsh-bundle/client.js",
-      "sha256": "3a1e2eff1c7a17217949132b90ee01e77732517e4cacbaf0e4b2e49e259a9fde",
-      "bytes": 85252
+      "sha256": "e37d66e75dcc0006c5d5d928a3df0674dd4bb04df042c292862b1bb83d2c2209",
+      "bytes": 85583
     },
     {
       "path": "dsh-bundle/cordis.patch.yml",
@@ -266,7 +276,7 @@
     },
     {
       "path": "dsh-bundle/package.json",
-      "sha256": "868f42f7cb919ece771c979810d46c78be3e3698a82fc0867ee8e173f2377d40",
+      "sha256": "03e12074ea35c08a41a2b1e2f57735040d3c5b3840b97e14cdad4735b901576d",
       "bytes": 1042
     },
     {
@@ -286,8 +296,8 @@
     },
     {
       "path": "dsh-bundle/web-bridge.js",
-      "sha256": "4a6cb7bdba7a3cf323bc0977c25ac2cfa4fc37ee6aa581846373038a8afd2143",
-      "bytes": 1851
+      "sha256": "647f868021f54edca14e7d905ed80e98bb55f6d1911fe21bae4c232830a53ffe",
+      "bytes": 1874
     },
     {
       "path": "examples/garment_export/README.md",
@@ -381,7 +391,7 @@
     },
     {
       "path": "pyproject.toml",
-      "sha256": "738537ca220cb5c3057cd2973a4124da4576aef2a5fdc112a57df64b6b5c79e0",
+      "sha256": "e8d4ac65f83ae2ec1972648accfd89c21e80e41d051aaf294e1e9338e25fedb6",
       "bytes": 965
     },
     {
@@ -391,7 +401,7 @@
     },
     {
       "path": "runtime/package.json",
-      "sha256": "58c6b9873dbdaefbd074f0d29538248729fb627e484d3cdf8e356952deb5ae13",
+      "sha256": "50b592517834f34588c3d63838a14b08ffce8176e328cce21d2dc5f3909e7a84",
       "bytes": 220
     },
     {
@@ -421,8 +431,8 @@
     },
     {
       "path": "scripts/check_release_contents.py",
-      "sha256": "85d267fbd117e97da23631f794882cfb4d694168758c61ebf918937033101312",
-      "bytes": 4042
+      "sha256": "6044290ca405171fe7aa1860fe9eac0a6e708d46c613137fb95975fe464849ae",
+      "bytes": 4073
     },
     {
       "path": "scripts/common.sh",
@@ -461,8 +471,8 @@
     },
     {
       "path": "scripts/smoke_web.py",
-      "sha256": "993011aa09dabba407ab02fa46f951bb8c3787817caf937d4a75f390007ad8a7",
-      "bytes": 4111
+      "sha256": "9fe68a35a1597d96b08dd95445152d3d369e152773583f86eb61194a6f31f6de",
+      "bytes": 4161
     },
     {
       "path": "scripts/start_intranet.sh",
@@ -481,7 +491,7 @@
     },
     {
       "path": "src/liveopt_dsh/__init__.py",
-      "sha256": "2f0a0cd6b6f3ef73c6d908cda1ba35c383e0a8505ff1356b8784d21ab3f01ec8",
+      "sha256": "af8b69668e19185ed4f6ff33748cce831a930efd63f81f9146cb87b35c20fda0",
       "bytes": 219
     },
     {
@@ -521,8 +531,8 @@
     },
     {
       "path": "src/liveopt_dsh/assets/explorer/explorer.js",
-      "sha256": "aaf763f0b14b4654517335b0da04918277055d75e01c4826230c3b7d2f2fdff0",
-      "bytes": 30286
+      "sha256": "4c55e2d6fc61afcf656e98ff947e01b5e029e1e7280ea41bc531c4bf696fe27c",
+      "bytes": 30288
     },
     {
       "path": "src/liveopt_dsh/assets/explorer/external-link.svg",
@@ -543,6 +553,11 @@
       "path": "src/liveopt_dsh/assets/explorer/solution-view.js",
       "sha256": "c4a21bacaf4f1c27866b2867f052f75ae7c71bcf7bc16dd1655aebcdb9d38130",
       "bytes": 3929
+    },
+    {
+      "path": "src/liveopt_dsh/assets/lanchou-logo.png",
+      "sha256": "f59d824a771dfbf670752081c9ba4e1e1d1f7f1605c62a122b2f7c776bf6f0f0",
+      "bytes": 321443
     },
     {
       "path": "src/liveopt_dsh/assets/liveopt-mark-256.png",
@@ -631,8 +646,8 @@
     },
     {
       "path": "src/liveopt_dsh/web_api.py",
-      "sha256": "a1cf246425930dcb5bb4121d47da530c147db45bf83015d600b9e79108572039",
-      "bytes": 19416
+      "sha256": "f999cec61b04599642c07afc6e327c004c8deaddb3076e0e3ab1ecc86c9c4fc3",
+      "bytes": 19429
     },
     {
       "path": "start.cmd",
@@ -651,8 +666,8 @@
     },
     {
       "path": "tests/brand.test.cjs",
-      "sha256": "efddd7594e0f7a08e8f3f2a16c8f756eeed98e59c3ecd76acb42315532a48802",
-      "bytes": 3901
+      "sha256": "4806c480df71fadb58335b12e66ea57a762e5c4707c626bdaf33626a086379bc",
+      "bytes": 4037
     },
     {
       "path": "tests/language-dsh.test.mjs",
@@ -691,8 +706,8 @@
     },
     {
       "path": "tests/test_bundle.py",
-      "sha256": "868840be27834f59c32dec2efbb491c2fbc3244878dc1efcfaa558ba714c5385",
-      "bytes": 6018
+      "sha256": "d9b02cb9be1238e3892635eabf4ebe56a38169e335a3cd380557ba508d55b352",
+      "bytes": 6537
     },
     {
       "path": "tests/test_compat.py",

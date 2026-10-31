@@ -86,7 +86,8 @@ def test_bundle_registers_liveopt_progress_component():
     assert "About lanchou" in client
     assert "Built on the MIT-licensed DeepSeek Harness" in client
     assert "const observer = new MutationObserver(enforceTitle)" in client
-    assert "DeepSeek Harness|LiveOpt Harness|MAPLE Harness|lanchou|澜筹" in client
+    assert "DeepSeek Harness|LiveOpt Harness|MAPLE Harness|lanchou" in client
+    assert '"lanchou · General-purpose operations research agent": "澜筹·通用运筹智能体"' in client
     assert '"lanchou": "澜筹"' in client
     assert "Memory-Augmented Planning with Language and Evolution" in client
     assert "/liveopt-api/brand/" in client
@@ -116,6 +117,15 @@ def test_liveopt_brand_assets_are_packaged_source_assets():
         asset = asset_dir / f"liveopt-mark-{size}.png"
         assert asset.is_file()
         assert asset.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
+
+
+def test_lanchou_logo_is_a_packaged_transparent_png():
+    asset = BUNDLE.parents[0] / "src/liveopt_dsh/assets/lanchou-logo.png"
+    content = asset.read_bytes()
+    assert content.startswith(b"\x89PNG\r\n\x1a\n")
+    assert int.from_bytes(content[16:20], "big") == 1024
+    assert int.from_bytes(content[20:24], "big") == 1024
+    assert content[25] == 6  # RGBA, including the generated transparent background.
 
 
 def test_data_and_result_skills_use_compact_artifact_protocol():

@@ -32,7 +32,7 @@ _RESULT_PATH = re.compile(r"^/results/([A-Za-z0-9][A-Za-z0-9_.-]{0,127})$")
 _SOLUTION_PATH = re.compile(
     r"^/solution-sessions/([A-Za-z0-9][A-Za-z0-9_.-]{0,127})$"
 )
-_BRAND_PATH = re.compile(r"^/brand/((?:liveopt-mark-(?:64|256|512)|maple-logo)\.png)$")
+_BRAND_PATH = re.compile(r"^/brand/((?:liveopt-mark-(?:64|256|512)|maple-logo|lanchou-logo)\.png)$")
 _BRAND_DIR = Path(__file__).resolve().parent / "assets"
 _EXPLORER_DIR = _BRAND_DIR / "explorer"
 _OPTIONS_PATH = re.compile(r"^/solution-options/([A-Za-z0-9][A-Za-z0-9_.-]{0,127})$")

@@ -154,6 +154,8 @@ window.__ModuleLoader__.load({
       "Solutions": "方案",
       "Refresh": "刷新",
       "lanchou": "澜筹",
+      "lanchou · General-purpose operations research agent": "澜筹·通用运筹智能体",
+      "General-purpose operations research agent": "通用运筹智能体",
       "About lanchou": "关于澜筹",
       "Close About dialog": "关闭关于窗口",
       "lanchou Settings": "澜筹设置",
@@ -279,7 +281,7 @@ window.__ModuleLoader__.load({
       }
     }
 
-    const LIVEOPT_APP_VERSION = '0.2.2'
+    const LIVEOPT_APP_VERSION = '0.2.3'
     const LIVEOPT_HOST_VERSION = '0.2.1-rc.2'
 
     function liveOptAssetUrl(filename) {
@@ -498,8 +500,8 @@ window.__ModuleLoader__.load({
       const enforceTitle = () => {
         const current = document.title.trim()
         const branded = current
-          ? current.replace(/(?:DeepSeek Harness|LiveOpt Harness|MAPLE Harness|lanchou|澜筹)$/u, t('lanchou'))
-          : t('lanchou')
+          ? current.replace(/(?:DeepSeek Harness|LiveOpt Harness|MAPLE Harness|lanchou(?: · General-purpose operations research agent)?|澜筹(?:·通用运筹智能体)?)$/u, t('lanchou · General-purpose operations research agent'))
+          : t('lanchou · General-purpose operations research agent')
         if (document.title !== branded) document.title = branded
       }
       enforceTitle()
@@ -509,7 +511,7 @@ window.__ModuleLoader__.load({
       icon.type = 'image/png'
       icon.sizes = '64x64'
       icon.dataset.liveoptBrand = 'icon'
-      icon.href = `${liveOptAssetUrl('maple-logo.png')}?brand=lanchou-v1`
+      icon.href = `${liveOptAssetUrl('lanchou-logo.png')}?brand=lanchou-v2`
       document.head.appendChild(icon)
       const observer = new MutationObserver(enforceTitle)
       observer.observe(document.head, { childList: true, characterData: true, subtree: true })
@@ -558,7 +560,7 @@ window.__ModuleLoader__.load({
     function LiveOptBrandMark({ size = 24, className = '' }) {
       return React.createElement('img', {
         className: `liveopt-brand-mark ${className}`.trim(),
-        src: liveOptAssetUrl('maple-logo.png'),
+        src: liveOptAssetUrl('lanchou-logo.png'),
         width: size,
         height: size,
         alt: '',
@@ -603,7 +605,7 @@ window.__ModuleLoader__.load({
           React.createElement(LiveOptBrandMark, { size: 48 }),
           React.createElement('div', null,
             React.createElement('div', { id: 'liveopt-about-title', className: 'liveopt-about-heading' }, t('lanchou')),
-            React.createElement('div', { className: 'liveopt-about-subtitle' }, t('Memory-Augmented Planning with Language and Evolution'))),
+            React.createElement('div', { className: 'liveopt-about-subtitle' }, t('General-purpose operations research agent'))),
           React.createElement('button', {
             type: 'button',
             className: 'liveopt-about-close',

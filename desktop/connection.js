@@ -7,9 +7,9 @@ let busy = false
 function render() {
   const zh = language.value === 'zh'
   document.documentElement.lang = zh ? 'zh-CN' : 'en'
-  document.title = zh ? '澜筹' : 'lanchou'
-  document.getElementById('brand-name').textContent = document.title
-  document.getElementById('subtitle').textContent = zh ? '桌面客户端 · MAPLE' : 'Desktop · Powered by MAPLE'
+  document.title = zh ? '澜筹·通用运筹智能体' : 'lanchou · General-purpose operations research agent'
+  document.getElementById('brand-name').textContent = zh ? '澜筹' : 'lanchou'
+  document.getElementById('subtitle').textContent = zh ? '通用运筹智能体' : 'General-purpose operations research agent'
   document.getElementById('language-label').textContent = zh ? '启动窗口语言' : 'Launcher language'
   document.getElementById('server-label').textContent = zh ? '服务器地址或首次连接链接' : 'Server address or launch link'
   button.textContent = busy ? (zh ? '正在连接…' : 'Connecting...') : (zh ? '连接' : 'Connect')

@@ -1,12 +1,12 @@
 <div align="center">
 
-<img src="src/liveopt_dsh/assets/maple-logo.png" width="80" alt="lanchou logo">
+<img src="src/liveopt_dsh/assets/lanchou-logo.png" width="80" alt="lanchou logo">
 
-# 澜筹 · lanchou
+# 澜筹·通用运筹智能体
 
 **Describe a plan. Compare solutions. Update it in conversation.**
 
-[Download v0.2.2](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.2) · [Sandbox server](deploy/sandbox/README.md) · [User guide](docs/user-guide.md) · [中文指南](docs/user-guide.zh-CN.md) · [Recorded demo](https://xin8coder.github.io/MAPLE-harness/)
+[Download v0.2.3](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.3) · [Sandbox server](deploy/sandbox/README.md) · [User guide](docs/user-guide.md) · [中文指南](docs/user-guide.zh-CN.md) · [Recorded demo](https://xin8coder.github.io/MAPLE-harness/)
 
 ![Windows and Linux](https://img.shields.io/badge/Platforms-Windows%20%7C%20Linux-087e8b)
 ![DSH](https://img.shields.io/badge/DSH-0.2.1--rc.2-334B60)
@@ -36,8 +36,8 @@ Download a package from [Releases](https://github.com/xin8coder/MAPLE-harness-co
 
 | Platform | Recommended package | Start |
 |---|---|---|
-| Windows 10/11 x64 | `lanchou-0.2.2-source.zip` | Double-click `start.cmd`. |
-| Linux x64 | `lanchou-0.2.2-source.tar.gz` | Run `bash start.sh` in the extracted folder. |
+| Windows 10/11 x64 | `lanchou-0.2.3-source.zip` | Double-click `start.cmd`. |
+| Linux x64 | `lanchou-0.2.3-source.tar.gz` | Run `bash start.sh` in the extracted folder. |
 
 The same packages contain the **complete web application and backend**. Python
 and Node.js are downloaded automatically into a private application directory.

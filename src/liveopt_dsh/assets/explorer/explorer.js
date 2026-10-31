@@ -807,7 +807,7 @@ function csvCell(value) {
   if (/^[=+@\-\t\r]/.test(text) && typeof value !== "number") text = "'" + text;
   return '"' + text.replaceAll('"', '""') + '"';
 }
-$("brand").src = `${base}/brand/maple-logo.png`;
+$("brand").src = `${base}/brand/lanchou-logo.png`;
 $("favicon").href = $("brand").src;
 $("turn").onchange = () => load(Number($("turn").value));
 $("refresh").onclick = () => load(data?.turn);

@@ -37,5 +37,5 @@ export function apply(ctx) {
       req.pipe(upstream)
     },
   }), 'maple: same-origin application routes')
-  ctx.effect(() => ctx.webServer.tapIndex(html => html.replace('<title>DeepSeek Harness</title>', '<title>澜筹</title>')))
+  ctx.effect(() => ctx.webServer.tapIndex(html => html.replace('<title>DeepSeek Harness</title>', '<title>澜筹·通用运筹智能体</title>')))
 }

@@ -59,8 +59,8 @@ def main():
                 raise AssertionError('application API was reachable without pairing')
             except HTTPError as error:
                 assert error.code == 401
-            assert '<title>澜筹</title>'.encode() in opener.open(launch).read()
-            for route in ['/health', '/settings', '/brand/maple-logo.png', '/explorer/', '/explorer/explorer.js', '/explorer/echarts.min.js']:
+            assert '<title>澜筹·通用运筹智能体</title>'.encode() in opener.open(launch).read()
+            for route in ['/health', '/settings', '/brand/maple-logo.png', '/brand/lanchou-logo.png', '/explorer/', '/explorer/explorer.js', '/explorer/echarts.min.js']:
                 with opener.open(base + '/liveopt-api' + route) as response:
                     assert response.status == 200
                     assert len(response.read()) > 0

@@ -1,6 +1,6 @@
 {
   "name": "liveopt-dsh-bundle",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "lanchou application bundle",
   "type": "module",
   "main": "index.js",

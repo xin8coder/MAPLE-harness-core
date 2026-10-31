@@ -28,7 +28,7 @@ _lock = threading.Lock()
 PAGE = """<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>澜筹 · 登录</title>
+<title>澜筹·通用运筹智能体 · 登录</title>
 <style>
 :root{{--bg:#f4f7f6;--card:#fff;--ink:#1f2d33;--muted:#5d6b70;--accent:#2e8b7a;--err:#b3412e;--line:#d8e1df}}
 *{{box-sizing:border-box}}body{{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
@@ -42,7 +42,7 @@ button{{margin-top:22px;width:100%;padding:11px;border:0;border-radius:8px;backg
 .err{{color:var(--err);font-size:13px;margin-top:12px;min-height:1em}}
 </style></head><body>
 <form class="card" method="post" action="/maple-login">
-<h1>澜筹 <small>lanchou</small></h1><p>基于 MAPLE 的自然语言运筹优化助手</p>
+<h1>澜筹 <small>lanchou</small></h1><p>通用运筹智能体 · 基于 MAPLE 算法</p>
 <input type="hidden" name="next" value="{next}">
 <label for="u">账号</label><input id="u" name="username" autocomplete="username" required autofocus>
 <label for="p">密码</label><input id="p" name="password" type="password" autocomplete="current-password" required>

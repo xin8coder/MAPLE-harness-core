@@ -38,16 +38,16 @@ test('web brand follows locale while retaining conversation titles and legacy in
     on: () => {},
     slots: { inject: () => {} },
   })
-  assert.equal(document.title, 'Morning orders - 澜筹')
+  assert.equal(document.title, 'Morning orders - 澜筹·通用运筹智能体')
   language = 'en'; listeners.forEach(callback => callback())
-  assert.equal(document.title, 'Morning orders - lanchou')
+  assert.equal(document.title, 'Morning orders - lanchou · General-purpose operations research agent')
   for (const oldBrand of ['DeepSeek Harness', 'LiveOpt Harness', 'MAPLE Harness']) {
     document.title = `Keep MAPLE in this request - ${oldBrand}`
     listeners.forEach(callback => callback())
-    assert.equal(document.title, 'Keep MAPLE in this request - lanchou')
+    assert.equal(document.title, 'Keep MAPLE in this request - lanchou · General-purpose operations research agent')
   }
   language = 'zh'; listeners.forEach(callback => callback())
-  assert.equal(document.title, 'Keep MAPLE in this request - 澜筹')
+  assert.equal(document.title, 'Keep MAPLE in this request - 澜筹·通用运筹智能体')
   disposers.forEach(dispose => dispose())
   assert.equal(listeners.size, 0)
 })
