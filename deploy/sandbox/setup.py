@@ -109,6 +109,14 @@ def install_assets(root):
     if SOURCE != root/'app':
         shutil.copytree(SOURCE, root/'app', dirs_exist_ok=True,
                         ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
+    assets = CHECKOUT/'src/liveopt_dsh/assets'
+    public = root/'app/public'
+    public.mkdir(exist_ok=True)
+    for name in ('lanchou-logo.png', 'echarts.min.js', 'lucide.min.js',
+                 'ECHARTS-LICENSE', 'ECHARTS-NOTICE', 'LUCIDE-LICENSE'):
+        source = assets/name if name == 'lanchou-logo.png' else assets/'explorer'/name
+        if source.is_file():
+            shutil.copy2(source, public/name)
     for path in (root/'app').rglob('*.sh'):
         path.chmod(0o700)
     for name in ('Caddyfile.front', 'Caddyfile.llm'):

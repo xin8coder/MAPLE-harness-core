@@ -6,7 +6,7 @@
 
 **用自然语言提出需求，比较优化方案，在对话中持续调整。**
 
-[下载 v0.2.3](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.3) · [沙盒部署](deploy/sandbox/README.md) · [中文使用指南](docs/user-guide.zh-CN.md) · [产品演示](https://xin8coder.github.io/MAPLE-harness/) · [English](README.md)
+[下载 v0.2.4](https://github.com/xin8coder/MAPLE-harness-core/releases/tag/v0.2.4) · [沙盒部署](deploy/sandbox/README.md) · [中文使用指南](docs/user-guide.zh-CN.md) · [产品演示](https://xin8coder.github.io/MAPLE-harness/) · [English](README.md)
 
 </div>
 
@@ -22,8 +22,8 @@
 
 | 平台 | 推荐文件 | 启动方式 |
 |---|---|---|
-| Windows 10/11 x64 | `lanchou-0.2.3-source.zip` | 双击 `start.cmd`。 |
-| Linux x64 | `lanchou-0.2.3-source.tar.gz` | 在解压目录执行 `bash start.sh`。 |
+| Windows 10/11 x64 | `lanchou-0.2.4-source.zip` | 双击 `start.cmd`。 |
+| Linux x64 | `lanchou-0.2.4-source.tar.gz` | 在解压目录执行 `bash start.sh`。 |
 
 这两个包都包含**完整网页版和后端**。启动器会自动下载私有的 Python、Node 和依赖，无需预装 Python/Node，也不需要管理员权限、WSL 或 Docker。Linux 需要 `curl`、`tar`、CA 证书和 glibc 环境，例如 Ubuntu/Debian。启动器也提供 Linux arm64 路径，但原生 CI 目前验证的是 x64。
 

@@ -16,6 +16,7 @@ PUBLIC_LINK_DOCUMENTS = {
     'docs/user-guide.zh-CN.md', 'docs/releases/v0.2.0.md', 'docs/releases/v0.2.1.md',
     'docs/releases/v0.2.2.md',
     'docs/releases/v0.2.3.md',
+    'docs/releases/v0.2.4.md',
 }
 # Published installation guides intentionally link to the application and demo.
 PUBLIC_PRODUCT_URLS = re.compile(

@@ -1,13 +1,13 @@
 {
   "schema_version": 2,
-  "source_revision": "lanchou-0.2.3",
+  "source_revision": "lanchou-0.2.4",
   "upstream": {
     "package": "@deepseek-ai/dsh",
     "version": "0.2.1-rc.2",
     "commit": "687f282e8625c6b8d11ff58211a90524be2e4317"
   },
   "core_sha256": "57aa6171c52bc6f9d76d368c435294ea44282740563f5005a780191f055dcf78",
-  "file_count": 251,
+  "file_count": 258,
   "files": [
     {
       "path": ".github/workflows/desktop.yml",
@@ -41,12 +41,12 @@
     },
     {
       "path": "README.md",
-      "sha256": "4cc8b4f715565df6447d0bc9f435d9be7102dd1b6c00a000b5f03b4d51ba4bd1",
+      "sha256": "d94cd4c8679b9fa29ddfb821451374fbea81a274cb4a592662eafadde5e6e679",
       "bytes": 8599
     },
     {
       "path": "README.zh-CN.md",
-      "sha256": "02db3d283bfd062510980799a45139df74af38c260fbca880fd8bc2e7319863c",
+      "sha256": "2812e4964b7b6b5c42f34697b1122891e227bfb53ba11e8a792deeedac67bc74",
       "bytes": 6770
     },
     {
@@ -56,8 +56,8 @@
     },
     {
       "path": "deploy/sandbox/Caddyfile.front",
-      "sha256": "17ed6498eb4e84a8138a1f1519d5bc3c197e7bb542eb2f3a6f11d62bac7c3d3d",
-      "bytes": 1359
+      "sha256": "6b924327caada0e3526b37139efb75b1eb8cac3a877e1618e3e2769ffb14c0f7",
+      "bytes": 1521
     },
     {
       "path": "deploy/sandbox/Caddyfile.llm",
@@ -66,18 +66,43 @@
     },
     {
       "path": "deploy/sandbox/README.md",
-      "sha256": "df33677f072b326b0696657844a1bd9288cef05e5f0ab79bc243f784882a1f3b",
-      "bytes": 5314
+      "sha256": "a35eab4e0e2d19861b40aeb63f591aa1cc3c0872732128d7b6f7a949753f6bb9",
+      "bytes": 6191
     },
     {
       "path": "deploy/sandbox/auth.py",
-      "sha256": "b3678f1b6b020a1461f11b70968f498fed262248489110e9a4f2829dac3ef0cc",
-      "bytes": 6346
+      "sha256": "a7b0f180a57d0ae3b7b50e82fac4725a71477cd0a2af824b18f3d2d720ed0e69",
+      "bytes": 6945
     },
     {
       "path": "deploy/sandbox/common.sh",
       "sha256": "51fb2efc52a067861f980bf7091d515cec69927a86d1204cefb01ff7ecd1d9ba",
       "bytes": 387
+    },
+    {
+      "path": "deploy/sandbox/public/README.md",
+      "sha256": "12af213740d0af5263e1f5d51bd7bd51f24a3c7f4a77b38c0f56e1fea57d32eb",
+      "bytes": 823
+    },
+    {
+      "path": "deploy/sandbox/public/case-demo.json",
+      "sha256": "38e88235aa0251b7c959b7cc6617b46d0c9912ef1a539be820560d5fcfbdca7f",
+      "bytes": 63960
+    },
+    {
+      "path": "deploy/sandbox/public/index.html",
+      "sha256": "0272ba456e65add81a157356eda817a5d207a1a6800e47724fe871cde83bfebb",
+      "bytes": 6904
+    },
+    {
+      "path": "deploy/sandbox/public/login.css",
+      "sha256": "8253eeb4bb6ba1f7232fce7ee227d3a0c6fc725b6a4410f67f15dcde2fa10adb",
+      "bytes": 11732
+    },
+    {
+      "path": "deploy/sandbox/public/login.js",
+      "sha256": "6f24ed99effdd62a70c6516d9c81fa31404c333d86d1887f19381b801af38469",
+      "bytes": 10435
     },
     {
       "path": "deploy/sandbox/runtime/fwd.py",
@@ -101,8 +126,8 @@
     },
     {
       "path": "deploy/sandbox/setup.py",
-      "sha256": "fabc7c278f849384677f65b423c65860146ef56a8ba36d2d8f98f57f0c32f560",
-      "bytes": 13456
+      "sha256": "c05d78beb5881e39217fe8f30b5a8c755c6c406f9b40acd94bbf432d1270cfae",
+      "bytes": 13873
     },
     {
       "path": "deploy/sandbox/start-auth.sh",
@@ -161,12 +186,12 @@
     },
     {
       "path": "desktop/package-lock.json",
-      "sha256": "8f4482f67c5febbb7c0c8aa77d0351e612057afec53dec734f3f389a81985599",
+      "sha256": "f70589e144bea1ca714c8a82a3cb2b90a63efc2eabdc9b541e0c9b22255b62c8",
       "bytes": 127196
     },
     {
       "path": "desktop/package.json",
-      "sha256": "e9fe200479b4e363e3fe2485b787465495d58b94aa90d09e8fc9c4f645e0f528",
+      "sha256": "0137e9556e68fdd17e937cbcb7881b23a99eca83c1920c01fee9612649620bd5",
       "bytes": 1135
     },
     {
@@ -245,6 +270,11 @@
       "bytes": 868
     },
     {
+      "path": "docs/releases/v0.2.4.md",
+      "sha256": "4549bf1bd5e1a8874a115826bed9e1b44f629356271b3026fb34fdc26a6d43a1",
+      "bytes": 1232
+    },
+    {
       "path": "docs/solution-explorer.md",
       "sha256": "32def6f005b1029d30144df921024d07996dd3ef76c0c20e1979d251d998d173",
       "bytes": 2519
@@ -261,7 +291,7 @@
     },
     {
       "path": "dsh-bundle/client.js",
-      "sha256": "e37d66e75dcc0006c5d5d928a3df0674dd4bb04df042c292862b1bb83d2c2209",
+      "sha256": "534c8701721991a77440636bc9d89d5a4895dc0b7ba22d055647197e99b6e881",
       "bytes": 85583
     },
     {
@@ -276,7 +306,7 @@
     },
     {
       "path": "dsh-bundle/package.json",
-      "sha256": "03e12074ea35c08a41a2b1e2f57735040d3c5b3840b97e14cdad4735b901576d",
+      "sha256": "f085c2df1397fb21831ff10849250298f2c37e677df5b275e94e09dcd45551a1",
       "bytes": 1042
     },
     {
@@ -391,7 +421,7 @@
     },
     {
       "path": "pyproject.toml",
-      "sha256": "e8d4ac65f83ae2ec1972648accfd89c21e80e41d051aaf294e1e9338e25fedb6",
+      "sha256": "c7c59c1e3ff3b5a568faa94b292a82b315340cb2262f4759495553dd2ff22aef",
       "bytes": 965
     },
     {
@@ -401,7 +431,7 @@
     },
     {
       "path": "runtime/package.json",
-      "sha256": "50b592517834f34588c3d63838a14b08ffce8176e328cce21d2dc5f3909e7a84",
+      "sha256": "645e01d53921fe5e5471ba1c7a70f38b88d112ad8becd1ffea34c36ad94499b6",
       "bytes": 220
     },
     {
@@ -431,8 +461,8 @@
     },
     {
       "path": "scripts/check_release_contents.py",
-      "sha256": "6044290ca405171fe7aa1860fe9eac0a6e708d46c613137fb95975fe464849ae",
-      "bytes": 4073
+      "sha256": "0abe6fa26425fe05102f48a8940e34e97f1f7e716c7200688095fe42411c9c1b",
+      "bytes": 4104
     },
     {
       "path": "scripts/common.sh",
@@ -491,7 +521,7 @@
     },
     {
       "path": "src/liveopt_dsh/__init__.py",
-      "sha256": "af8b69668e19185ed4f6ff33748cce831a930efd63f81f9146cb87b35c20fda0",
+      "sha256": "fc77b11b79fd18ab76de3782c174a068c4ced71aef6c4d522c2c6e3835f7bfff",
       "bytes": 219
     },
     {
@@ -745,6 +775,11 @@
       "bytes": 10202
     },
     {
+      "path": "tests/test_login_gateway.py",
+      "sha256": "7f38b7d50849e989ae8469ddc555355f42c78216cb58cbc096db8e377c572a51",
+      "bytes": 5963
+    },
+    {
       "path": "tests/test_mcp_stdio.py",
       "sha256": "aef7c8fa4bcb273818076d1af647dc3d2c4d95d3e1e0a159f070fa26b353ad2d",
       "bytes": 3031
@@ -761,8 +796,8 @@
     },
     {
       "path": "tests/test_sandbox_deployment.py",
-      "sha256": "4c1061138d76cef5c3bbaf17cb40d90da137547a78b0b23643e703965f5db61f",
-      "bytes": 7461
+      "sha256": "365104ebcc8c3484dff449c467b71c65b2bbbbf1b9bba22038728dc2a9d7639a",
+      "bytes": 7728
     },
     {
       "path": "tests/test_serialization.py",

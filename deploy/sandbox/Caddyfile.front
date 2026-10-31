@@ -20,6 +20,12 @@
 	route {
 		@foreign-origin expression `{http.request.header.Origin} != '' && {http.request.header.Origin} != '{$MAPLE_INTRANET_ORIGIN}' && {http.request.header.Origin} != '{$MAPLE_PUBLIC_ORIGIN}'`
 		respond @foreign-origin "Origin not allowed" 403
+		@landing {
+			method GET HEAD
+			path /
+			not header_regexp Cookie "(^|;[[:space:]]*)maple_session="
+		}
+		reverse_proxy @landing 127.0.0.1:{$MAPLE_AUTH_PORT}
 		reverse_proxy /maple-login* 127.0.0.1:{$MAPLE_AUTH_PORT}
 		reverse_proxy /maple-logout 127.0.0.1:{$MAPLE_AUTH_PORT}
 		forward_auth 127.0.0.1:{$MAPLE_AUTH_PORT} {

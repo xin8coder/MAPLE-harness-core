@@ -281,7 +281,7 @@ window.__ModuleLoader__.load({
       }
     }
 
-    const LIVEOPT_APP_VERSION = '0.2.3'
+    const LIVEOPT_APP_VERSION = '0.2.4'
     const LIVEOPT_HOST_VERSION = '0.2.1-rc.2'
 
     function liveOptAssetUrl(filename) {

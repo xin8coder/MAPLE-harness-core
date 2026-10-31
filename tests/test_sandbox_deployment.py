@@ -61,6 +61,10 @@ def test_credentials_stay_outside_sandbox_and_updates_preserve_them(tmp_path):
         before = {path: path.read_bytes() for path in files}
         setup.install_assets(root)
         assert all(path.read_bytes() == data for path, data in before.items())
+        for name in ('index.html', 'login.css', 'login.js', 'case-demo.json',
+                     'lanchou-logo.png', 'echarts.min.js', 'lucide.min.js',
+                     'ECHARTS-LICENSE', 'LUCIDE-LICENSE'):
+            assert (root/'app/public'/name).is_file()
         assert key not in json.dumps(config)
         units = setup.unit_texts(root, config)
         assert all(key not in content and password not in content for content in units.values())

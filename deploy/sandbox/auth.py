@@ -9,6 +9,7 @@ import hashlib
 import hmac
 import html
 import os
+from pathlib import Path
 import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -25,30 +26,27 @@ ITERATIONS = 200_000
 _failures = {}
 _lock = threading.Lock()
 
-PAGE = """<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>澜筹·通用运筹智能体 · 登录</title>
-<style>
-:root{{--bg:#f4f7f6;--card:#fff;--ink:#1f2d33;--muted:#5d6b70;--accent:#2e8b7a;--err:#b3412e;--line:#d8e1df}}
-*{{box-sizing:border-box}}body{{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
-background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:16px}}
-.card{{width:100%;max-width:360px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px 28px}}
-h1{{font-size:22px;margin:0 0 4px}}p{{margin:0 0 24px;color:var(--muted)}}
-label{{display:block;font-size:13px;color:var(--muted);margin:14px 0 6px}}
-input{{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:15px;background:transparent;color:var(--ink)}}
-input:focus{{outline:2px solid var(--accent);border-color:transparent}}
-button{{margin-top:22px;width:100%;padding:11px;border:0;border-radius:8px;background:var(--accent);color:#fff;font-size:15px;cursor:pointer}}
-.err{{color:var(--err);font-size:13px;margin-top:12px;min-height:1em}}
-</style></head><body>
-<form class="card" method="post" action="/maple-login">
-<h1>澜筹 <small>lanchou</small></h1><p>通用运筹智能体 · 基于 MAPLE 算法</p>
-<input type="hidden" name="next" value="{next}">
-<label for="u">账号</label><input id="u" name="username" autocomplete="username" required autofocus>
-<label for="p">密码</label><input id="p" name="password" type="password" autocomplete="current-password" required>
-<button type="submit">登录</button>
-<div class="err">{error}</div>
-</form></body></html>"""
+PUBLIC = Path(__file__).resolve().with_name("public")
+SOURCE_ASSETS = Path(__file__).resolve().parents[2] / "src/liveopt_dsh/assets"
+PUBLIC_TYPES = {
+    "login.css": "text/css; charset=utf-8",
+    "login.js": "text/javascript; charset=utf-8",
+    "case-demo.json": "application/json; charset=utf-8",
+    "lanchou-logo.png": "image/png",
+    "echarts.min.js": "text/javascript; charset=utf-8",
+    "lucide.min.js": "text/javascript; charset=utf-8",
+}
+
+
+def public_asset(name):
+    if name not in PUBLIC_TYPES:
+        return None
+    path = PUBLIC / name
+    if not path.is_file() and name == "lanchou-logo.png":
+        path = SOURCE_ASSETS / name
+    elif not path.is_file() and name in {"echarts.min.js", "lucide.min.js"}:
+        path = SOURCE_ASSETS / "explorer" / name
+    return path if path.is_file() else None
 
 
 def sign(expires):
@@ -75,6 +73,8 @@ def safe_next(value):
     if (not value.startswith("/") or value.startswith("//") or "\\" in value
             or any(ord(char) < 32 or ord(char) == 127 for char in value)):
         return "/"
+    if urlsplit(value).path in {"/maple-login", "/maple-logout", "/verify"}:
+        return "/"
     return value
 
 
@@ -91,18 +91,27 @@ class Handler(BaseHTTPRequestHandler):
                 return value
         return ""
 
-    def send(self, status, body=b"", headers=()):
+    def send(self, status, body=b"", headers=(), *, cache="no-store"):
         self.send_response(status)
         for key, value in headers:
             self.send_header(key, value)
-        self.send_header("Cache-Control", "no-store")
+        self.send_header("Cache-Control", cache)
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Referrer-Policy", "same-origin")
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
-        self.wfile.write(body)
+        if self.command != "HEAD":
+            self.wfile.write(body)
 
-    def page(self, next_path="/", error=""):
-        body = PAGE.format(next=html.escape(next_path, quote=True), error=html.escape(error)).encode()
-        self.send(200, body, [("Content-Type", "text/html; charset=utf-8")])
+    def page(self, next_path="/", error="", username=""):
+        body = (PUBLIC / "index.html").read_text(encoding="utf-8")
+        for name, value in {"NEXT": safe_next(next_path), "ERROR": error, "USERNAME": username}.items():
+            body = body.replace(f"__LOGIN_{name}__", html.escape(value, quote=True))
+        policy = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
+                  "img-src 'self' data:; connect-src 'self'; font-src 'self'; "
+                  "base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'")
+        self.send(200, body.encode(), [("Content-Type", "text/html; charset=utf-8"),
+                                       ("Content-Security-Policy", policy)])
 
     def do_GET(self):
         path = urlsplit(self.path)
@@ -114,13 +123,32 @@ class Handler(BaseHTTPRequestHandler):
         if path.path == "/maple-logout":
             return self.send(302, headers=[("Location", "/maple-login"),
                                            ("Set-Cookie", f"{COOKIE}=; Max-Age=0; Path=/; Secure; HttpOnly; SameSite=Lax")])
+        prefix = "/maple-login/assets/"
+        if path.path.startswith(prefix):
+            name = path.path.removeprefix(prefix)
+            asset = public_asset(name)
+            if asset is None:
+                return self.send(404)
+            return self.send(200, asset.read_bytes(), [("Content-Type", PUBLIC_TYPES[name])],
+                             cache="public, max-age=3600")
+        if path.path not in {"/", "/maple-login"}:
+            return self.send(404)
         next_path = safe_next(parse_qs(path.query).get("next", ["/"])[0])
+        if valid(self.cookie()):
+            return self.send(303, headers=[("Location", next_path)])
         return self.page(next_path)
+
+    do_HEAD = do_GET
 
     def do_POST(self):
         if urlsplit(self.path).path != "/maple-login":
             return self.send(404)
-        length = min(int(self.headers.get("Content-Length", 0) or 0), 4096)
+        try:
+            length = int(self.headers.get("Content-Length", 0) or 0)
+        except ValueError:
+            return self.send(400)
+        if not 0 <= length <= 4096:
+            return self.send(413)
         form = parse_qs(self.rfile.read(length).decode("utf-8", "replace"))
         user = form.get("username", [""])[0]
         password = form.get("password", [""])[0]
@@ -137,7 +165,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.send(303, headers=[("Location", next_path), ("Set-Cookie", cookie)])
         with _lock:
             _failures[client] = fails + 1
-        return self.page(next_path, "账号或密码错误")
+        return self.page(next_path, "账号或密码错误", user)
 
 
 if __name__ == "__main__":
