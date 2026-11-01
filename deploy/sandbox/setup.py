@@ -108,7 +108,7 @@ def prepare(root, values, *, api_key, password, username='admin', tunnel_token=N
 def install_assets(root):
     if SOURCE != root/'app':
         shutil.copytree(SOURCE, root/'app', dirs_exist_ok=True,
-                        ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
+                        ignore=shutil.ignore_patterns('__pycache__', '*.pyc', 'node_modules'))
     assets = CHECKOUT/'src/liveopt_dsh/assets'
     public = root/'app/public'
     public.mkdir(exist_ok=True)

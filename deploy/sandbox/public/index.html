@@ -6,16 +6,13 @@
   <meta name="color-scheme" content="light">
   <meta name="description" content="澜筹·通用运筹智能体。用自然语言提出需求，比较优化方案，并在需求变化时继续调整。">
   <title>澜筹·通用运筹智能体 · 登录</title>
-  <link rel="icon" type="image/png" href="/maple-login/assets/lanchou-logo.png?v=0.2.4">
-  <link rel="stylesheet" href="/maple-login/assets/login.css?v=0.2.4">
-  <script defer src="/maple-login/assets/echarts.min.js?v=0.2.4"></script>
-  <script defer src="/maple-login/assets/lucide.min.js?v=0.2.4"></script>
-  <script defer src="/maple-login/assets/login.js?v=0.2.4"></script>
+  <link rel="icon" type="image/png" href="__LOGIN_LOGO__">
+  <style>__LOGIN_STYLE__</style>
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="/" aria-label="澜筹首页">
-      <img src="/maple-login/assets/lanchou-logo.png?v=0.2.4" width="42" height="42" alt="">
+      <img src="__LOGIN_LOGO__" width="42" height="42" alt="">
       <div><h1 class="brand-title">澜筹<span class="brand-dot">·</span>通用运筹智能体</h1><small>lanchou · Powered by MAPLE</small></div>
     </a>
     <a class="demo-link" href="#experience-title">查看案例<i data-lucide="arrow-down-right" aria-hidden="true"></i></a>
@@ -24,14 +21,17 @@
   <main class="auth-layout">
     <section class="experience" aria-labelledby="experience-title">
       <div class="experience-heading">
-        <div><p class="eyebrow"><span class="status-dot"></span>公开案例回放</p><h2 id="experience-title">让每一次调整，都有更好的安排。</h2></div>
+        <div><p class="eyebrow"><span class="status-dot"></span>公开案例回放</p><h2 id="experience-title"><span>让每一次调整，</span><span>都有更好的安排。</span></h2></div>
         <span class="domain-label">柔性制造</span>
       </div>
 
       <div class="result-workbench">
         <header class="workbench-header">
           <div class="case-identity"><i data-lucide="factory" aria-hidden="true"></i><div><h2>CNC 生产排程</h2><p>18 项任务<span>·</span>3 台设备<span>·</span>双目标</p></div></div>
-          <button id="playback" class="icon-button" type="button" title="暂停回放" aria-label="暂停回放" aria-pressed="false"><i data-lucide="pause" aria-hidden="true"></i></button>
+          <div class="playback-controls">
+            <select id="playback-speed" aria-label="回放速度" title="回放速度"><option value="1">1×</option><option value="2">2×</option><option value="3" selected>3×</option></select>
+            <button id="playback" class="icon-button" type="button" title="暂停回放" aria-label="暂停回放" aria-pressed="false"><i data-lucide="pause" aria-hidden="true"></i></button>
+          </div>
         </header>
 
         <div class="turn-switch" role="group" aria-label="任务阶段">
@@ -52,6 +52,7 @@
         </div>
 
         <div id="result-panel" role="tabpanel" aria-labelledby="tab-front">
+          <p id="chart-loading" class="chart-error" role="status">正在加载案例…</p>
           <div id="result-chart" role="img" aria-label="候选方案与帕累托方案分布"></div>
           <div id="schedule" class="schedule" hidden></div>
           <p id="chart-error" class="chart-error" hidden>案例暂不可用，仍可正常登录。</p>
@@ -62,6 +63,7 @@
           <div class="selected-metric"><span>能耗与负载</span><strong id="selected-f2">—</strong></div>
         </div>
         <footer class="workbench-footer"><span id="front-count">— 个帕累托方案</span><span id="restart-label">类型化初始化</span><span id="generation-count">10 代迭代</span></footer>
+        <div class="playback-track" aria-hidden="true"><span id="playback-progress"></span></div>
       </div>
 
       <div class="workflow-line" aria-label="优化流程"><span><i data-lucide="messages-square" aria-hidden="true"></i>自然语言与表格</span><i data-lucide="chevron-right" aria-hidden="true"></i><span><i data-lucide="chart-scatter" aria-hidden="true"></i>比较与选择方案</span><i data-lucide="chevron-right" aria-hidden="true"></i><span><i data-lucide="refresh-cw" aria-hidden="true"></i>持续调整需求</span></div>
@@ -69,7 +71,7 @@
 
     <section class="login-section" aria-labelledby="login-title">
       <div class="login-content">
-        <img class="login-mark" src="/maple-login/assets/lanchou-logo.png?v=0.2.4" alt="" width="56" height="56">
+        <img class="login-mark" src="__LOGIN_LOGO__" alt="" width="56" height="56">
         <p class="eyebrow">欢迎回来</p>
         <h2 id="login-title">登录澜筹</h2>
         <p class="login-intro">继续你的规划与优化任务。</p>
@@ -88,5 +90,6 @@
     </section>
   </main>
   <footer class="site-footer"><span>澜筹·通用运筹智能体</span><span>MAPLE 优化内核<span class="footer-dot">·</span>自然语言驱动的运筹决策</span></footer>
+  <script>__LOGIN_SCRIPT__</script>
 </body>
 </html>

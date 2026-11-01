@@ -5,11 +5,14 @@ Caddy calls GET /verify (forward_auth) on every request; a valid signed
 session cookie answers 200, anything else redirects to the login page.
 Runs on the host, outside the sandbox. Standard library only.
 """
+import base64
 import hashlib
 import hmac
 import html
 import os
+import math
 from pathlib import Path
+import re
 import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -35,6 +38,12 @@ PUBLIC_TYPES = {
     "lanchou-logo.png": "image/png",
     "echarts.min.js": "text/javascript; charset=utf-8",
     "lucide.min.js": "text/javascript; charset=utf-8",
+    "login-logo.png": "image/png",
+    "login-icons.min.js": "text/javascript; charset=utf-8",
+    "login-charts.min.js": "text/javascript; charset=utf-8",
+    "login.min.js": "text/javascript; charset=utf-8",
+    "login.min.css": "text/css; charset=utf-8",
+    "case-demo.min.json": "application/json; charset=utf-8",
 }
 
 
@@ -47,6 +56,33 @@ def public_asset(name):
     elif not path.is_file() and name in {"echarts.min.js", "lucide.min.js"}:
         path = SOURCE_ASSETS / "explorer" / name
     return path if path.is_file() else None
+
+
+def asset_representation(path, accept_encoding):
+    quality = {}
+    for item in accept_encoding.split(","):
+        name, *parameters = item.strip().lower().split(";")
+        if not name:
+            continue
+        value = 1.0
+        for parameter in parameters:
+            key, _, text = parameter.strip().partition("=")
+            if key == "q":
+                try:
+                    value = float(text)
+                except ValueError:
+                    value = 0.0
+                if not math.isfinite(value) or not 0 <= value <= 1:
+                    value = 0.0
+        quality[name] = value
+    identity = quality.get("identity", 0 if quality.get("*") == 0 else 1)
+    choices = [(identity, 0, "", path)]
+    for priority, encoding, suffix in ((1, "gzip", ".gz"), (2, "br", ".br")):
+        encoded = path.with_name(path.name + suffix)
+        if encoded.is_file():
+            choices.append((quality.get(encoding, quality.get("*", 0)), priority, encoding, encoded))
+    score, _, encoding, selected = max(choices)
+    return (encoding, selected) if score > 0 else None
 
 
 def sign(expires):
@@ -98,16 +134,23 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", cache)
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Referrer-Policy", "same-origin")
-        self.send_header("Content-Length", str(len(body)))
+        if status != 304:
+            self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         if self.command != "HEAD":
             self.wfile.write(body)
 
     def page(self, next_path="/", error="", username=""):
         body = (PUBLIC / "index.html").read_text(encoding="utf-8")
-        for name, value in {"NEXT": safe_next(next_path), "ERROR": error, "USERNAME": username}.items():
-            body = body.replace(f"__LOGIN_{name}__", html.escape(value, quote=True))
-        policy = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
+        script = (PUBLIC / "login.min.js").read_text(encoding="utf-8")
+        digest = base64.b64encode(hashlib.sha256(script.encode()).digest()).decode("ascii")
+        values = {name: html.escape(value, quote=True) for name, value in
+                  {"NEXT": safe_next(next_path), "ERROR": error, "USERNAME": username}.items()}
+        values.update(STYLE=(PUBLIC / "login.min.css").read_text(encoding="utf-8"), SCRIPT=script,
+                      LOGO="data:image/png;base64," + base64.b64encode((PUBLIC / "login-logo.png").read_bytes()).decode("ascii"))
+        # Substitute once so a user value cannot expand a trusted asset placeholder.
+        body = re.sub(r"__LOGIN_(NEXT|ERROR|USERNAME|STYLE|SCRIPT|LOGO)__", lambda match: values[match.group(1)], body)
+        policy = ("default-src 'self'; script-src 'self' 'sha256-" + digest + "'; style-src 'self' 'unsafe-inline'; "
                   "img-src 'self' data:; connect-src 'self'; font-src 'self'; "
                   "base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'")
         self.send(200, body.encode(), [("Content-Type", "text/html; charset=utf-8"),
@@ -129,8 +172,20 @@ class Handler(BaseHTTPRequestHandler):
             asset = public_asset(name)
             if asset is None:
                 return self.send(404)
-            return self.send(200, asset.read_bytes(), [("Content-Type", PUBLIC_TYPES[name])],
-                             cache="public, max-age=3600")
+            representation = asset_representation(asset, self.headers.get("Accept-Encoding", ""))
+            if representation is None:
+                return self.send(406, headers=[("Vary", "Accept-Encoding")])
+            encoding, asset = representation
+            body = asset.read_bytes()
+            etag = '"' + hashlib.sha256(body).hexdigest() + '"'
+            headers = [("Content-Type", PUBLIC_TYPES[name]), ("ETag", etag), ("Vary", "Accept-Encoding")]
+            if encoding:
+                headers.append(("Content-Encoding", encoding))
+            matches = [value.strip() for value in self.headers.get("If-None-Match", "").split(",")]
+            matches = [value[2:] if value.startswith("W/") else value for value in matches]
+            if etag in matches or "*" in matches:
+                return self.send(304, headers=headers, cache="public, max-age=86400")
+            return self.send(200, body, headers, cache="public, max-age=86400")
         if path.path not in {"/", "/maple-login"}:
             return self.send(404)
         next_path = safe_next(parse_qs(path.query).get("next", ["/"])[0])

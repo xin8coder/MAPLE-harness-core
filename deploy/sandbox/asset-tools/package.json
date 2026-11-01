@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "description": "Optional build-time dependencies for the public login assets; not required by the server.",
+  "devDependencies": {
+    "echarts": "6.1.0",
+    "esbuild": "0.25.12",
+    "lucide": "1.48.0",
+    "sharp": "0.34.5"
+  }
+}

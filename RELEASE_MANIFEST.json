@@ -1,13 +1,13 @@
 {
   "schema_version": 2,
-  "source_revision": "lanchou-0.2.4",
+  "source_revision": "lanchou-0.2.5",
   "upstream": {
     "package": "@deepseek-ai/dsh",
     "version": "0.2.1-rc.2",
     "commit": "687f282e8625c6b8d11ff58211a90524be2e4317"
   },
   "core_sha256": "57aa6171c52bc6f9d76d368c435294ea44282740563f5005a780191f055dcf78",
-  "file_count": 258,
+  "file_count": 285,
   "files": [
     {
       "path": ".github/workflows/desktop.yml",
@@ -41,23 +41,23 @@
     },
     {
       "path": "README.md",
-      "sha256": "d94cd4c8679b9fa29ddfb821451374fbea81a274cb4a592662eafadde5e6e679",
-      "bytes": 8599
+      "sha256": "2477422a2f6cc25697b12f0da2886b061367999308b9c1f56ae6d0457d8aa21f",
+      "bytes": 8894
     },
     {
       "path": "README.zh-CN.md",
-      "sha256": "2812e4964b7b6b5c42f34697b1122891e227bfb53ba11e8a792deeedac67bc74",
-      "bytes": 6770
+      "sha256": "7c669d1ac35e7b939e707bc24480df2dd7643de2352488117f14251911260c41",
+      "bytes": 7056
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "sha256": "b99c5c7016830243ec598cf649ff6ef198ec574bc77bdb0f5b642c554a73e1b4",
-      "bytes": 934
+      "sha256": "d856fa19a4449e88dbfe93f8e9a413f046ac39c5eb0bfc5ac14ce07e3a89400c",
+      "bytes": 1333
     },
     {
       "path": "deploy/sandbox/Caddyfile.front",
-      "sha256": "6b924327caada0e3526b37139efb75b1eb8cac3a877e1618e3e2769ffb14c0f7",
-      "bytes": 1521
+      "sha256": "65984290217422cf1be343d1982bb71ba951603fda1f8d3a6f693dd1318d6387",
+      "bytes": 1751
     },
     {
       "path": "deploy/sandbox/Caddyfile.llm",
@@ -66,13 +66,23 @@
     },
     {
       "path": "deploy/sandbox/README.md",
-      "sha256": "a35eab4e0e2d19861b40aeb63f591aa1cc3c0872732128d7b6f7a949753f6bb9",
-      "bytes": 6191
+      "sha256": "d34b1da3ab072ab230e3b0ee39546ec7b6803ea953051b2ed67c2ad6e4b6c943",
+      "bytes": 6662
+    },
+    {
+      "path": "deploy/sandbox/asset-tools/package-lock.json",
+      "sha256": "23e71d815244b098948356b8324cd085fe6199be16cf5a7da1344a76e828fa92",
+      "bytes": 35373
+    },
+    {
+      "path": "deploy/sandbox/asset-tools/package.json",
+      "sha256": "05832fdc8cfbfaebf78955aa053c598785b5d57202f1e012e1ff4991685feca9",
+      "bytes": 256
     },
     {
       "path": "deploy/sandbox/auth.py",
-      "sha256": "92f1d23eb823ec43c2431cb7e0dd3a5c2e84d611e69c50c11026c00843ed4c5f",
-      "bytes": 6938
+      "sha256": "c464a17ff1316f84cdff1a014625444de12d50c7ef493f326582b455e0c2ea1c",
+      "bytes": 9830
     },
     {
       "path": "deploy/sandbox/common.sh",
@@ -81,8 +91,8 @@
     },
     {
       "path": "deploy/sandbox/public/README.md",
-      "sha256": "12af213740d0af5263e1f5d51bd7bd51f24a3c7f4a77b38c0f56e1fea57d32eb",
-      "bytes": 823
+      "sha256": "3631ca6c6e8884bcee378ed515110608f14f4371b41ff47375dda7bd42d6044e",
+      "bytes": 2791
     },
     {
       "path": "deploy/sandbox/public/case-demo.json",
@@ -90,19 +100,129 @@
       "bytes": 63960
     },
     {
+      "path": "deploy/sandbox/public/case-demo.json.br",
+      "sha256": "562e1441f2faeb6dd72d5250c4ef5f15b4b4f13313c83cba7d22d1e0b273616e",
+      "bytes": 4458
+    },
+    {
+      "path": "deploy/sandbox/public/case-demo.json.gz",
+      "sha256": "4bbad4a767e7ff72e4f21076807a340b6fde379aa45e44a7c608c631bd877949",
+      "bytes": 5424
+    },
+    {
+      "path": "deploy/sandbox/public/case-demo.min.json",
+      "sha256": "85b373655a1627fc8c6f13c46bed57c0f8bd4f46207779a692ab1dd98ba23b9a",
+      "bytes": 28378
+    },
+    {
+      "path": "deploy/sandbox/public/case-demo.min.json.br",
+      "sha256": "cbd54613a780e8adef06e049bbb1799dfee12e9a29b3888a1600edb4a8283512",
+      "bytes": 4161
+    },
+    {
+      "path": "deploy/sandbox/public/case-demo.min.json.gz",
+      "sha256": "fe0f5420ff898351e9f48f5184c1f3ea7ccebedfa861218ea41d79e060c8fafe",
+      "bytes": 4933
+    },
+    {
       "path": "deploy/sandbox/public/index.html",
-      "sha256": "0272ba456e65add81a157356eda817a5d207a1a6800e47724fe871cde83bfebb",
-      "bytes": 6904
+      "sha256": "eb09c3825e1a8857e48dac24ddde75854ba3699f643b60d2afaf5da1dd0a50b0",
+      "bytes": 7067
+    },
+    {
+      "path": "deploy/sandbox/public/login-charts.min.js",
+      "sha256": "8363477b746ad4f1480dd1fcf02f796a82f8e6936fd1a6969492bebee9088b65",
+      "bytes": 519410
+    },
+    {
+      "path": "deploy/sandbox/public/login-charts.min.js.br",
+      "sha256": "f012587876bea3cee51b4d8ba17e52d930a738e092dd7b15e4a3e93f58672d00",
+      "bytes": 150247
+    },
+    {
+      "path": "deploy/sandbox/public/login-charts.min.js.gz",
+      "sha256": "979d41f12d6885d36cacd14fd8608adf15d9d7bfb4c4a83da68a794f43076845",
+      "bytes": 177309
+    },
+    {
+      "path": "deploy/sandbox/public/login-icons.min.js",
+      "sha256": "ee50b2a072a7ca48e834124e90807f1a8f0dda8fbd0ea60fc3cbf437cddc9b2f",
+      "bytes": 9314
+    },
+    {
+      "path": "deploy/sandbox/public/login-icons.min.js.br",
+      "sha256": "e1b20a46efa0da13471add64c75f07265e6dac8420ac588bf7937208cb997622",
+      "bytes": 2159
+    },
+    {
+      "path": "deploy/sandbox/public/login-icons.min.js.gz",
+      "sha256": "da60cc433a2f5317b8721f491567235398de54fc3f43f8ac1afba7cb7dd7a501",
+      "bytes": 2529
+    },
+    {
+      "path": "deploy/sandbox/public/login-logo.png",
+      "sha256": "ca69edac3c510e1327866b2ed91202a8d93d15ae21ba9b779f8062f678115983",
+      "bytes": 1298
     },
     {
       "path": "deploy/sandbox/public/login.css",
-      "sha256": "8253eeb4bb6ba1f7232fce7ee227d3a0c6fc725b6a4410f67f15dcde2fa10adb",
-      "bytes": 11732
+      "sha256": "23f5b1c8ba8d16eb5670239aa60529562c4e6d80fbee8e025ab8c1c536b451fe",
+      "bytes": 13054
+    },
+    {
+      "path": "deploy/sandbox/public/login.css.br",
+      "sha256": "c46306be2ee9c1df39e4852e1242d6fb1a53f6d253e360ae72a75c38f0b1cb7e",
+      "bytes": 2920
+    },
+    {
+      "path": "deploy/sandbox/public/login.css.gz",
+      "sha256": "d7ecf10d715c45f80da225761515b43c6ac8b2f24d93ef9775ea4e11e6e50e44",
+      "bytes": 3431
     },
     {
       "path": "deploy/sandbox/public/login.js",
-      "sha256": "6f24ed99effdd62a70c6516d9c81fa31404c333d86d1887f19381b801af38469",
-      "bytes": 10435
+      "sha256": "7bc44e9831bd6107f7dc10e4a3432284acd93eaefabde5ffc906d98532e47b0e",
+      "bytes": 12045
+    },
+    {
+      "path": "deploy/sandbox/public/login.js.br",
+      "sha256": "9b9b0d847ddd72b2aa79f6e90f5aaa860886bbe7652d6bd1d87e90acdb85ff51",
+      "bytes": 3303
+    },
+    {
+      "path": "deploy/sandbox/public/login.js.gz",
+      "sha256": "ae8de40aec8b329ce022634dc9376f25ce15c32f48826fd875b6a1552e5d1372",
+      "bytes": 4021
+    },
+    {
+      "path": "deploy/sandbox/public/login.min.css",
+      "sha256": "9890144f2fbd60585903cbb7ab209fd0e3c894013f1b345f6df2e236060c2caf",
+      "bytes": 14047
+    },
+    {
+      "path": "deploy/sandbox/public/login.min.css.br",
+      "sha256": "1a56da833659add1116f74923360a1b56feba7310728f1be6a1856ed11906a4b",
+      "bytes": 4939
+    },
+    {
+      "path": "deploy/sandbox/public/login.min.css.gz",
+      "sha256": "bdb3bacb53e0892ac39c43fac364fcbe2506ea8462a1b4f5211bb5d65bb88b7a",
+      "bytes": 5658
+    },
+    {
+      "path": "deploy/sandbox/public/login.min.js",
+      "sha256": "5b690c746f257f124ebc5303e80ca3a47549c77b5054ea05ef49bc759a9a6eeb",
+      "bytes": 17162
+    },
+    {
+      "path": "deploy/sandbox/public/login.min.js.br",
+      "sha256": "6da54ce4e1f889a443b1f62bd088550fa30b25f1d69c20f531582837223d5e56",
+      "bytes": 4836
+    },
+    {
+      "path": "deploy/sandbox/public/login.min.js.gz",
+      "sha256": "1a1b8df639ea5d9dd1d6fc39bbd85e3af86a926f9292680d2516dee7806b14bf",
+      "bytes": 5710
     },
     {
       "path": "deploy/sandbox/runtime/fwd.py",
@@ -126,8 +246,8 @@
     },
     {
       "path": "deploy/sandbox/setup.py",
-      "sha256": "c05d78beb5881e39217fe8f30b5a8c755c6c406f9b40acd94bbf432d1270cfae",
-      "bytes": 13873
+      "sha256": "e348360d21f27621e2bda27f7d7c6d69949ff59a66d86a83849424622c00d177",
+      "bytes": 13889
     },
     {
       "path": "deploy/sandbox/start-auth.sh",
@@ -186,12 +306,12 @@
     },
     {
       "path": "desktop/package-lock.json",
-      "sha256": "f70589e144bea1ca714c8a82a3cb2b90a63efc2eabdc9b541e0c9b22255b62c8",
+      "sha256": "86957de08f379d4502c08213c0902b87a4804ff003253fff74cb36ba5bf04f4c",
       "bytes": 127196
     },
     {
       "path": "desktop/package.json",
-      "sha256": "0137e9556e68fdd17e937cbcb7881b23a99eca83c1920c01fee9612649620bd5",
+      "sha256": "57ecb25c46dfb2dfd394937655dde6e6f3458afbf8dd48f29c905a791e78ad66",
       "bytes": 1135
     },
     {
@@ -275,6 +395,11 @@
       "bytes": 1232
     },
     {
+      "path": "docs/releases/v0.2.5.md",
+      "sha256": "df9a54fd3eda363ce94afb757f15da117e1e53432f9b7172716bbb7f29af8def",
+      "bytes": 1783
+    },
+    {
       "path": "docs/solution-explorer.md",
       "sha256": "32def6f005b1029d30144df921024d07996dd3ef76c0c20e1979d251d998d173",
       "bytes": 2519
@@ -291,7 +416,7 @@
     },
     {
       "path": "dsh-bundle/client.js",
-      "sha256": "534c8701721991a77440636bc9d89d5a4895dc0b7ba22d055647197e99b6e881",
+      "sha256": "79d9412e8fac0a89365c5d83bdfe40426bf90a8a2487d8cdd21234b38c0095bb",
       "bytes": 85583
     },
     {
@@ -306,7 +431,7 @@
     },
     {
       "path": "dsh-bundle/package.json",
-      "sha256": "f085c2df1397fb21831ff10849250298f2c37e677df5b275e94e09dcd45551a1",
+      "sha256": "dc21f8dd509b37fb9f271d4c78024ab1cf1d97a9cc022570c078ffa90fd6198a",
       "bytes": 1042
     },
     {
@@ -421,7 +546,7 @@
     },
     {
       "path": "pyproject.toml",
-      "sha256": "c7c59c1e3ff3b5a568faa94b292a82b315340cb2262f4759495553dd2ff22aef",
+      "sha256": "1a080e7ae637041cbc6fff87551eff4d61c5ed715dcf9b4c9a787f6520278432",
       "bytes": 965
     },
     {
@@ -431,7 +556,7 @@
     },
     {
       "path": "runtime/package.json",
-      "sha256": "645e01d53921fe5e5471ba1c7a70f38b88d112ad8becd1ffea34c36ad94499b6",
+      "sha256": "c706950ae8b586408624385d8b6b72d247f020d85373d776a02a32faad4e273a",
       "bytes": 220
     },
     {
@@ -455,14 +580,19 @@
       "bytes": 2352
     },
     {
+      "path": "scripts/build_login_assets.mjs",
+      "sha256": "e31921257e92df95a1e25ac0b31a7a97461040f4ecfd8a06f264a25a2ebd7842",
+      "bytes": 4097
+    },
+    {
       "path": "scripts/build_release.py",
       "sha256": "abf1ddf15fe373bf18db15f220fdcd8d451ddd36a85957ae7f15d973b967b9e8",
       "bytes": 3304
     },
     {
       "path": "scripts/check_release_contents.py",
-      "sha256": "0abe6fa26425fe05102f48a8940e34e97f1f7e716c7200688095fe42411c9c1b",
-      "bytes": 4104
+      "sha256": "3ceb3d94d4d35ea842dab5610b4a6c206cc6436fc5fca29445d8baba5ebca7d5",
+      "bytes": 4135
     },
     {
       "path": "scripts/common.sh",
@@ -521,7 +651,7 @@
     },
     {
       "path": "src/liveopt_dsh/__init__.py",
-      "sha256": "fc77b11b79fd18ab76de3782c174a068c4ced71aef6c4d522c2c6e3835f7bfff",
+      "sha256": "24b2578cc367f1a5a14c3ad3815b4e9d9fb7e7da244e7104bb0628d846716c83",
       "bytes": 219
     },
     {
@@ -710,6 +840,11 @@
       "bytes": 1549
     },
     {
+      "path": "tests/login-playback.test.cjs",
+      "sha256": "db02186feadc00dc53e6ab11defdd047d13a4818baedecb5157e5096aa748981",
+      "bytes": 4083
+    },
+    {
       "path": "tests/mock_dsh_llm.py",
       "sha256": "660beda0fa1a05f6809803447043f2da10b4d8dcd9b708bd71741871d7ca6245",
       "bytes": 5837
@@ -776,8 +911,8 @@
     },
     {
       "path": "tests/test_login_gateway.py",
-      "sha256": "7f38b7d50849e989ae8469ddc555355f42c78216cb58cbc096db8e377c572a51",
-      "bytes": 5963
+      "sha256": "60fee833a5001dc18996682c574b114e260aaad09ca6ac95107d297be0f3dbef",
+      "bytes": 11320
     },
     {
       "path": "tests/test_mcp_stdio.py",
@@ -796,8 +931,8 @@
     },
     {
       "path": "tests/test_sandbox_deployment.py",
-      "sha256": "365104ebcc8c3484dff449c467b71c65b2bbbbf1b9bba22038728dc2a9d7639a",
-      "bytes": 7728
+      "sha256": "595f7db7f2072fba6bf956baa29fe6c7c187a94d4a26722c6c733ef6185a0918",
+      "bytes": 7938
     },
     {
       "path": "tests/test_serialization.py",

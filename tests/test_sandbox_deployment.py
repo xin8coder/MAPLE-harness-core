@@ -63,6 +63,9 @@ def test_credentials_stay_outside_sandbox_and_updates_preserve_them(tmp_path):
         assert all(path.read_bytes() == data for path, data in before.items())
         for name in ('index.html', 'login.css', 'login.js', 'case-demo.json',
                      'lanchou-logo.png', 'echarts.min.js', 'lucide.min.js',
+                     'login-logo.png', 'login-icons.min.js', 'login-charts.min.js',
+                     'login.min.js', 'login.min.css',
+                     'login-charts.min.js.br', 'case-demo.min.json.br',
                      'ECHARTS-LICENSE', 'LUCIDE-LICENSE'):
             assert (root/'app/public'/name).is_file()
         assert key not in json.dumps(config)

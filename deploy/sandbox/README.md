@@ -81,6 +81,12 @@ systemctl --user status maple-sandbox.target
 登录页面和经过筛选的案例数据位于 `public/`，安装器会一并安装所需的本地图形库和标识。
 所有资源在本站提供，不依赖外部图表 CDN。修改账号或 API 配置仍使用私有部署目录。
 
+v0.2.5 使用纸感样式，案例默认 3× 回放，可选择 1×、2× 或 3×。
+首屏内嵌压缩后的样式、脚本和小标识，图表仅在展示区域进入视野时异步加载。
+静态资源提供 Brotli/gzip 版本和 ETag 缓存校验，登录 HTML 与私有 API 不使用公开缓存。
+修改可读的 `public/login.js` 或 `public/login.css` 后，需要按
+[`public/README.md`](public/README.md) 重新构建静态资源，再执行部署更新。
+
 ## 升级和备份
 
 先停止本实例并完整备份私有部署目录，再安装新原生运行时，最后更新沙盒部署文件：

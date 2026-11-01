@@ -18,6 +18,12 @@
 		max_size 30MB
 	}
 	route {
+		# Compress page/static responses, never streaming API or optimizer progress.
+		@page-assets {
+			method GET HEAD
+			path / /maple-login* /assets/* /liveopt-api/brand/* /liveopt-api/explorer/*
+		}
+		encode @page-assets zstd gzip
 		@foreign-origin expression `{http.request.header.Origin} != '' && {http.request.header.Origin} != '{$MAPLE_INTRANET_ORIGIN}' && {http.request.header.Origin} != '{$MAPLE_PUBLIC_ORIGIN}'`
 		respond @foreign-origin "Origin not allowed" 403
 		@landing {

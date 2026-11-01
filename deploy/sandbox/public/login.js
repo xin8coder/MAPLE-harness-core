@@ -2,10 +2,10 @@
 
 (() => {
   const $ = (id) => document.getElementById(id);
-  const colors = { teal: "#087f83", coral: "#f07b61", gray: "#c9d5d9", ink: "#183a43", muted: "#809299" };
+  const colors = { teal: "#28746c", coral: "#b97457", gray: "#c4cbc8", ink: "#292c2a", muted: "#71776f" };
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const number = (value, digits = 1) => new Intl.NumberFormat("zh-CN", { maximumFractionDigits: digits }).format(value);
-  let data, chart, timer, turnIndex = 0, selectedIndex = 0, view = "front", ticks = 0, playing = !reducedMotion;
+  let data, chart, timer, progress, turnIndex = 0, selectedIndex = 0, view = "front", ticks = 0, playing = !reducedMotion;
 
   function icon(button, name) {
     const marker = document.createElement("i");
@@ -18,17 +18,23 @@
   function playback(value) {
     playing = value;
     clearInterval(timer);
+    progress?.cancel();
     const button = $("playback");
     button.setAttribute("aria-pressed", String(!playing));
     button.setAttribute("aria-label", playing ? "暂停回放" : "播放回放");
     button.title = button.getAttribute("aria-label");
     icon(button, playing ? "pause" : "play");
-    if (playing && data) timer = setInterval(() => {
-      if (document.hidden) return;
-      ticks += 1;
-      if (ticks % 3 === 0) setTurn((turnIndex + 1) % data.turns.length);
-      else { selectedIndex = (selectedIndex + 1) % currentFront().length; render(); }
-    }, 4200);
+    if (playing && data) {
+      const interval = 4200 / Number($("playback-speed").value);
+      if (!reducedMotion) progress = $("playback-progress").animate(
+        [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], { duration: interval, iterations: Infinity });
+      timer = setInterval(() => {
+        if (document.hidden) return;
+        ticks += 1;
+        if (ticks % 3 === 0) setTurn((turnIndex + 1) % data.turns.length);
+        else { selectedIndex = (selectedIndex + 1) % currentFront().length; render(); }
+      }, interval);
+    }
   }
 
   function currentTurn() { return data.turns[turnIndex]; }
@@ -52,22 +58,22 @@
       type: "value", name, scale: true, nameGap: 15,
       nameTextStyle: { fontSize: 10, color: colors.muted },
       axisLabel: { color: colors.muted, fontSize: 10, hideOverlap: true },
-      axisLine: { lineStyle: { color: "#dce5e7" } }, axisTick: { show: false },
-      splitLine: { lineStyle: { color: "#f0f3f4", type: "dashed" } },
+      axisLine: { lineStyle: { color: "#dddfd9" } }, axisTick: { show: false },
+      splitLine: { lineStyle: { color: "#eceee8", type: "dashed" } },
     };
   }
 
   function distribution() {
     const turn = currentTurn(), front = currentFront();
     return {
-      grid: { left: 60, right: 24, top: 50, bottom: 48 },
-      legend: { top: 13, right: 18, itemWidth: 8, itemHeight: 8, textStyle: { color: colors.muted, fontSize: 10 }, data: ["其他可行方案", "帕累托方案", "选中方案"] },
+      grid: { left: 60, right: 24, top: 65, bottom: 48 },
+      legend: { top: 13, right: 18, itemWidth: 8, itemHeight: 8, textStyle: { color: colors.muted, fontSize: 11 }, data: ["其他可行方案", "帕累托方案", "选中方案"] },
       xAxis: { ...axis("延期惩罚 ↓"), nameLocation: "middle", nameGap: 28, splitNumber: 4 },
       yAxis: { ...axis("能耗与负载 ↓"), splitNumber: 3 },
       tooltip: { trigger: "item", confine: true, formatter: tooltip },
       series: [
         { name: "其他可行方案", type: "scatter", symbolSize: 5, data: turn.population.filter(row => row.feasible).map(row => row.objectives), itemStyle: { color: colors.gray, opacity: 0.7 } },
-        { name: "帕累托方案", type: "line", symbol: "circle", symbolSize: 7, data: front.map(row => row.objectives), lineStyle: { width: 1.5, color: colors.teal }, itemStyle: { color: colors.teal }, z: 3 },
+        { name: "帕累托方案", type: "line", symbol: "circle", symbolSize: 7, data: front.map(row => row.objectives), lineStyle: { width: 2, color: colors.teal }, itemStyle: { color: colors.teal }, z: 3 },
         { name: "选中方案", type: "scatter", symbolSize: 13, data: [front[selectedIndex].objectives], itemStyle: { color: colors.coral, borderColor: "#fff", borderWidth: 2, opacity: 1 }, z: 5 },
       ],
     };
@@ -76,9 +82,9 @@
   function history() {
     const rows = currentTurn().history;
     return {
-      grid: { left: 60, right: 60, top: 54, bottom: 48 },
+      grid: { left: 60, right: 60, top: 65, bottom: 48 },
       legend: { top: 12, itemWidth: 13, itemHeight: 7, textStyle: { color: colors.muted, fontSize: 10 }, data: ["延期惩罚（最优）", "能耗与负载（最优）"] },
-      xAxis: { type: "category", data: rows.map(row => row.generation), name: "迭代代数", nameLocation: "middle", nameGap: 28, axisLabel: { color: colors.muted, fontSize: 10 }, axisLine: { lineStyle: { color: "#dce5e7" } }, axisTick: { show: false } },
+      xAxis: { type: "category", data: rows.map(row => row.generation), name: "迭代代数", nameLocation: "middle", nameGap: 28, axisLabel: { color: colors.muted, fontSize: 10 }, axisLine: { lineStyle: { color: "#dddfd9" } }, axisTick: { show: false } },
       yAxis: [{ ...axis("延期惩罚"), splitNumber: 3 }, { ...axis("能耗与负载"), splitNumber: 3, splitLine: { show: false } }],
       tooltip: { trigger: "axis", confine: true, formatter: tooltip },
       series: [
@@ -135,7 +141,7 @@
     if (view === "schedule") schedule(plan);
     else {
       chart.resize();
-      chart.setOption({ animation: !reducedMotion, animationDuration: 500, animationDurationUpdate: 500,
+      chart.setOption({ animation: !reducedMotion, animationDuration: 260, animationDurationUpdate: 260,
         textStyle: { fontFamily: "sans-serif" }, ... (view === "history" ? history() : distribution()) }, true);
       $("result-chart").setAttribute("aria-label", view === "history" ? "两个目标的历史最优值随迭代代数变化" : "候选方案与帕累托方案分布");
     }
@@ -162,7 +168,8 @@
       tabs[next].focus(); tabs[next].click();
     });
   }
-  $("playback").addEventListener("click", () => playback(!playing));
+  $("playback").addEventListener("click", () => { if (data) playback(!playing); });
+  $("playback-speed").addEventListener("change", () => playback(playing));
   $("toggle-password").addEventListener("click", () => {
     const visible = $("password").type === "password";
     $("password").type = visible ? "text" : "password";
@@ -181,26 +188,62 @@
   window.addEventListener("pageshow", () => {
     $("login-submit").disabled = false;
     $("login-submit").querySelector("span").textContent = "登录并进入工作台";
+    if (data && playing) playback(true);
   });
-  window.addEventListener("pagehide", () => clearInterval(timer));
+  window.addEventListener("pagehide", () => { clearInterval(timer); progress?.cancel(); });
   window.lucide?.createIcons();
+  document.documentElement.dataset.loginReady = "true";
 
-  fetch("/maple-login/assets/case-demo.json?v=0.2.4").then(response => {
-    if (!response.ok) throw new Error("Demo unavailable");
-    return response.json();
-  }).then(value => {
-    if (!value.turns?.length || value.turns.some(turn => !turn.front?.length)) throw new Error("Empty demo");
-    data = value;
-    chart = window.echarts.init($("result-chart"), null, { renderer: "canvas" });
-    chart.on("click", event => {
-      if (view !== "front" || event.seriesName !== "帕累托方案") return;
-      playback(false); selectedIndex = event.dataIndex; render();
+  function loadCharts() {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "/maple-login/assets/login-charts.min.js?v=0.2.5";
+      script.async = true;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
     });
-    new ResizeObserver(() => chart.resize()).observe($("result-chart"));
-    setTurn(0); playback(playing);
-  }).catch(() => {
-    playback(false);
-    $("chart-error").hidden = false;
-    $("playback").disabled = true;
+  }
+
+  let demoStarted = false;
+  async function loadDemo() {
+    if (demoStarted) return;
+    demoStarted = true;
+    try {
+      const [, value] = await Promise.all([loadCharts(),
+        fetch("/maple-login/assets/case-demo.min.json?v=0.2.5").then(response => {
+          if (!response.ok) throw new Error("Demo unavailable");
+          return response.json();
+        }),
+      ]);
+      if (!value.turns?.length || value.turns.some(turn => !turn.front?.length)) throw new Error("Empty demo");
+      data = value;
+      chart = window.echarts.init($("result-chart"), null, { renderer: "canvas" });
+      chart.on("click", event => {
+        if (view !== "front" || event.seriesName !== "帕累托方案") return;
+        playback(false); selectedIndex = event.dataIndex; render();
+      });
+      new ResizeObserver(() => { if (!$("result-chart").hidden) chart.resize(); }).observe($("result-chart"));
+      setTurn(0); playback(playing);
+    } catch {
+      data = undefined;
+      playback(false);
+      $("chart-error").hidden = false;
+      $("playback").disabled = true;
+    } finally {
+      $("chart-loading").hidden = true;
+    }
+  }
+
+  // The form works before charts load; mobile waits until the preview is near view.
+  requestAnimationFrame(() => {
+    if (!("IntersectionObserver" in window)) return loadDemo();
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        observer.disconnect();
+        loadDemo();
+      }
+    });
+    observer.observe($("result-panel"));
   });
 })();
