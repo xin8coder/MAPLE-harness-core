@@ -132,6 +132,9 @@
         env:
           PYTHONUNBUFFERED: '1'
           DEEPSEEK_API_KEY: !!js process.env.DEEPSEEK_API_KEY ?? ''
+          # DSH scrubs DSH_* and credential-shaped names from the child env, so name the
+          # credential file here; the server reads the key ref from it.
+          LIVEOPT_DSH_CREDENTIAL_FILE: !!js process.env.LIVEOPT_DSH_CREDENTIAL_FILE ?? `${process.env.DSH_HOME ?? `${process.env.HOME}/.dsh`}/.credentials.yaml`
           DEEPSEEK_MODEL: 'deepseek-flash'
           DEEPSEEK_BASE_URL: !!js process.env.DEEPSEEK_BASE_URL ?? 'https://api.deepseek.com/v1'
           KIMI_API_KEY: !!js process.env.KIMI_API_KEY ?? ''
